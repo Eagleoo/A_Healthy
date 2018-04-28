@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="6dp">
+    <ScrollView
+        android:id="@+id/sc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/rl_explore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+
+                <EditText
+                    android:id="@+id/edt_explore"
+                    android:layout_width="310dp"
+                    android:layout_height="35dp"
+                    android:hint="搜索问题、资讯、文章"
+                    android:background="@drawable/shape_button"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <ImageView
+                    android:src="@drawable/exploer1"
+                    android:id="@+id/img_explore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:text="搜索"/>
+
+            </RelativeLayout>
+
+            <com.jude.rollviewpager.RollPagerView
+                android:id="@+id/roll_view_pager"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                app:rollviewpager_play_delay="3000"
+                android:layout_below="@+id/rl_explore"/>
+
+            <ListView
+                android:id="@+id/list1"
+                android:layout_below="@id/roll_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#ADADAD"
+                android:layout_marginTop="5dp">
+
+            </ListView>
+            <RelativeLayout
+
+                android:id="@+id/rl_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list1">
+
+                <ImageView
+                    android:id="@+id/img_dct"
+                    android:src="@drawable/question_dct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:id="@+id/txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="问医生"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:layout_toRightOf="@+id/img_dct"
+                    android:paddingLeft="10dp"/>
+
+                <ListView
+                    android:id="@+id/List"
+                    android:layout_below="@id/img_dct"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ADADAD"
+                    android:layout_marginTop="3dp">
+                </ListView>
+                <GridView
+
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:layout_below="@+id/List"
+                    android:horizontalSpacing="5dp"
+                    android:verticalSpacing="5dp">
+                </GridView>
+
+
+
+            </RelativeLayout>
+            <ListView
+                android:id="@+id/list2"
+                android:layout_below="@id/rl_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ADADAD"
+                android:layout_marginTop="10dp">
+
+            </ListView>
+
+            <LinearLayout
+                android:id="@+id/news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/list2">
+                <ImageView
+                    android:src="@drawable/news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ViewAnimator
+                    android:id="@+id/animator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/news1"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"/>
+
+                    <TextView
+                        android:id="@+id/text2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/news2"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"/>
+                    <TextView
+                        android:id="@+id/text3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/news3"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"/>
+
+                </ViewAnimator>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/list3"
+                android:layout_below="@id/news"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ADADAD"
+                >
+            </ListView>
+
+            <android.support.v7.widget.GridLayout
+                android:id="@+id/grid_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list3"
+                app:rowCount="2"
+                app:columnCount="3"
+                android:layout_marginTop="3dp"
+               >
+                <LinearLayout
+                    android:background="@drawable/shape_grid"
+                    android:orientation="vertical"
+                    app:layout_rowWeight="1"
+                    app:layout_columnWeight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日剁手价"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="距离活动结束："/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0时:"
+                            android:textColor="#000000"/>
+
+                        <TextView
+                            android:id="@+id/txt_min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="59"
+                            android:textColor="#000000"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="分:"
+                            android:textColor="#000000"/>
+
+                        <TextView
+                            android:id="@+id/txt_timeCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000000"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:background="@drawable/shape_grid"
+                    android:orientation="vertical"
+                    app:layout_rowWeight="1"
+                    app:layout_columnWeight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="东阿阿胶1"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="109元限量抢"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:background="@drawable/shape_grid"
+                    android:orientation="vertical"
+                    app:layout_rowWeight="1"
+                    app:layout_columnWeight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="东阿阿胶2"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="109元限量抢"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/shape_grid"
+                    android:orientation="vertical"
+                    app:layout_rowWeight="1"
+                    app:layout_columnWeight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="东阿阿胶3"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="109元限量抢"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:background="@drawable/shape_grid"
+                    android:orientation="vertical"
+                    app:layout_rowWeight="1"
+                    app:layout_columnWeight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="东阿阿胶4"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="109元限量抢"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:background="@drawable/shape_grid"
+                    android:orientation="vertical"
+                    app:layout_rowWeight="1"
+                    app:layout_columnWeight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="东阿阿胶5"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="109元限量抢"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.GridLayout>
+
+            <ListView
+                android:id="@+id/list4"
+                android:layout_below="@id/grid_layout"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#ADADAD"
+                android:layout_marginTop="3dp">
+            </ListView>
+
+            <RelativeLayout
+                android:id="@+id/plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list4"
+                android:layout_marginTop="3dp">
+                <ImageView
+                    android:id="@+id/img_plan"
+                    android:src="@drawable/plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="健康计划"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:paddingLeft="3dp"
+                    android:layout_toRightOf="@id/img_plan" />
+                <TextView
+                    android:id="@+id/new_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="添加新计划  >"
+                    android:textSize="15sp"
+                    android:paddingTop="2dp"
+                    android:onClick="onClick"/>
+
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/list5"
+                android:layout_below="@id/plan"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ADADAD"
+                android:layout_marginTop="3dp">
+            </ListView>
+
+            <RelativeLayout
+                android:id="@+id/tv_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/list5"
+                android:layout_marginTop="30dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="五步微笑瘦脸法"
+                    android:textColor="#000000"
+                    android:layout_alignParentLeft="true">
+
+                </TextView>
+                <Button
+                    android:id="@+id/fin_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/shape_button"
+                    android:text="去完成"
+                    android:onClick="onClick"/>
+            </RelativeLayout>
+            <ListView
+                android:id="@+id/list6"
+                android:layout_below="@id/tv_plan"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#ADADAD"
+                android:layout_marginTop="30dp">
+            </ListView>
+
+            <RelativeLayout
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/list6"
+                android:layout_marginTop="3dp">
+                <ImageView
+                    android:id="@+id/img_text"
+                    android:src="@drawable/pen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="健康评测"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:paddingLeft="3dp"
+                    android:layout_toRightOf="@id/img_text" />
+                <TextView
+                    android:id="@+id/text_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="更多  >"
+                    android:textSize="15sp"
+                    android:paddingTop="2dp"
+                    android:onClick="onClick"/>
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/list7"
+                android:layout_below="@id/text"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ADADAD"
+                android:layout_marginTop="3dp">
+            </ListView>
+
+            <RelativeLayout
+                android:id="@+id/rl_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/list7"
+                android:layout_marginTop="30dp">
+            <ViewAnimator
+                android:id="@+id/animator_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/text_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="高血压来袭，你会中招吗？"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"/>
+
+                <TextView
+                    android:id="@+id/text_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="小儿感冒知多少？"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"/>
+                <TextView
+                    android:id="@+id/text_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="你的饮食习惯及格了吗？"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"/>
+
+            </ViewAnimator>
+                <Button
+                    android:id="@+id/fin_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/shape_button"
+                    android:text="去评测"
+                    android:onClick="onClick"/>
+        </RelativeLayout>
+            <ListView
+                android:id="@+id/list8"
+                android:layout_below="@id/rl_text"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#ADADAD"
+                android:layout_marginTop="30dp">
+            </ListView>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

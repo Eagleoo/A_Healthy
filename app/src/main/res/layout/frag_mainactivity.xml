@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/ly_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rg_tab_bar">
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+    </RelativeLayout>
+    <RadioGroup
+        android:id="@+id/rg_tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/tv_main"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/main_selector"
+            android:text="主页" />
+
+        <RadioButton
+            android:id="@+id/tv_mall"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/mall_selector"
+            android:text="商场" />
+
+        <RadioButton
+            android:id="@+id/tv_foot"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/foot_selector"
+            android:text="计步器" />
+
+        <RadioButton
+            android:id="@+id/tv_circle"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/circle_selector"
+            android:text="圈子"/>
+
+        <RadioButton
+            android:id="@+id/tv_me"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/me_selector"
+            android:text="个人中心"/>
+
+    </RadioGroup>
+</RelativeLayout>

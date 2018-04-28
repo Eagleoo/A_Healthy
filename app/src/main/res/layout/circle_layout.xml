@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/edt_source"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/consult"/>
+        <Button
+            android:id="@+id/btn_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resource"/>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                app:selected_color="@color/colorAccent"
+                app:selected_height="3dp"
+                app:selected_width="16dp"
+                app:selected_padding_left="2dp"
+                app:selected_padding_right="2dp"
+                app:shape="rect"
+                app:unselected_color="@color/colorPrimary"
+                app:unselected_height="3dp"
+                app:unselected_width="16dp"
+                app:unselected_padding_left="2dp"
+                app:unselected_padding_right="2dp"
+                >
+
+            </com.daimajia.slider.library.Indicators.PagerIndicator>
+        </com.daimajia.slider.library.SliderLayout>
+    </RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/tabstrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </android.support.v4.view.PagerTabStrip>
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

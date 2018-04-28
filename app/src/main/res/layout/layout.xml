@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#CEFFCE">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp">
+
+        <ImageView
+            android:src="@drawable/wenhao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/set_plans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置锻炼计划"
+            android:textSize="20sp"
+            android:textColor="#000000"/>
+
+        <ImageView
+            android:src="@drawable/wenhao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="40dp"/>
+        <TextView
+            android:id="@+id/look_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看历史步数"
+            android:textSize="20sp"
+            android:textColor="#000000"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="100dp"
+        android:paddingLeft="20dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingBottom="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今日步数："
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/totalStepsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="累计公里："
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:textColor="#000000"
+            android:paddingLeft="30dp"/>
+        <TextView
+            android:id="@+id/totalStepsKm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:textColor="#000000" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消耗卡路里："
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:textColor="#000000"
+            android:paddingLeft="20dp"/>
+        <TextView
+            android:id="@+id/totalStepsKa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:textColor="#000000" />
+
+        </LinearLayout>
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加入步数"/>
+
+</LinearLayout>
