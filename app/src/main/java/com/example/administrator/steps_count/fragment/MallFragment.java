@@ -171,6 +171,7 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
         String id=MallList.get(i).getMall_id();
         Bundle bundle=new Bundle();
         bundle.putString("0x0",id);
+        Log.i("mall_id", id);
         Intent intent = new Intent(getContext(),Mall_Detail_Activity.class);
         intent.putExtras(bundle);
         startActivity(intent);

@@ -1,6 +1,7 @@
 package com.example.administrator.steps_count.mall;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.steps_count.R;
-import com.example.administrator.steps_count.adapter.Mall_adapter;
-import com.example.administrator.steps_count.adapter.Mall_detail_adapter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,7 +58,6 @@ public class Mall_Shop_Fragment extends Fragment implements My_Scrollview.OnScro
         mall_shop_shopdescribe= (TextView) view.findViewById(R.id.mall_shop_shopdescribe);
         mall_shop_shopprice= (TextView) view.findViewById(R.id.mall_shop_shopprice);
 
-
         mall_id=getActivity().getIntent().getExtras().getString("0x0");
 
 
@@ -96,6 +93,7 @@ public class Mall_Shop_Fragment extends Fragment implements My_Scrollview.OnScro
                             mall_shop_shopname.setText(mall_list.get(0).getMall_name());
                             mall_shop_shopdescribe.setText(mall_list.get(0).getMall_describe());
                             mall_shop_shopprice.setText(mall_list.get(0).getMall_price());
+
                         }
                     });
                 }
@@ -117,8 +115,6 @@ public class Mall_Shop_Fragment extends Fragment implements My_Scrollview.OnScro
                 mall.setMall_describe(jsonObject2.getString("mall_describe"));
                 mall.setMall_price(jsonObject2.getString("mall_price"));
                 mall.setMall_img(jsonObject2.getString("mall_img"));
-                mall.setMall_detail_img(jsonObject2.getString("mall_detail_img"));
-                mall.setMall_type(jsonObject2.getString("mall_type"));
                 list.add(mall);
             }
         } catch (JSONException e) {

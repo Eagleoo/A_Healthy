@@ -111,10 +111,10 @@ public class Mall_Search_Activity extends AppCompatActivity implements View.OnCl
     public void afterTextChanged(Editable editable) {
     }
     private void getMallName(String mall_name) {
-        OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
+        OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("search",mall_name).build();
-        final Request request = new Request.Builder()//创建Request 对象。
+        final Request request = new Request.Builder()
                 .url("http://192.168.1.111:8080/Search_Servlet")
                 .post(requestBody)//传递请求体
                 .build();
