@@ -117,10 +117,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="加入步数"/>
+
+
     <Button
-        android:id="@+id/btn_add1"
+        android:id="@+id/btn_run"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="加入步数"/>
+        android:text="开始跑步"/>
 
 </LinearLayout>

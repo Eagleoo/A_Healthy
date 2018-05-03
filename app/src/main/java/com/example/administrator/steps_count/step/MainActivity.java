@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.administrator.steps_count.Activity.Step_Map;
 import com.example.administrator.steps_count.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
     private ArrayList<Entry> yVals;
     private Context mContext=this;
     private DBOpenHelper db;
-    private Button btn_add;
+    private Button btn_add,btn_run;
 
 
     @Override
@@ -61,6 +62,7 @@ public class MainActivity extends Activity {
         totalStepsKa=(TextView)findViewById(R.id.totalStepsKa);
         look_steps=(TextView)findViewById(R.id.look_steps);
         btn_add=(Button)findViewById(R.id.btn_add) ;
+        btn_run=(Button)findViewById(R.id.btn_run);
 
         init();
 
@@ -69,6 +71,15 @@ public class MainActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(MainActivity.this, Look_steps.class));
+                    }
+                }
+        );
+
+        btn_run.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MainActivity.this, Step_Map.class));
                     }
                 }
         );

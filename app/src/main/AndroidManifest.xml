@@ -11,6 +11,28 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <!--允许程序打开网络套接字-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--允许程序获取网络状态-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--允许程序访问WiFi网络信息-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--允许程序读写手机状态和身份-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--用于提高GPS定位速度-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,6 +40,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="ff093d2d117998d5bab4b1277a0455a7">
+        </meta-data>
         <activity android:name=".Activity.Frag_MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,6 +105,8 @@
         <activity android:name=".mall.Mall_Firmorder_Acitvity"></activity>
         <activity android:name=".mall.Mall_Search_Activity"></activity>
         <activity android:name=".mall.Mall_Type_Activity"></activity>
+        <activity android:name=".Activity.Step_Map"/>
+        <activity android:name=".Activity.CheckPermissionsActivity"/>
 
         <!-- 计步功能 -->
         <service
@@ -97,6 +124,9 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </service>
+
+        <!--声明定位service-->
+        <service android:name="com.amap.api.location.APSService"/>
 
     </application>
 
