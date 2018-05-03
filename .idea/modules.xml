@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/A_Healthy.iml" filepath="$PROJECT_DIR$/A_Healthy.iml" />
+      <module fileurl="file://C:\Users\PC\Desktop\A_Healthy\A_Healthy.iml" filepath="C:\Users\PC\Desktop\A_Healthy\A_Healthy.iml" />
       <module fileurl="file://$PROJECT_DIR$/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/MPChartLib/MPChartLib.iml" />
+      <module fileurl="file://C:\Users\PC\Desktop\A_Healthy\MPChartLib\MPChartLib.iml" filepath="C:\Users\PC\Desktop\A_Healthy\MPChartLib\MPChartLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\PC\Desktop\A_Healthy\app\app.iml" filepath="C:\Users\PC\Desktop\A_Healthy\app\app.iml" />
     </modules>
   </component>
 </project>
