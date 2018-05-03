@@ -100,14 +100,56 @@
                         android:background="@drawable/btn_1"
                         android:textSize="15sp" />
                 </LinearLayout>
-            </HorizontalScrollView>
-                <com.example.administrator.steps_count.mall.MyGridview
-                    android:id="@+id/mall_gridview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="2">
-                </com.example.administrator.steps_count.mall.MyGridview>
 
+            </HorizontalScrollView>
+            <LinearLayout
+                android:id="@+id/sort_layout"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:visibility="gone"
+                android:orientation="horizontal">
+                <RadioGroup
+                    android:id="@+id/radiogroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/radio_sales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="销量"
+                        android:button="@null"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        />
+                    <RadioButton
+                        android:id="@+id/radio_pricedown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格↓"
+                        android:gravity="center"
+                        android:button="@null"
+                        android:textSize="18sp"
+                        android:layout_weight="1"/>
+                    <RadioButton
+                        android:id="@+id/radio_priceup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格↑"
+                        android:gravity="center"
+                        android:button="@null"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        />
+                </RadioGroup>
+            </LinearLayout>
+            <com.example.administrator.steps_count.mall.MyGridview
+                android:id="@+id/mall_gridview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="2">
+            </com.example.administrator.steps_count.mall.MyGridview>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

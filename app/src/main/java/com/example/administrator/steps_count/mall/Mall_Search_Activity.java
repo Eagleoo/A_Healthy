@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.adapter.Search_adapter;
+import com.example.administrator.steps_count.fragment.MallFragment;
 import com.nostra13.universalimageloader.utils.L;
 
 import org.json.JSONArray;
@@ -115,7 +116,7 @@ public class Mall_Search_Activity extends AppCompatActivity implements View.OnCl
         RequestBody requestBody = new FormBody.Builder()
                 .add("search",mall_name).build();
         final Request request = new Request.Builder()
-                .url("http://192.168.1.111:8080/Search_Servlet")
+                .url(MallFragment.user.getUrl()+"Search_Servlet")
                 .post(requestBody)//传递请求体
                 .build();
         client.newCall(request).enqueue(new Callback() {

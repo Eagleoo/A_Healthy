@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.fragment.MallFragment;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,7 +75,7 @@ public class Mall_Shop_Fragment extends Fragment implements My_Scrollview.OnScro
         RequestBody requestBody = new FormBody.Builder()
                 .add("action",mall_id).build();
         final Request request = new Request.Builder()//创建Request 对象。
-                .url("http://192.168.1.111:8080/Mall_Detail_Servlet")
+                .url(MallFragment.user.getUrl()+"Mall_Detail_Servlet")
                 .post(requestBody)//传递请求体
                 .build();
         client.newCall(request).enqueue(new Callback() {

@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.fragment.MallFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class Mall_detail_Fragment extends Fragment {
         RequestBody requestBody = new FormBody.Builder()
                 .add("fordetailimg",mall_id).build();
         final Request request = new Request.Builder()//创建Request 对象。
-                .url("http://192.168.1.111:8080/Fordetailimg_Servlet")
+                .url(MallFragment.user.getUrl()+"Fordetailimg_Servlet")
                 .post(requestBody)//传递请求体
                 .build();
         client.newCall(request).enqueue(new Callback() {

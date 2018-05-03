@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -56,20 +56,41 @@
         android:layout_height="match_parent"
         android:layout_below="@id/linear"
         android:layout_above="@+id/bottom"
-    >
+        >
     </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:id="@+id/bottom"
         android:layout_alignParentBottom="true"
         android:gravity="center">
+        <RadioGroup
+            android:id="@+id/mall_detail_collect_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+            <CheckBox
+                android:id="@+id/mall_detail_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:textSize="14sp"
+                android:text="收藏"
+                android:drawableTop="@drawable/collect_selector"
+                />
+        </RadioGroup>
         <Button
-            android:layout_width="300dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="15"
+            android:background="@color/orange"
+            android:textColor="@color/white"
             android:id="@+id/mall_detail_makeorder"
             android:text="立即下单"
             />
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -14,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -23,9 +25,10 @@ import com.example.administrator.steps_count.mall.Banner_img;
 import com.example.administrator.steps_count.mall.Mall;
 import com.example.administrator.steps_count.mall.Mall_Detail_Activity;
 import com.example.administrator.steps_count.mall.Mall_Search_Activity;
-import com.example.administrator.steps_count.mall.Mall_Type_Activity;
 import com.example.administrator.steps_count.adapter.Mall_adapter;
 
+
+import com.example.administrator.steps_count.mall.User;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -53,11 +56,14 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
     private Mall_adapter mall_adapter;
     private GridView gridView;
     private List<Mall> MallList=new ArrayList<Mall>();
+    private LinearLayout sort_layout;
     private Button mall_btn1, mall_btn2, mall_btn3, mall_btn4, mall_btn5, mall_btn6;
-    private RadioButton searchbutton;
+    private RadioButton searchbutton,radio_sales,radio_pricedown;
+    private RadioGroup radiogroup;
     private Banner banner;
     private List<Banner_img> Banner_urls=new ArrayList<Banner_img>();
     private ArrayList titles;
+    public static User user=new User();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,6 +76,11 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
         mall_btn6 = (Button) view.findViewById(R.id.mall_btn6);
         searchbutton = (RadioButton) view.findViewById(R.id.mall_searchbtn);
         banner = (Banner) view.findViewById(R.id.mall_fragment_banner);
+        radio_sales= (RadioButton) view.findViewById(R.id.radio_sales);
+        radio_pricedown= (RadioButton) view.findViewById(R.id.radio_pricedown);
+        radiogroup= (RadioGroup) view.findViewById(R.id.radiogroup);
+        sort_layout= (LinearLayout) view.findViewById(R.id.sort_layout);
+        user.setUrl("http://192.168.1.111:8080/");
         mall_btn1.setOnClickListener(this);
         mall_btn2.setOnClickListener(this);
         mall_btn3.setOnClickListener(this);
@@ -77,6 +88,7 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
         mall_btn5.setOnClickListener(this);
         mall_btn6.setOnClickListener(this);
         searchbutton.setOnClickListener(this);
+
         gridView = (GridView) view.findViewById(R.id.mall_gridview);
 
         getDataBanner();
@@ -88,74 +100,32 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
     //分类按钮条点击事件
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(getContext(),Mall_Type_Activity.class);
-        Bundle bundle = new Bundle();
+
         switch (view.getId()) {
             case R.id.mall_btn1:
-                bundle.putString("mall_btn",mall_btn1.getText().toString());
-                bundle.putString("type","type1");
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                getDatabytype(mall_btn1.getText().toString());
+                sort_layout.setVisibility(view.getVisibility());
                 break;
             case R.id.mall_btn2:
-                bundle.putString("mall_btn",mall_btn2.getText().toString());
-                intent.putExtras(bundle);
-                startActivity(intent);
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        HttpURLConnection connection = null;
-//                        BufferedReader reader = null;
-//                        try {
-//                            URL url = new URL("https://www.baidu.com");
-//                            connection = (HttpURLConnection) url.openConnection();
-//                            connection.setRequestMethod("GET");
-//                            connection.setConnectTimeout(8000);
-//                            connection.setReadTimeout(8000);
-//                            InputStream in = connection.getInputStream();
-//                            reader = new BufferedReader(new InputStreamReader(in));
-//                            StringBuilder response = new StringBuilder();
-//                            String line;
-//                            while ((line = reader.readLine()) != null) {
-//                                response.append(line);
-//                            }
-//
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        } finally {
-//                            if (reader != null) {
-//                                try {
-//                                    reader.close();
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                            if (connection != null) {
-//                                connection.disconnect();
-//                            }
-//                        }
-//                    }
-//                }).start();
+
+                getDatabytype(mall_btn2.getText().toString());
                 break;
             case R.id.mall_btn3:
-                bundle.putString("mall_btn",mall_btn3.getText().toString());
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                getDatabytype(mall_btn3.getText().toString());
                 break;
             case R.id.mall_btn4:
-                bundle.putString("mall_btn",mall_btn4.getText().toString());
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                getDatabytype(mall_btn4.getText().toString());
                 break;
             case R.id.mall_btn5:
-                bundle.putString("mall_btn",mall_btn5.getText().toString());
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                getDatabytype(mall_btn5.getText().toString());
                 break;
             case R.id.mall_btn6:
-                bundle.putString("mall_btn",mall_btn6.getText().toString());
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                getDatabytype(mall_btn6.getText().toString());
                 break;
             case R.id.mall_searchbtn:
                 Intent intent1 = new Intent(getContext(), Mall_Search_Activity.class);
@@ -238,7 +208,7 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
         RequestBody requestBody = new FormBody.Builder()
                 .add("action", "all").build();
         final Request request = new Request.Builder()//创建Request 对象。
-                .url("http://192.168.1.111:8080/Login_Servlet")
+                .url(user.getUrl()+"Login_Servlet")
                 .post(requestBody)//传递请求体
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -284,11 +254,12 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
 
         return list;
     }
+
     //获取banner信息
     private void getDataBanner() {
         OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
         final Request request = new Request.Builder()//创建Request 对象。
-                .url("http://192.168.1.111:8080/Banner_Servlet")
+                .url(user.getUrl()+"Banner_Servlet")
                 .get()//传递请求体
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -341,4 +312,35 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
 
         return list;
     }
+
+    private void getDatabytype(String type) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("action", type).build();
+        final Request request = new Request.Builder()
+                .url(user.getUrl()+"select_mallbytype_Servlet")
+                .post(requestBody)//传递请求体
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("failure", "onFailure: ");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    final String json = response.body().string();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            MallList=getMall("mall",json);
+                            mall_adapter = new Mall_adapter(getContext(),MallList);
+                            gridView.setAdapter(mall_adapter);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 }
