@@ -245,6 +245,7 @@
           android:layout_centerVertical="true"
           android:layout_toRightOf="@id/bottom_left"/>
       <Button
+          android:id="@+id/mall_firmorder_Torder"
           android:layout_width="150dp"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"

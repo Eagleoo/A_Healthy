@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -51,6 +52,7 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
     private FrameLayout mall_firmorder_framelayout;
     private FrameLayout mall_firmorder_radiolayout;
     private FrameLayout mall_firmorder_addresslayout;
+    private Button mall_firmorder_Torder;
     private double unitprice;
     private double extra;
     private String mall_id;
@@ -86,9 +88,11 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
         mall_firmorder_price= (TextView) findViewById(R.id.mall_firmorder_price);
         mall_firmorder_img= (ImageView) findViewById(R.id.mall_firmorder_img);
         mall_firmorder_name= (TextView) findViewById(R.id.mall_firmorder_name);
+        mall_firmorder_Torder= (Button) findViewById(R.id.mall_firmorder_Torder);
         mall_firmorder_less.setOnClickListener(this);
         mall_firmorder_more.setOnClickListener(this);
         mall_firmorder_exit.setOnClickListener(this);
+        mall_firmorder_Torder.setOnClickListener(this);
         mall_firmorder_rb_addaddress.setOnClickListener(this);
 
 //        unitprice= Double.parseDouble(mall_firmorder_unitprice.getText().toString());
@@ -121,6 +125,9 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
                 mall_firmorder_framelayout.removeView(mall_firmorder_radiolayout);
                 mall_firmorder_framelayout.addView(mall_firmorder_addresslayout);
                 break;
+            case R.id.mall_firmorder_Torder:
+                insertorder();
+                break;
         }
     }
     //刷新总付款金额
@@ -129,6 +136,7 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
         String Aprice= String.valueOf(unitprice*num+extra);
         mall_firmorder_allmoney.setText(Aprice);
     }
+
 
     private void getDataAsync() {
         OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
@@ -163,7 +171,6 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
             }
         });
     }
-
     private static List<Mall> getMall(String key, String jsonString) {
         List<Mall> list = new ArrayList<Mall>();
         JSONObject jsonObject;
@@ -186,4 +193,38 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
         return list;
     }
 
+    private void insertorder() {
+        OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
+        RequestBody requestBody = new FormBody.Builder()
+                .add("username","lzy")
+                .add("mall_id",mall_id)
+                .add("address","邻水")
+                .add("order_count",mall_firmorder_num.getText().toString())
+                .add("order_allprice",mall_firmorder_allmoney.getText().toString())
+                .add("ispay","F")
+                .add("issend","F")
+                .add("isreceive","F").build();
+        final Request request = new Request.Builder()//创建Request 对象。
+                .url(MallFragment.user.getUrl()+"insert_order_Servlet")
+                .post(requestBody)//传递请求体
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("failure", "onFailure: ");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    final String result = response.body().string();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
 }
