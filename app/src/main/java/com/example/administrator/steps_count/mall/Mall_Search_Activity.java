@@ -113,6 +113,8 @@ public class Mall_Search_Activity extends AppCompatActivity implements View.OnCl
     @Override
     public void afterTextChanged(Editable editable) {
     }
+
+
     private void getMallName(String mall_name) {
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
