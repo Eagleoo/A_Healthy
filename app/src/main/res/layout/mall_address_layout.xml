@@ -2,13 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
+
+    <ListView
+        android:id="@+id/mall_address_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-    <ImageView
-        android:id="@+id/mall_detail_img"
-        android:layout_width="400dp"
-        android:layout_height="3000dp" />
-</ScrollView>
+        android:layout_height="wrap_content">
+    </ListView>
 </LinearLayout>

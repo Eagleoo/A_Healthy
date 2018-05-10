@@ -102,7 +102,6 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
     //分类按钮条点击事件
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.mall_btn1:
                 getDatabytype(mall_btn1.getText().toString());
