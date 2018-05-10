@@ -132,8 +132,15 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
             case R.id.mall_firmorder_changeaddress:
                 Intent intent1=new Intent(this,Mall_Address_Activity.class);
                 startActivityForResult(intent1,0x0002);
+                break;
             case R.id.mall_firmorder_Torder:
+                if (mall_firmorder_cellnumber.getText().toString().equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"请选择收货地址",Toast.LENGTH_SHORT).show();
+                }
+                else {
                 insertorder();
+                }
                 break;
         }
     }
@@ -222,19 +229,21 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
     }
 
     private void insertorder() {
-        OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
+        OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("username","lzy")
                 .add("mall_id",mall_id)
                 .add("address",mall_firmorder_address.getText().toString())
                 .add("order_count",mall_firmorder_num.getText().toString())
                 .add("order_allprice",mall_firmorder_allmoney.getText().toString())
+                .add("consignee",mall_firmorder_consignee.getText().toString())
+                .add("cellnumber",mall_firmorder_cellnumber.getText().toString())
                 .add("ispay","F")
                 .add("issend","F")
                 .add("isreceive","F").build();
-        final Request request = new Request.Builder()//创建Request 对象。
+        final Request request = new Request.Builder()
                 .url(MallFragment.user.getUrl()+"insert_order_Servlet")
-                .post(requestBody)//传递请求体
+                .post(requestBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
