@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/steps_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
     </ListView>
 
-</LinearLayout>
+    <Button
+        android:background="@drawable/shape_login"
+        android:id="@+id/btn_toWeb"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="将步数同步到云端"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

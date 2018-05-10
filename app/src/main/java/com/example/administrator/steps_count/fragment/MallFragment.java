@@ -55,8 +55,8 @@ import okhttp3.Response;
 public class MallFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, OnBannerListener {
     private Mall_adapter mall_adapter;
     private GridView gridView;
-    private List<Mall> MallList=new ArrayList<Mall>();
-    private LinearLayout sort_layout;
+
+    private LinearLayout sort_layout;private List<Mall> MallList=new ArrayList<Mall>();
     private Button mall_btn1, mall_btn2, mall_btn3, mall_btn4, mall_btn5, mall_btn6;
     private RadioButton searchbutton,radio_sales,radio_pricedown,radio_priceup;
     private Banner banner;
