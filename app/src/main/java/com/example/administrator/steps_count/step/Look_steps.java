@@ -73,7 +73,7 @@ public class Look_steps extends AppCompatActivity {
                                         String str_json=jst.Step_ToJson(Data);
                                         OkHttpClient okHttpClient=new OkHttpClient();
 
-                                        user.setUrl("http://192.168.6.110:8080/");
+                                        user.setUrl("http://192.168.1.110:8080/");
                                         RequestBody requestBody = new FormBody.Builder()
                                                 .add("sStep",str_json).build();
                                         //创建一个Request

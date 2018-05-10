@@ -358,7 +358,7 @@
                     android:paddingLeft="3dp"
                     android:layout_toRightOf="@id/img_plan" />
                 <TextView
-                    android:id="@+id/new_plan"
+                    android:id="@+id/add_plan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

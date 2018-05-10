@@ -10,17 +10,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.administrator.steps_count.Main_Activity.Plan_Activity;
+import com.example.administrator.steps_count.Main_Activity.Plan_Add_Activity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.fragment.CircleFragment;
 import com.example.administrator.steps_count.fragment.FootFragment;
 import com.example.administrator.steps_count.fragment.MainFragment;
 import com.example.administrator.steps_count.fragment.MallFragment;
 import com.example.administrator.steps_count.fragment.MeFragment;
-import com.example.administrator.steps_count.step.MainActivity;
 
 public class Frag_MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FrameLayout frameLayout;
@@ -72,23 +73,21 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_main:
-                dynamicFragment(new MainFragment(),"mainFragment");
-                break;
+                dynamicFragment(new MainFragment(),"mainFragment");break;
             case R.id.tv_mall:
-                dynamicFragment(new MallFragment(),"mallFragment");
-                break;
+                dynamicFragment(new MallFragment(),"mallFragment");break;
             case R.id.tv_foot:
-                dynamicFragment(new FootFragment(),"footFragment");
-                break;
+                dynamicFragment(new FootFragment(),"footFragment");break;
             case R.id.tv_circle:
-                dynamicFragment(new CircleFragment(),"circleFragment");
-                break;
+                dynamicFragment(new CircleFragment(),"circleFragment"); break;
+
             case R.id.tv_me:
-                dynamicFragment(new MeFragment(),"meFragment");
-            case R.id.new_plan:
-                Toast.makeText(this, "添加新计划", Toast.LENGTH_SHORT).show();break;
+                dynamicFragment(new MeFragment(),"meFragment");break;
+            case R.id.add_plan:
+                startActivity(new Intent(this,Plan_Activity.class));break;
             case R.id.fin_plan:
-                Toast.makeText(this, "去完成", Toast.LENGTH_SHORT).show();break;
+                Intent intent=new Intent(Frag_MainActivity.this,Plan_Activity.class);
+                startActivity(intent);break;
 
             case R.id.text_more:
                 Toast.makeText(this, "更多", Toast.LENGTH_SHORT).show();break;

@@ -1,6 +1,8 @@
 package com.example.administrator.steps_count.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
+import com.example.administrator.steps_count.Main_Activity.Plan_Activity;
 import com.example.administrator.steps_count.R;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
@@ -42,6 +46,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     private boolean autoPlayFlag = true;
     private TextView txt_timeCount,txt_min;
     private ScrollView sc;
+    private Context context=getActivity();
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
         @Override
@@ -79,6 +84,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         grid_view.setAdapter(adapter);
         grid_view.setOnItemClickListener(this);
 
+
         //设置播放时间间隔
         mRollViewPager.setPlayDelay(4000);
         //设置透明度
@@ -96,7 +102,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         sale_TimeCount();
         return view;
     }
-
 
     private void sale_TimeCount(){
         TimeCount time = new TimeCount(60000, 1000);

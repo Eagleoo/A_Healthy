@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.administrator.steps_count.Activity.GoodsActivity"
-    android:background="@drawable/back">
+    android:background="@drawable/backa">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

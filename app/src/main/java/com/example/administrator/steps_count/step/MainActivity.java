@@ -15,6 +15,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.administrator.steps_count.Activity.Step_Map;
@@ -50,7 +51,6 @@ public class MainActivity extends Activity {
     private Context mContext=this;
     private DBOpenHelper db;
     private Button btn_add,btn_run;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

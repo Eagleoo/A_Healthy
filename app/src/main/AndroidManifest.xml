@@ -99,7 +99,8 @@
         <activity android:name=".step.Look_steps">
 
         </activity>
-        <activity android:name=".step.MainActivity"></activity>
+        <activity android:name=".step.MainActivity"
+            ></activity>
 
         <activity android:name=".mall.Mall_Detail_Activity"></activity>
         <activity android:name=".mall.Mall_Firmorder_Acitvity"></activity>
@@ -107,6 +108,8 @@
         <activity android:name=".mall.Mall_Address_Activity"></activity>
         <activity android:name=".Activity.Step_Map"/>
         <activity android:name=".Activity.CheckPermissionsActivity"/>
+        <activity android:name=".Main_Activity.Plan_Activity"/>
+        <activity android:name=".Main_Activity.Plan_Add_Activity"/>
 
         <!-- 计步功能 -->
         <service

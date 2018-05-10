@@ -55,14 +55,11 @@ public class Look_steps_adapter extends BaseAdapter {
             holder.curDate=(TextView)view.findViewById(R.id.tv_date);
             holder.steps=(TextView)view.findViewById(R.id.tv_step);
 
-            Log.e("qqqqqqqqqqqqq","qqqqqqqqqqq");
-
             view.setTag(holder);
         }
         else {
             //用原有组件
             holder=(ViewHolder)view.getTag();
-            Log.e("qqqqqqqqqqqqq","qqqqqqqqqqq");
         }
         holder.curDate.setText(mData.get(i).getCurDate());
         holder.steps.setText(mData.get(i).getSteps());
@@ -70,7 +67,7 @@ public class Look_steps_adapter extends BaseAdapter {
 
         return view;
     }
-    static final class ViewHolder {
+    public static final class ViewHolder {
 
         TextView curDate;
         TextView steps;

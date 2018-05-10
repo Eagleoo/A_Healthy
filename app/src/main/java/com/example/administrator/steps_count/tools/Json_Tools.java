@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.example.administrator.steps_count.Main_Activity.Plan;
 import com.example.administrator.steps_count.step.Constant;
 import com.example.administrator.steps_count.step.StepEntity;
 
@@ -11,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Json_Tools {
@@ -27,6 +29,47 @@ public class Json_Tools {
             array.put(jsonObject);
         }
         return array.toString();
+    }
+
+    public  String Plan_ToJson(Plan plan) throws JSONException {
+        if (plan== null) return "";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("p_name",plan.getP_name());
+        jsonObject.put("p_select",plan.getP_select());
+        jsonObject.put("p_type",plan.getP_type());
+
+        return jsonObject.toString();
+    }
+
+    public  String Plan_ToJson2(Plan plan) throws JSONException {
+        if (plan== null) return "";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("p_name",plan.getP_name());
+        jsonObject.put("p_select",plan.getP_select());
+
+        return jsonObject.toString();
+    }
+
+    public List<Plan> Json_ToPlan(String key, String jsonString) {
+        List<Plan> list = new ArrayList<Plan>();
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            JSONArray Persons = jsonObject.getJSONArray(key);
+
+            for (int i = 0; i < Persons.length(); i++) {
+                Plan plan = new Plan();
+                JSONObject jsonObject2 = Persons.getJSONObject(i);
+                plan.setP_name(jsonObject2.getString("p_name"));
+                plan.setP_type(jsonObject2.getString("p_type"));
+                plan.setP_select(jsonObject2.getInt("p_select"));
+                list.add(plan);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
     //检测上传数据是是否有网络
     public boolean isNetworkAvailable(Context context) {
