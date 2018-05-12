@@ -24,15 +24,27 @@ import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 import com.example.administrator.steps_count.Main_Activity.Plan_Activity;
+import com.example.administrator.steps_count.Main_Activity.Plan_Btn;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.step.Constant;
+import com.example.administrator.steps_count.tools.Json_Tools;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemClickListener{
     private GridView grid_view;
@@ -44,9 +56,10 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     private final long TIME_INTERVAL = 4000L;
     private RollPagerView mRollViewPager;
     private boolean autoPlayFlag = true;
-    private TextView txt_timeCount,txt_min;
+    private TextView txt_timeCount,txt_min,txt_plan;
     private ScrollView sc;
     private Context context=getActivity();
+    private String string;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
         @Override
@@ -73,12 +86,13 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         grid_view=(GridView)view.findViewById(R.id.grid_view);
         txt_timeCount=(TextView)view.findViewById(R.id.txt_timeCount);
         txt_min=(TextView)view.findViewById(R.id.txt_min);
+        txt_plan=(TextView)view.findViewById(R.id.txt_plan);
         viewAnimator=(ViewAnimator)view.findViewById(R.id.animator) ;
         animator_text=(ViewAnimator)view.findViewById(R.id.animator_text) ;
         mRollViewPager = (RollPagerView)view.findViewById(R.id.roll_view_pager);
 
         handler.sendMessageDelayed(new Message(),TIME_INTERVAL);
-        adapter=new SimpleAdapter(getActivity(),getData(),R.layout.main_grid_layout,new String[]{"image","text"},
+        adapter=new SimpleAdapter(getActivity(),getData(),R.layout.main_grid_layout,new String[]{"image","step_chart"},
                 new int[]{R.id.image,R.id.text});
 
         grid_view.setAdapter(adapter);
@@ -100,6 +114,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         //mRollViewPager.setHintView(new IconHintView(this, R.drawable.point_focus, R.drawable.point_normal));
         mRollViewPager.setHintView(new ColorPointHintView(getActivity(), Color.YELLOW,Color.WHITE));
         sale_TimeCount();
+        Plan_Count();
+        txt_plan.setText(string);
+        //Toast.makeText(context, Plan_Count(), Toast.LENGTH_SHORT).show();
         return view;
     }
 
@@ -113,7 +130,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         for(int i=0;i<icon.length;i++){
             Map<String,Object>map=new HashMap<>();
             map.put("image",icon[i]);
-            map.put("text",str[i]);
+            map.put("step_chart",str[i]);
             dataList.add(map);
         }
         return dataList;
@@ -185,6 +202,54 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         public void onTick(long millisUntilFinished){//计时过程显示
             txt_timeCount.setText(millisUntilFinished /1000+"秒");
         }
+    }
+
+    public String Plan_Count(){
+        OkHttpClient okHttpClient=new OkHttpClient();
+
+        //创建一个Request
+        final Request request = new Request.Builder()
+                .url(Constant.CONNECTURL+"Plan_Count_Servlet")
+                .get()
+                .build();
+        //封装成可执行的call对象
+        Call call = okHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String json = response.body().string();
+                final Json_Tools json_tools=new Json_Tools();
+                getActivity().runOnUiThread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    string=json_tools.Json_ToCount(json);
+//                                    if(string.equals("0")){
+//                                        txt_plan.setText("今天任务完成真棒！");
+//                                        txt_plan.setTextColor(0x00EC00);
+//                                    }
+                                        txt_plan.setText(string);
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                );
+
+
+            }
+        });
+        return string ;
     }
 
 }

@@ -43,7 +43,8 @@
 
         <meta-data android:name="com.amap.api.v2.apikey" android:value="ff093d2d117998d5bab4b1277a0455a7">
         </meta-data>
-        <activity android:name=".Activity.Frag_MainActivity">
+        <activity android:name=".Activity.Frag_MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,7 +100,7 @@
         <activity android:name=".step.Look_steps">
 
         </activity>
-        <activity android:name=".step.MainActivity"
+        <activity android:name=".step.Step_MainActivity"
             ></activity>
 
         <activity android:name=".mall.Mall_Detail_Activity"></activity>

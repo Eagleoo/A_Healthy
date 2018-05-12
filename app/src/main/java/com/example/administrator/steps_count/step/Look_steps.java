@@ -40,7 +40,6 @@ public class Look_steps extends AppCompatActivity {
     private Context mContext;
     private Look_steps_adapter look_steps_adapter = null;
     private Button btn_toWeb;
-    public static User user=new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +72,11 @@ public class Look_steps extends AppCompatActivity {
                                         String str_json=jst.Step_ToJson(Data);
                                         OkHttpClient okHttpClient=new OkHttpClient();
 
-                                        user.setUrl("http://192.168.1.110:8080/");
                                         RequestBody requestBody = new FormBody.Builder()
                                                 .add("sStep",str_json).build();
                                         //创建一个Request
                                         final Request request = new Request.Builder()
-                                                .url(user.getUrl()+"Step_Servelet")
+                                                .url(Constant.CONNECTURL+"Step_Servelet")
                                                 .post(requestBody)//传递请求体
                                                 .build();
                                         Response response = okHttpClient.newCall(request).execute();

@@ -31,6 +31,14 @@ public class Json_Tools {
         return array.toString();
     }
 
+    public String Json_ToCount(String data) throws JSONException {
+        String string;
+        JSONObject jsonObject;
+        jsonObject=new JSONObject(data);
+        string=jsonObject.get("count").toString();
+        return string;
+    }
+
     public  String Plan_ToJson(Plan plan) throws JSONException {
         if (plan== null) return "";
         JSONObject jsonObject = new JSONObject();

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.example.administrator.steps_count.Activity.Frag_MainActivity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.fragment.Frg_Plan1;
+import com.example.administrator.steps_count.fragment.MainFragment;
 import com.example.administrator.steps_count.mall.User;
 import com.example.administrator.steps_count.step.Constant;
 import com.example.administrator.steps_count.tools.Json_Tools;
@@ -69,7 +72,10 @@ public class Plan_Activity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Plan_Activity.this, Frag_MainActivity.class));
+
+                        Intent intent=new Intent();
+                        intent.setClass(Plan_Activity.this, Frag_MainActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                 }
@@ -84,6 +90,8 @@ public class Plan_Activity extends AppCompatActivity {
                     }
                 }
         );
+
+
     }
 
     public class Plan_Adapter extends BaseAdapter {
@@ -130,14 +138,6 @@ public class Plan_Activity extends AppCompatActivity {
             holder.tv_plan.setText(mList.get(i).getName());
             holder.plan_finish.setTag(i);
 
-//            if(mList.get(i).getBtn()==0){
-//                holder.addBtn.setText("已添加");
-//            }
-//            else {
-//                holder.addBtn.setText("添加");
-//            }
-
-            //给Button添加单击事件 添加Button之后ListView将失去焦点 需要的直接把Button的焦点去掉
             holder.plan_finish.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -303,4 +303,5 @@ public class Plan_Activity extends AppCompatActivity {
 
 
     }
+
 }
