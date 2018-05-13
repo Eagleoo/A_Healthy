@@ -58,7 +58,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     private boolean autoPlayFlag = true;
     private TextView txt_timeCount,txt_min,txt_plan;
     private ScrollView sc;
-    private Context context=getActivity();
     private String string;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
@@ -116,7 +115,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         sale_TimeCount();
         Plan_Count();
         txt_plan.setText(string);
-        //Toast.makeText(context, Plan_Count(), Toast.LENGTH_SHORT).show();
         return view;
     }
 
@@ -235,6 +233,9 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
 //                                        txt_plan.setText("今天任务完成真棒！");
 //                                        txt_plan.setTextColor(0x00EC00);
 //                                    }
+                                    if(string.equals("0")){
+                                        txt_plan.setText("0");
+                                    }
                                         txt_plan.setText(string);
 
 

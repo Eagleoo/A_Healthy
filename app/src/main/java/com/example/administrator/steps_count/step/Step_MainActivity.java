@@ -334,8 +334,6 @@ public class Step_MainActivity extends CheckPermissionsActivity implements Locat
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"
                         + amapLocation.getErrorInfo());
-
-                Toast.makeText(getApplicationContext(), "定位失败", Toast.LENGTH_SHORT).show();
             }
         }
     }
