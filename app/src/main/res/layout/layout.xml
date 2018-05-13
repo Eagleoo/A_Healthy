@@ -14,10 +14,12 @@
         android:layout_alignParentTop="true">
 
         <ImageView
-            android:src="@drawable/wenhao"
+            android:src="@drawable/look_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"/>
+            android:paddingLeft="20dp"
+            android:paddingRight="6dp"
+            android:paddingTop="2dp"/>
 
         <TextView
             android:id="@+id/set_plans"
@@ -28,10 +30,12 @@
             android:textColor="#000000"/>
 
         <ImageView
-            android:src="@drawable/wenhao"
+            android:src="@drawable/look_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="40dp"/>
+            android:paddingLeft="40dp"
+            android:paddingRight="6dp"
+            android:paddingTop="2dp"/>
         <TextView
             android:id="@+id/look_steps"
             android:layout_width="wrap_content"
