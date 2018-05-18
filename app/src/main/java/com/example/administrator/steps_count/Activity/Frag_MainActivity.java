@@ -20,29 +20,34 @@ import com.example.administrator.steps_count.fragment.FootFragment;
 import com.example.administrator.steps_count.fragment.MainFragment;
 import com.example.administrator.steps_count.fragment.MallFragment;
 import com.example.administrator.steps_count.fragment.MeFragment;
+import com.example.administrator.steps_count.model.User;
 import com.example.administrator.steps_count.step.MainActivity;
 
 public class Frag_MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FrameLayout frameLayout;
     private RadioButton tv_main,tv_mall,tv_foot,tv_circle,tv_me;
-    public static String data;
-    public static String name;
+
+    public static User user;
     private MyBroadcost myBroadcost;
-    // public static String baiduinfo;
+    public static String localhost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_mainactivity);
-
+        localhost="192.168.1.104";
         myBroadcost=new MyBroadcost();
+
+
         IntentFilter intentFilter=new IntentFilter("android.intent.action.Broadcast");
         registerReceiver(myBroadcost,intentFilter);
         dynamicFragment(new MainFragment(),"mainFragment");
         initView();
         Intent intent = getIntent();
-        data= intent.getStringExtra("head");
-        name=intent.getStringExtra("name");
+        user= (User) intent.getSerializableExtra("user");
         tv_main.setChecked(true);
+
+
 
     }
 

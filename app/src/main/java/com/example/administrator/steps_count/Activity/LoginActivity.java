@@ -1,11 +1,15 @@
 package com.example.administrator.steps_count.Activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +20,9 @@ import com.baidu.api.BaiduDialog;
 import com.baidu.api.BaiduDialogError;
 import com.baidu.api.BaiduException;
 import com.example.administrator.steps_count.R;
-import com.example.administrator.steps_count.model.UserModel;
+
+
+import com.example.administrator.steps_count.model.User;
 import com.google.gson.Gson;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
@@ -25,22 +31,35 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
     private static final String APP_ID = "1105602574";//官方获取的APPID
     private Tencent mTencent;
     private BaseUiListener mIUiListener;
-    private UserInfo mUserInfo;;
+    private UserInfo mUserInfo;
+    ;
     private Button btn_ok;
     private Button btn_no;
     private TextView register;
-    private ImageView qqlogin,baidulogin;
+    private ImageView qqlogin, baidulogin;
     private Gson gson;
+    private EditText user_name;
+    private EditText user_password;
+    private String address;
+
+
 
 
 
@@ -48,13 +67,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-        gson=new Gson();
-
-        btn_ok= (Button) findViewById(R.id.btn_ok);
-        register= (TextView) findViewById(R.id.register);
-        btn_no= (Button) findViewById(R.id.btn_no);
-        qqlogin= (ImageView) findViewById(R.id.qqlogin);
-        baidulogin= (ImageView) findViewById(R.id.baidulogin);
+        gson = new Gson();
+        user_name = (EditText) findViewById(R.id.etd_user);
+        user_password = (EditText) findViewById(R.id.edt_password);
+        btn_ok = (Button) findViewById(R.id.btn_ok);
+        register = (TextView) findViewById(R.id.register);
+        btn_no = (Button) findViewById(R.id.btn_no);
+        qqlogin = (ImageView) findViewById(R.id.qqlogin);
+        baidulogin = (ImageView) findViewById(R.id.baidulogin);
         baidulogin.setOnClickListener(this);
         btn_ok.setOnClickListener(this);
         btn_no.setOnClickListener(this);
@@ -64,27 +84,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mTencent = Tencent.createInstance(APP_ID, LoginActivity.this.getApplicationContext());
 
 
-
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.btn_ok:
-
+                address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientLogin?user_name=" + user_name.getText().toString() +
+                        "&user_password=" + user_password.getText().toString();
+                ReadURL(address);
                 break;
             case R.id.btn_no:
-                Intent no=new Intent(LoginActivity.this,Frag_MainActivity.class);
+                Intent no = new Intent(LoginActivity.this, Frag_MainActivity.class);
                 startActivity(no);
                 break;
             case R.id.register:
-                Intent register=new Intent(this,RegisterActivity.class);
+                Intent register = new Intent(this, RegisterActivity.class);
                 startActivity(register);
                 break;
             case R.id.qqlogin:
                 mIUiListener = new BaseUiListener();
-                mTencent.login(LoginActivity.this, "all", mIUiListener);
+                mTencent.login(LoginActivity.this, "", mIUiListener);
+
                 break;
             case R.id.baidulogin:
                 final Baidu baidu = new Baidu("PgepZ7EHdeUOPYKdCiks6wz1", LoginActivity.this);
@@ -97,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onComplete(String s) {
                                 RefreshUse(s);
+
 
                             }
 
@@ -129,6 +151,125 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+    public void ReadURL(final String url) {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    URL url = new URL(params[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    int resultCode = connection.getResponseCode();
+                    StringBuffer response = null;
+                    if (HttpURLConnection.HTTP_OK == resultCode) {
+                        InputStream in = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        response = new StringBuffer();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                    }
+
+                    return response.toString();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "1";
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+
+                if (!s.equals("fall")) {
+                    Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, Frag_MainActivity.class);
+                    User user = gson.fromJson(s, User.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+
+
+                } else {
+                    Toast.makeText(LoginActivity.this, "登录失败！", Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+            @Override
+            protected void onCancelled(String s) {
+                super.onCancelled(s);
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+            }
+        }.execute(url);
+
+    }
+
+    public void QQBaiduReadURL(final String url) {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    URL url = new URL(params[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    int resultCode = connection.getResponseCode();
+                    StringBuffer response = null;
+                    if (HttpURLConnection.HTTP_OK == resultCode) {
+                        InputStream in = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        response = new StringBuffer();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                    }
+
+                    return response.toString();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "1";
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Intent intent = new Intent(LoginActivity.this, Frag_MainActivity.class);
+                User user = gson.fromJson(s, User.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+
+            }
+
+
+                @Override
+                protected void onCancelled (String s){
+                    super.onCancelled(s);
+                }
+
+                @Override
+                protected void onCancelled () {
+                    super.onCancelled();
+                }
+            }.execute(url);
+}
+
     public void RefreshUse(final String msg)
 
     {
@@ -136,14 +277,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void run() {
 
-                UserModel usr=gson.fromJson(msg,UserModel.class);
-                String username=gson.toJson(usr.getUsername());
-                String userimg=gson.toJson(usr.getPortrait()).replace("\"","");
-                String url="http://tb.himg.baidu.com/sys/portrait/item/{$"+userimg+"}";
-                Intent baidulogin=new Intent(LoginActivity.this,Frag_MainActivity.class);
-                baidulogin.putExtra("name",username);
-                baidulogin.putExtra("head",url);
-                startActivity(baidulogin);
+                User usr = gson.fromJson(msg, User.class);
+                String username = gson.toJson(usr.getUsername()).replace("\"", "");
+                String userimg = gson.toJson(usr.getPortrait()).replace("\"", "");
+                String sex=gson.toJson(usr.getSex());
+               if(sex.equals("1"))
+               {
+                   usr.setSex("男");
+               }else
+               {
+                   usr.setSex("女");
+               }
+                String url = "http://tb.himg.baidu.com/sys/portrait/item/%7B$" + userimg + "%7D";
+
+                String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientRegister?user_name=" + username
+                        + "&user_password="+"&user_sex="+usr.getSex()+"&portrait="+url;
+               QQBaiduReadURL(address);
+
+
 
 
             }
@@ -171,18 +322,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         //是一个json串response.tostring，直接使用gson解析就好
 
 
-                        JSONObject oo= (JSONObject) response;
+                       JSONObject  oo = (JSONObject) response;
                         try {
-                            String   na = oo.getString("nickname");
-                            String url=oo.getString("figureurl_2");
-                            Intent qqintent=new Intent(LoginActivity.this,Frag_MainActivity.class);
-                            qqintent.putExtra("head",url);
-                            qqintent.putExtra("name",na);
-                            startActivity(qqintent);
-
-
-
-
+                            String na = oo.getString("nickname");
+                            String url = oo.getString("figureurl_2");
+                            String sex=oo.getString("gender");
+                            String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientRegister?user_name=" + na
+                                    + "&user_password="+"&user_sex="+sex+"&portrait="+url;
+                            QQBaiduReadURL(address);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

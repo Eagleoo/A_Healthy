@@ -16,7 +16,7 @@
             android:text="@string/oldpwd"
             android:textSize="25dp"/>
         <EditText
-            android:id="@+id/costpwd"
+            android:id="@+id/oldpwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/inp_password"/>
@@ -31,7 +31,7 @@
             android:text="@string/newpwd"
             android:textSize="25dp"/>
         <EditText
-            android:id="@+id/ensure"
+            android:id="@+id/newpwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/inp_newpwd"/>

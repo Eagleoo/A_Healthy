@@ -1,7 +1,11 @@
 package com.example.administrator.steps_count.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -10,16 +14,39 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.example.administrator.steps_count.Activity.CollectionActivity;
+import com.example.administrator.steps_count.Activity.CotentActivity;
+import com.example.administrator.steps_count.Activity.Frag_MainActivity;
+import com.example.administrator.steps_count.Activity.NewConsult;
+import com.example.administrator.steps_count.Activity.NewMall;
+import com.example.administrator.steps_count.Activity.SearchActivity;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.adapter.ConsultAdapter;
+import com.example.administrator.steps_count.model.Circle;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CircleFragment extends Fragment {
@@ -29,6 +56,65 @@ public class CircleFragment extends Fragment {
     private PagerTabStrip tabStrip;
     private SliderLayout sliderLayout;
     private PagerIndicator indicator;
+    private List<Circle> circlelist = new LinkedList<Circle>();
+    private List<Circle> searchlist = new LinkedList<Circle>();
+    private ListView circlelistview;
+    private Context context;
+    private ConsultAdapter consultAdapter;
+    private Button search;
+    private EditText edt_search;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONArray jsonArray = new JSONArray(msg.obj.toString());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = null;
+                    jsonObject = jsonArray.getJSONObject(i);
+                    Circle circle = new Circle();
+                    circle.setId(Integer.parseInt(jsonObject.get("id").toString()));
+                    circle.setTitle(jsonObject.get("title").toString());
+                    circle.setContent(jsonObject.get("content").toString());
+                    circle.setImag(jsonObject.get("imag").toString());
+                    circlelist.add(circle);
+
+                }
+                context = getActivity();
+                consultAdapter = new ConsultAdapter((LinkedList<Circle>) circlelist, context);
+                circlelistview.setAdapter(consultAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Handler handlers = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONArray jsonArray = new JSONArray(msg.obj.toString());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = null;
+                    jsonObject = jsonArray.getJSONObject(i);
+                    Circle circle = new Circle();
+                    circle.setId(Integer.parseInt(jsonObject.get("id").toString()));
+                    circle.setTitle(jsonObject.get("title").toString());
+                    circle.setContent(jsonObject.get("content").toString());
+                    circle.setImag(jsonObject.get("imag").toString());
+                    searchlist.add(circle);
+
+                }
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("list", (Serializable) searchlist);
+                startActivity(intent);
+                searchlist.removeAll(searchlist);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,19 +125,47 @@ public class CircleFragment extends Fragment {
         tabStrip = (PagerTabStrip) view.findViewById(R.id.tabstrip);
         sliderLayout = (SliderLayout) view.findViewById(R.id.slider);
         indicator = (PagerIndicator) view.findViewById(R.id.indicator);
+        search = (Button) view.findViewById(R.id.btn_search);
+        edt_search = (EditText) view.findViewById(R.id.edt_source);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Search?title=" + edt_search.getText().toString().trim();
+                SearchReadURL(url);
+
+
+            }
+        });
+
         listtitle = new ArrayList<String>();
         listtitle.add("资讯推荐");
         listtitle.add("动态");
-        inflater = getLayoutInflater(savedInstanceState);
         View dynamic_pager = inflater.inflate(R.layout.dynamic_layout, null);
-        View consult_pager = inflater.inflate(R.layout.consult_layout, null);
+        View consult_pager = inflater.inflate(R.layout.consultlistview, null);
+        circlelistview = (ListView) consult_pager.findViewById(R.id.cusultlist);
+        circlelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), CotentActivity.class);
+                intent.putExtra("id", String.valueOf(circlelist.get(i).getId()));
+                intent.putExtra("title", circlelist.get(i).getTitle());
+                intent.putExtra("content", circlelist.get(i).getContent());
+
+                startActivity(intent);
+
+            }
+        });
         list.add(consult_pager);
         list.add(dynamic_pager);
         initImageSlider();
         MyPagerAdapter adapter = new MyPagerAdapter(list);
         viewPager.setAdapter(adapter);
+        String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/SelectMessage";
+        ReadURL(url);
+
         return view;
     }
+
 
     public class MyPagerAdapter extends PagerAdapter {
         //定义容纳带显示页面的集合对象
@@ -95,6 +209,8 @@ public class CircleFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return listtitle.get(position);
         }
+
+
     }
 
     private View initImageSlider() {
@@ -111,18 +227,26 @@ public class CircleFragment extends Fragment {
         descriptions.add("最新动态");
         for (int i = 0; i < imageUrls.size(); i++) {
             //新建三个展示View，并且添加到SliderLayout
-            TextSliderView tsv = new TextSliderView(getActivity());
+            final TextSliderView tsv = new TextSliderView(getActivity());
             tsv.image(imageUrls.get(i)).description(descriptions.get(i));
+
             final int finalI = i;
             tsv.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                                              @Override
                                              public void onSliderClick(BaseSliderView slider) {
-                                                 // Toast.makeText(getActivity(), descriptions.get(finalI), Toast.LENGTH_SHORT).show();
-                                                 Intent collect=new Intent(getActivity(), CollectionActivity.class);
-                                                 startActivity(collect);
+                                                 if (tsv.getDescription() == "最新资讯") {
+                                                     Intent intent = new Intent(getActivity(), NewConsult.class);
+                                                     startActivity(intent);
+                                                 } else if (tsv.getDescription() == "商品推荐") {
+                                                     Intent intent = new Intent(getActivity(), NewMall.class);
+                                                     startActivity(intent);
+                                                 } else {
+
+                                                 }
                                              }
                                          }
             );
+
             sliderLayout.addSlider(tsv);
         }
         //对SliderLayout进行一些自定义的配置
@@ -131,6 +255,119 @@ public class CircleFragment extends Fragment {
         sliderLayout.setDuration(3000);
         sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         sliderLayout.setCustomIndicator(indicator);
+
         return sliderLayout;
     }
+
+    public void ReadURL(final String url) {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    URL url = new URL(params[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    int resultCode = connection.getResponseCode();
+                    StringBuffer response = null;
+                    if (HttpURLConnection.HTTP_OK == resultCode) {
+                        InputStream in = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        response = new StringBuffer();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                    }
+
+                    return response.toString();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "1";
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Message message = new Message();
+                message.obj = s;
+                handler.sendMessage(message);
+                super.onPostExecute(s);
+            }
+
+
+            @Override
+            protected void onCancelled(String s) {
+                super.onCancelled(s);
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+            }
+        }.execute(url);
+    }
+
+
+    public void SearchReadURL(final String url) {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    URL url = new URL(params[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    int resultCode = connection.getResponseCode();
+                    StringBuffer response = null;
+                    if (HttpURLConnection.HTTP_OK == resultCode) {
+                        InputStream in = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        response = new StringBuffer();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                    }
+
+                    return response.toString();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "1";
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Message messages = new Message();
+                messages.obj = s;
+                handlers.sendMessage(messages);
+                super.onPostExecute(s);
+            }
+
+
+            @Override
+            protected void onCancelled(String s) {
+                super.onCancelled(s);
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+            }
+        }.execute(url);
+    }
+
 }
+
+
