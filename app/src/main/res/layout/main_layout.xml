@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="6dp">
+    android:padding="6dp"
+    android:background="#FFFFFF">
     <ScrollView
         android:id="@+id/sc"
         android:layout_width="match_parent"
@@ -25,8 +26,7 @@
                     android:layout_height="35dp"
                     android:hint="搜索问题、资讯、文章"
                     android:background="@drawable/shape_button"
-                    android:layout_centerHorizontal="true"
-                    />
+                    android:layout_centerHorizontal="true" />
 
                 <ImageView
                     android:src="@drawable/exploer1"
@@ -178,9 +178,8 @@
                 app:rowCount="2"
                 app:columnCount="3"
                 android:layout_marginTop="3dp"
-               >
+                android:background="#FFFFFF">
                 <LinearLayout
-                    android:background="@drawable/shape_grid"
                     android:orientation="vertical"
                     app:layout_rowWeight="1"
                     app:layout_columnWeight="1">
@@ -189,10 +188,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="今日剁手价"
+                        android:textColor="#000000"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textColor="#000000"/>
+                        android:typeface="serif" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -230,100 +229,59 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:background="@drawable/shape_grid"
                     android:orientation="vertical"
                     app:layout_rowWeight="1"
                     app:layout_columnWeight="1">
+                    <ImageView
+                        android:src="@drawable/grid1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="东阿阿胶1"
-                        android:textColor="#000000"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="109元限量抢"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:background="@drawable/shape_grid"
+
                     android:orientation="vertical"
                     app:layout_rowWeight="1"
                     app:layout_columnWeight="1">
 
-                    <TextView
+                    <ImageView
+                        android:src="@drawable/grid2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="东阿阿胶2"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textColor="#000000"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="109元限量抢"/>
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="@drawable/shape_grid"
                     android:orientation="vertical"
                     app:layout_rowWeight="1"
                     app:layout_columnWeight="1">
 
-                    <TextView
+                    <ImageView
+                        android:src="@drawable/grid5"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="东阿阿胶3"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textColor="#000000"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="109元限量抢"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
-                    android:background="@drawable/shape_grid"
                     android:orientation="vertical"
                     app:layout_rowWeight="1"
                     app:layout_columnWeight="1">
 
-                    <TextView
+                    <ImageView
+                        android:src="@drawable/grid3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="东阿阿胶4"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textColor="#000000"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="109元限量抢"/>
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
                 <LinearLayout
-                    android:background="@drawable/shape_grid"
                     android:orientation="vertical"
                     app:layout_rowWeight="1"
                     app:layout_columnWeight="1">
 
-                    <TextView
+                    <ImageView
+                        android:src="@drawable/grid4"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="东阿阿胶5"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:typeface="serif"
-                        android:textColor="#000000"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="109元限量抢"/>
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
 
             </android.support.v7.widget.GridLayout>
@@ -358,7 +316,7 @@
                     android:paddingLeft="3dp"
                     android:layout_toRightOf="@id/img_plan" />
                 <TextView
-                    android:id="@+id/new_plan"
+                    android:id="@+id/add_plan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -386,11 +344,39 @@
                 android:layout_below="@id/list5"
                 android:layout_marginTop="30dp">
                 <TextView
+                    android:id="@+id/txt1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="五步微笑瘦脸法"
+                    android:layout_alignParentLeft="true"
                     android:textColor="#000000"
-                    android:layout_alignParentLeft="true">
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    android:text="今天还有 ">
+
+                </TextView>
+                <TextView
+                    android:id="@+id/txt_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/txt1"
+                    android:textColor="#66B3FF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:typeface="serif">
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/txt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txt_plan"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    android:text=" 项任务未完成！">
 
                 </TextView>
                 <Button

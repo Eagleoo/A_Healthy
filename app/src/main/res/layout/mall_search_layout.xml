@@ -60,6 +60,7 @@
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
+
     <ListView
         android:id="@+id/mall_search_list"
         android:layout_width="match_parent"

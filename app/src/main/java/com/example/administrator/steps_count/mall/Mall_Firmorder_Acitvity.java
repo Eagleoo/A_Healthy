@@ -1,9 +1,11 @@
 package com.example.administrator.steps_count.mall;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -41,16 +43,14 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
     private ImageView mall_firmorder_more;
     private ImageView mall_firmorder_exit;
     private ImageView mall_firmorder_img;
-    private TextView mall_firmorder_num;
-    private TextView mall_firmorder_allmoney;
-    private TextView mall_firmorder_unitprice;
-    private TextView mall_firmorder_extra;
-    private TextView mall_firmorder_name;
-    private TextView mall_firmorder_price;
+    private TextView mall_firmorder_num,mall_firmorder_price,mall_firmorder_allmoney,
+            mall_firmorder_unitprice,mall_firmorder_extra,mall_firmorder_name,
+            mall_firmorder_consignee,mall_firmorder_cellnumber,mall_firmorder_changeaddress,mall_firmorder_address;
     private RadioButton mall_firmorder_rb_addaddress;
     private FrameLayout mall_firmorder_framelayout;
     private FrameLayout mall_firmorder_radiolayout;
     private FrameLayout mall_firmorder_addresslayout;
+    private Button mall_firmorder_Torder;
     private double unitprice;
     private double extra;
     private String mall_id;
@@ -79,6 +79,10 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
         mall_firmorder_allmoney= (TextView) findViewById(R.id.mall_firmorder_allmoney);
         mall_firmorder_extra= (TextView) findViewById(R.id.mall_firmorder_extra);
         mall_firmorder_unitprice= (TextView) findViewById(R.id.mall_firmorder_unitprice);
+        mall_firmorder_consignee= (TextView) findViewById(R.id.mall_firmorder_consignee);
+        mall_firmorder_cellnumber= (TextView) findViewById(R.id.mall_firmorder_cellnumber);
+        mall_firmorder_changeaddress= (TextView) findViewById(R.id.mall_firmorder_changeaddress);
+        mall_firmorder_address= (TextView) findViewById(R.id.mall_firmorder_address);
         mall_firmorder_rb_addaddress= (RadioButton) findViewById(R.id.mall_firmorder_rb_addaddress);
         mall_firmorder_framelayout= (FrameLayout) findViewById(R.id.mall_firmorder_framelayout);
         mall_firmorder_radiolayout= (FrameLayout) findViewById(R.id.mall_firmorder_Radiolayout);
@@ -86,10 +90,14 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
         mall_firmorder_price= (TextView) findViewById(R.id.mall_firmorder_price);
         mall_firmorder_img= (ImageView) findViewById(R.id.mall_firmorder_img);
         mall_firmorder_name= (TextView) findViewById(R.id.mall_firmorder_name);
+        mall_firmorder_Torder= (Button) findViewById(R.id.mall_firmorder_Torder);
+
         mall_firmorder_less.setOnClickListener(this);
         mall_firmorder_more.setOnClickListener(this);
         mall_firmorder_exit.setOnClickListener(this);
+        mall_firmorder_Torder.setOnClickListener(this);
         mall_firmorder_rb_addaddress.setOnClickListener(this);
+        mall_firmorder_changeaddress.setOnClickListener(this);
 
 //        unitprice= Double.parseDouble(mall_firmorder_unitprice.getText().toString());
         extra= Double.parseDouble(mall_firmorder_extra.getText().toString());
@@ -118,17 +126,52 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
                 finish();
                 break;
             case R.id.mall_firmorder_rb_addaddress:
-                mall_firmorder_framelayout.removeView(mall_firmorder_radiolayout);
-                mall_firmorder_framelayout.addView(mall_firmorder_addresslayout);
+                Intent intent=new Intent(this,Mall_Address_Activity.class);
+                startActivityForResult(intent,0x0001);
+                break;
+            case R.id.mall_firmorder_changeaddress:
+                Intent intent1=new Intent(this,Mall_Address_Activity.class);
+                startActivityForResult(intent1,0x0002);
+                break;
+            case R.id.mall_firmorder_Torder:
+                if (mall_firmorder_cellnumber.getText().toString().equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"请选择收货地址",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                insertorder();
+                }
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==0x0001&&resultCode==0x0003)
+        {
+            mall_firmorder_framelayout.removeView(mall_firmorder_radiolayout);
+            mall_firmorder_framelayout.addView(mall_firmorder_addresslayout);
+            mall_firmorder_consignee.setText(data.getStringExtra("data1"));
+            mall_firmorder_cellnumber.setText(data.getStringExtra("data3"));
+            mall_firmorder_address.setText(data.getStringExtra("data2"));
+        }
+        if (requestCode==0x0002&&resultCode==0x0003)
+        {
+            mall_firmorder_consignee.setText(data.getStringExtra("data1"));
+            mall_firmorder_cellnumber.setText(data.getStringExtra("data3"));
+            mall_firmorder_address.setText(data.getStringExtra("data2"));
+        }
+
+    }
+
     //刷新总付款金额
     private void dymic_allmoney(double unitprice,double extra,int num)
     {
         String Aprice= String.valueOf(unitprice*num+extra);
         mall_firmorder_allmoney.setText(Aprice);
     }
+
 
     private void getDataAsync() {
         OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
@@ -163,7 +206,6 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
             }
         });
     }
-
     private static List<Mall> getMall(String key, String jsonString) {
         List<Mall> list = new ArrayList<Mall>();
         JSONObject jsonObject;
@@ -186,4 +228,40 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
         return list;
     }
 
+    private void insertorder() {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("username","lzy")
+                .add("mall_id",mall_id)
+                .add("address",mall_firmorder_address.getText().toString())
+                .add("order_count",mall_firmorder_num.getText().toString())
+                .add("order_allprice",mall_firmorder_allmoney.getText().toString())
+                .add("consignee",mall_firmorder_consignee.getText().toString())
+                .add("cellnumber",mall_firmorder_cellnumber.getText().toString())
+                .add("ispay","F")
+                .add("issend","F")
+                .add("isreceive","F").build();
+        final Request request = new Request.Builder()
+                .url(MallFragment.user.getUrl()+"insert_order_Servlet")
+                .post(requestBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i("failure", "onFailure: ");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    final String result = response.body().string();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
 }
