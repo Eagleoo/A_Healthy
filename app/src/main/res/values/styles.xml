@@ -26,7 +26,13 @@
         <item name="android:textSize">8sp</item>
     </style>
 
+<<<<<<< HEAD
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+=======
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/checkbox_style</item>
     </style>
+>>>>>>> 3943b57c7aad27a937f8fb2970a746753597293a
 </resources>

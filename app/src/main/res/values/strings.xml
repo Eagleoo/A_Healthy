@@ -17,7 +17,7 @@
     <string name="height">身高：</string>
     <string name="address">地址：</string>
     <string name="updatemsg">修改个人信息</string>
-    <string name="exit">取消</string>
+    <string name="exit">返回主页</string>
     <string name="registe">注册</string>
     <string name="inp_password">请输入密码</string>
     <string name="password">密     码：</string>
@@ -28,9 +28,9 @@
     <string name="updatepwd">修改登录密码</string>
     <string name="theaddress">收货地址</string>
     <string name="about">关于</string>
-    <string name="costpwd">设置支付密码</string>
+    <string name="costpwd">返回</string>
     <string name="back">返回</string>
-    <string name="title_activity_goods">GoodsActivity</string>
+    <string name="title_activity_goods">AddressActivity</string>
     <string name="insertaddress">新增收货地址</string>
     <string name="goodsper">收货人：</string>
     <string name="name">请输入收货人姓名</string>
@@ -47,7 +47,13 @@
     <string name="news1">"    "今日必读------>步行对机体健康有哪些好处？点击这里快来了解一下吧！</string>
     <string name="news2">"    "国家发改委宣布，医疗保险将降低十个保护点。老年人将何去何从？</string>
     <string name="news3">"    "减肥饮食核心：这三类食物必须吃！</string>
+<<<<<<< HEAD
     <string name="text1">"    "测测你的生活为什么这么累？</string>
     <string name="text2">"    "女性健康疾病自测</string>
     <string name="text3">"    "烟瘾小测试，你是大烟枪吗？</string>
+=======
+    <string name="title_activity_qqbaidu_register">QQBaiduRegister</string>
+    <string name="received">确认收货</string>
+    <string name="distribution">查看物流</string>
+>>>>>>> 60b1cad9b503430fbda6a51d9884a5b94271069e
 </resources>

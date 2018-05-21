@@ -16,10 +16,11 @@
             android:layout_height="wrap_content"
             android:hint="@string/consult"/>
         <Button
-            android:id="@+id/btn_source"
+            android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/resource"/>
+            android:text="@string/resource"
+            />
 
     </LinearLayout>
     <RelativeLayout
@@ -52,14 +53,18 @@
             </com.daimajia.slider.library.Indicators.PagerIndicator>
         </com.daimajia.slider.library.SliderLayout>
     </RelativeLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v4.view.PagerTabStrip
             android:id="@+id/tabstrip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </android.support.v4.view.PagerTabStrip>
+
     </android.support.v4.view.ViewPager>
+
 </LinearLayout>

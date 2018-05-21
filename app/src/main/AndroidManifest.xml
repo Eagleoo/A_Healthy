@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.administrator.steps_count">
+
     <uses-sdk>
         android:minSdkVersion="21"
-        android:targetSdkVersion="19">
+        android:targetSdkVersion="19"></uses-sdk>
 
-    </uses-sdk>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!--允许程序打开网络套接字-->
+    <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--允许程序设置内置sd卡的写权限-->
+    <!-- 允许程序设置内置sd卡的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--允许程序获取网络状态-->
+    <!-- 允许程序获取网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--允许程序访问WiFi网络信息-->
+    <!-- 允许程序访问WiFi网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--允许程序读写手机状态和身份-->
+    <!-- 允许程序读写手机状态和身份 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!--用于提高GPS定位速度-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于提高GPS定位速度 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 
     <application
@@ -40,18 +40,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="ff093d2d117998d5bab4b1277a0455a7" />
 
+<<<<<<< HEAD
+        <activity android:name=".Activity.Frag_MainActivity">
+=======
         <meta-data android:name="com.amap.api.v2.apikey" android:value="ff093d2d117998d5bab4b1277a0455a7">
         </meta-data>
         <activity android:name=".Activity.Frag_MainActivity"
             android:windowSoftInputMode="adjustPan">
+>>>>>>> 3943b57c7aad27a937f8fb2970a746753597293a
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -89,12 +95,20 @@
             android:name=".Activity.AboutActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity.GoodsActivity"
-            android:label="@string/title_activity_goods"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.AddressActivity" />
-        <activity android:name=".Activity.CostpwdActivity" />
+            android:name=".Activity.AddressActivity"
+            android:label="@string/title_activity_goods" />
+        <activity android:name=".Activity.InsertAddress" />
         <activity android:name=".Activity.Updatepwd" />
+<<<<<<< HEAD
+        <activity android:name=".Activity.CotentActivity" />
+        <activity android:name=".step.Look_steps" />
+        <activity android:name=".step.MainActivity" />
+        <activity android:name=".mall.Mall_Detail_Activity" />
+        <activity android:name=".mall.Mall_Firmorder_Acitvity" />
+        <activity android:name=".mall.Mall_Search_Activity" />
+        <activity android:name=".Activity.Step_Map" />
+        <activity android:name=".Activity.CheckPermissionsActivity" />
+=======
         <activity android:name=".Activity.CollectionActivity"></activity>
 
         <activity android:name=".step.Look_steps">
@@ -111,9 +125,13 @@
         <activity android:name=".Activity.CheckPermissionsActivity"/>
         <activity android:name=".Main_Activity.Plan_Activity"/>
         <activity android:name=".Main_Activity.Plan_Add_Activity"/>
+<<<<<<< HEAD
         <activity android:name=".Main_Activity.Text_Activity"/>
         <activity android:name=".Main_Activity.Text_Do_Activity"/>
         <activity android:name=".Main_Activity.Text_Result"/>
+=======
+>>>>>>> 3943b57c7aad27a937f8fb2970a746753597293a
+>>>>>>> 60b1cad9b503430fbda6a51d9884a5b94271069e
 
         <!-- 计步功能 -->
         <service
@@ -121,7 +139,8 @@
             android:priority="1000"
             android:process="com.example.administrator.steps_count">
             <intent-filter>
-                <!-- 系统启动完成后会调用-->
+
+                <!-- 系统启动完成后会调用 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.intent.action.MEDIA_MOUNTED" />
@@ -132,9 +151,24 @@
             </intent-filter>
         </service>
 
-        <!--声明定位service-->
-        <service android:name="com.amap.api.location.APSService"/>
+        <!-- 声明定位service -->
+        <service android:name="com.amap.api.location.APSService" />
 
+        <activity android:name=".Activity.UpdateAddress" />
+        <activity
+            android:name=".Activity.QQBaiduRegister"
+            android:label="@string/title_activity_qqbaidu_register"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".Activity.CheckReceive" />
+        <activity android:name=".Activity.OrderActivity" />
+        <activity android:name=".Activity.CheckPayment" />
+        <activity android:name=".Activity.CheckSend" />
+        <activity android:name=".Activity.OrderInformation" />
+        <activity android:name=".Activity.PerCollect" />
+        <activity android:name=".Activity.CollectShow" />
+        <activity android:name=".Activity.SearchActivity" />
+        <activity android:name=".Activity.NewConsult" />
+        <activity android:name=".Activity.NewMall"></activity>
     </application>
 
 </manifest>

@@ -10,12 +10,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/title"
         android:layout_marginLeft="150dp"
-        android:text="标题"
+
         android:textSize="20dp"/>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="490dp"
         android:id="@+id/context"
 
         />
+    <Switch
+        android:id="@+id/switchcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:foreground="@drawable/switch_off_on"/>
 </LinearLayout>
