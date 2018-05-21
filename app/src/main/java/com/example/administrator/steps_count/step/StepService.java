@@ -305,7 +305,6 @@ public class StepService extends Service implements SensorEventListener{
             entity = new StepEntity();
             entity.setCurDate(CURRENT_DATE);
             entity.setSteps(String.valueOf(CURRENT_STEP));
-            Log.e("66666666","6666666");
             db.addNewData(entity);
         } else {
             //有则更新当前的数据

@@ -232,10 +232,11 @@
                     android:orientation="vertical"
                     app:layout_rowWeight="1"
                     app:layout_columnWeight="1">
+
                     <ImageView
-                        android:src="@drawable/grid1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:src="@drawable/grid1" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -446,14 +447,13 @@
                 android:layout_marginTop="30dp">
             <ViewAnimator
                 android:id="@+id/animator_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/text_1"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="高血压来袭，你会中招吗？"
+                    android:text="@string/text1"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -461,18 +461,18 @@
 
                 <TextView
                     android:id="@+id/text_2"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="小儿感冒知多少？"
+                    android:text="@string/text2"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:typeface="serif"/>
                 <TextView
                     android:id="@+id/text_3"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="你的饮食习惯及格了吗？"
+                    android:text="@string/text3"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold"

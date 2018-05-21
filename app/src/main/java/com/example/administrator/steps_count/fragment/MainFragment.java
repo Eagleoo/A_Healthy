@@ -1,8 +1,9 @@
 package com.example.administrator.steps_count.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,21 +11,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewAnimator;
 
-import com.example.administrator.steps_count.Main_Activity.Plan_Activity;
-import com.example.administrator.steps_count.Main_Activity.Plan_Btn;
+import com.example.administrator.steps_count.Activity.TextActivity;
+import com.example.administrator.steps_count.Main_Activity.Text_Activity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.step.Constant;
 import com.example.administrator.steps_count.tools.Json_Tools;
@@ -48,6 +49,7 @@ import okhttp3.Response;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemClickListener{
     private GridView grid_view;
+    private GridLayout grid_layout;
     private List<Map<String,Object>> dataList;
     private int[] icon={R.drawable.explorer,R.drawable.question1,R.drawable.dct};
     private String[] str={"搜索","提问","问医生"};
@@ -86,9 +88,22 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         txt_timeCount=(TextView)view.findViewById(R.id.txt_timeCount);
         txt_min=(TextView)view.findViewById(R.id.txt_min);
         txt_plan=(TextView)view.findViewById(R.id.txt_plan);
+
         viewAnimator=(ViewAnimator)view.findViewById(R.id.animator) ;
         animator_text=(ViewAnimator)view.findViewById(R.id.animator_text) ;
         mRollViewPager = (RollPagerView)view.findViewById(R.id.roll_view_pager);
+        grid_layout=(GridLayout)view.findViewById(R.id.grid_layout);
+
+        grid_layout.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        Fragment fragment=new MallFragment();
+                        fm.beginTransaction().replace(R.id.framelayout,fragment).commit();
+                    }
+                }
+        );
 
         handler.sendMessageDelayed(new Message(),TIME_INTERVAL);
         adapter=new SimpleAdapter(getActivity(),getData(),R.layout.main_grid_layout,new String[]{"image","step_chart"},
@@ -115,6 +130,24 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         sale_TimeCount();
         Plan_Count();
         txt_plan.setText(string);
+        animator_text.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Text_Activity.class));
+                    }
+                }
+        );
+        viewAnimator.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        Fragment fragment=new CircleFragment();
+                        fm.beginTransaction().replace(R.id.framelayout,fragment).commit();
+                    }
+                }
+        );
         return view;
     }
 
@@ -134,6 +167,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         return dataList;
     }
 
+    //问医生点击事件
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 

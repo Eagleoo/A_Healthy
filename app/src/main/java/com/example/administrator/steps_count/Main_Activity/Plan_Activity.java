@@ -171,7 +171,13 @@ public class Plan_Activity extends AppCompatActivity {
                                     if(response.isSuccessful()){
                                         Looper.prepare();
                                         //打印服务端返回结果
-                                        Toast.makeText(mContext, mList.get(i).getName()+"任务完成！", Toast.LENGTH_SHORT).show();
+                                        if(mList.size()!=0){
+                                            Toast.makeText(mContext, mList.get(i).getName()+"任务完成！", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else {
+                                            Toast.makeText(mContext, "今日所有任务完成！", Toast.LENGTH_SHORT).show();
+                                        }
+
                                         Looper.loop();
                                     }
 

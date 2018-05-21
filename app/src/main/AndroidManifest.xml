@@ -111,6 +111,9 @@
         <activity android:name=".Activity.CheckPermissionsActivity"/>
         <activity android:name=".Main_Activity.Plan_Activity"/>
         <activity android:name=".Main_Activity.Plan_Add_Activity"/>
+        <activity android:name=".Main_Activity.Text_Activity"/>
+        <activity android:name=".Main_Activity.Text_Do_Activity"/>
+        <activity android:name=".Main_Activity.Text_Result"/>
 
         <!-- 计步功能 -->
         <service

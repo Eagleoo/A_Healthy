@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.fragment.MallFragment;
-import com.example.administrator.steps_count.tools.Text;
 
 import org.json.JSONArray;
 import org.json.JSONException;

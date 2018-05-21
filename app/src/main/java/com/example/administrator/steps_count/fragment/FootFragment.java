@@ -1,6 +1,5 @@
 package com.example.administrator.steps_count.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -11,8 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
+import com.example.administrator.steps_count.Activity.Step_Map;
 import com.example.administrator.steps_count.step.DBOpenHelper;
+import com.example.administrator.steps_count.step.ProgressView;
+import com.example.administrator.steps_count.step.StepEntity;
 import com.example.administrator.steps_count.step.Step_MainActivity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.step.TimeUtil;
@@ -32,16 +35,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-//@SuppressLint("ValidFragment")
 public class FootFragment extends Fragment {
-    private boolean isBind = false;
+
     private LineChart chart;
     private LineData data;
     private ArrayList<String> xVals;
     private LineDataSet dataSet;
     private ArrayList<Entry> yVals;
     private DBOpenHelper db;
-    private Button btn_step;
+    private LinearLayout btn_step_run,btn_step;
 
     @Nullable
     @Override
@@ -49,9 +51,31 @@ public class FootFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.step_chart, container, false);
         chart=(LineChart)view.findViewById(R.id.chart1);
-        btn_step=(Button)view.findViewById(R.id.btn_step);
+        btn_step_run=(LinearLayout) view.findViewById(R.id.btn_step_run);
+        btn_step=(LinearLayout) view.findViewById(R.id.btn_step);
+        ProgressView progressView = (ProgressView)view.findViewById(R.id.progressView);
         db=new DBOpenHelper(getActivity());
+        if(initStep()<4000){
+            progressView.setMaxProgress(4000);
+            progressView.setCurrentProgress(initStep());
+        }
+        else {
+            progressView.setMaxProgress(4000);
+            progressView.setCurrentProgress(4000);
+        }
+
         init();
+
+        btn_step_run.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), Step_Map.class);
+                        startActivity(intent);
+                    }
+                }
+        );
 
         btn_step.setOnClickListener(
                 new View.OnClickListener() {
@@ -67,11 +91,16 @@ public class FootFragment extends Fragment {
         return view;
     }
 
+    private int initStep(){
+        String curDate= TimeUtil.getCurrentDate();
+        StepEntity entity = db.getCurDataByDate(curDate);
+        int step=Integer.valueOf(entity.getSteps());
+        return step;
+    }
+
     private void init(){
         String curDate= TimeUtil.getCurrentDate();
         int i=0;
-
-
 
         xVals=new ArrayList<>();
         yVals=new ArrayList<>();
@@ -150,6 +179,7 @@ public class FootFragment extends Fragment {
         dataSet=new LineDataSet(yVals,"历史步数");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setDrawFilled(true);
         data=new LineData(xVals,dataSet);
         data.setDrawValues(false);
         chart.setData(data);

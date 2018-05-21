@@ -34,7 +34,7 @@
         android:id="@+id/lt"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#53FF53"
+        android:background="#00DB00"
         android:layout_below="@id/plan_l">
 
     </ListView>

@@ -4,21 +4,199 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp">
 
+    <ImageView
+        android:id="@+id/setting1"
+        android:src="@drawable/setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置锻炼计划"
+        android:layout_toRightOf="@+id/setting1"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginTop="3dp"/>
+
+    <ImageView
+        android:id="@+id/record1"
+        android:src="@drawable/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/record1"
+        android:text="历史记录"
+        android:textColor="#000000"
+        android:layout_marginTop="3dp"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="25dp"
+        android:background="#E0E0E0"
+        android:layout_centerHorizontal="true">
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#E0E0E0"
+        android:layout_below="@+id/setting1">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list1"
+        android:layout_centerHorizontal="true"
+        android:text="今日"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textColor="#000000"
+        android:paddingTop="5dp"/>
+
+    <ImageView
+        android:src="@drawable/wenhao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/today"
+        android:layout_below="@+id/list1"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setting1"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:text="步数"/>
+
+    <ImageView
+        android:src="@drawable/left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/progressView"
+        android:layout_marginTop="110dp"/>
+    <ImageView
+        android:src="@drawable/right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/progressView"
+        android:layout_marginTop="110dp"/>
+
+
+
+    <com.example.administrator.steps_count.step.ProgressView
+        android:id="@+id/progressView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/setting1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:text="目标4000步"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setting1"
+        android:layout_gravity="center"
+        android:layout_marginTop="130dp"
+        android:layout_centerHorizontal="true"/>
+
+
     <com.github.mikephil.charting.charts.LineChart
 
         android:id="@+id/chart1"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_centerVertical="true"/>
+        android:layout_height="200dp"
+        android:layout_above="@+id/btn_step"/>
 
-    <Button
-        android:background="@drawable/shape_step"
+    <LinearLayout
         android:id="@+id/btn_step"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="进 入 计 步 器"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/shape_step_run"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="健走"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"/>
+
+        <ImageView
+            android:src="@drawable/walk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"/>
+
+    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="随时随地，时刻开始"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"/>
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_step_run"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/shape_step"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="跑步"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"/>
+
+            <ImageView
+                android:src="@drawable/run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"/>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="从零开始，跑起来"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
 </RelativeLayout>
