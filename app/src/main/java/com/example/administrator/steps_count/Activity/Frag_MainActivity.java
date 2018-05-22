@@ -32,7 +32,7 @@ import com.example.administrator.steps_count.fragment.FootFragment;
 import com.example.administrator.steps_count.fragment.MainFragment;
 import com.example.administrator.steps_count.fragment.MallFragment;
 import com.example.administrator.steps_count.fragment.MeFragment;
-<<<<<<< HEAD
+
 import com.example.administrator.steps_count.step.Constant;
 import com.example.administrator.steps_count.step.StepService;
 import com.example.administrator.steps_count.step.Step_MainActivity;
@@ -40,13 +40,8 @@ import com.example.administrator.steps_count.step.Step_MainActivity;
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
-=======
-<<<<<<< HEAD
 import com.example.administrator.steps_count.model.User;
-import com.example.administrator.steps_count.step.MainActivity;
-=======
->>>>>>> 3943b57c7aad27a937f8fb2970a746753597293a
->>>>>>> 60b1cad9b503430fbda6a51d9884a5b94271069e
+
 
 public class Frag_MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FrameLayout frameLayout;
@@ -54,24 +49,24 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
 
     public static User user;
     private MyBroadcost myBroadcost;
-<<<<<<< HEAD
+
     private boolean isBind = false;
     private Messenger mGetReplyMessenger = new Messenger(new Handler());
-=======
+
     public static String localhost;
 
->>>>>>> 60b1cad9b503430fbda6a51d9884a5b94271069e
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_mainactivity);
-<<<<<<< HEAD
+
 
 
         setupService();
-=======
+
         localhost="192.168.1.104";
->>>>>>> 60b1cad9b503430fbda6a51d9884a5b94271069e
+
         myBroadcost=new MyBroadcost();
 
 
