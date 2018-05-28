@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+<uses-permission android:name="android.permission.MANAGE_DOCUMENTS"></uses-permission>
 
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -40,6 +41,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="ff093d2d117998d5bab4b1277a0455a7" />
@@ -136,7 +138,12 @@
         <activity android:name=".Activity.CollectShow" />
         <activity android:name=".Activity.SearchActivity" />
         <activity android:name=".Activity.NewConsult" />
-        <activity android:name=".Activity.NewMall"></activity>
+        <activity android:name=".Activity.NewMall" />
+        <activity android:name=".Activity.NewDynamic" />
+        <activity android:name=".Activity.ShowDynamic" />
+        <activity android:name=".Activity.ReviewActivity" />
+        <activity android:name=".Activity.InsertReview" />
+        <activity android:name=".Activity.ReplyActivity"></activity>
     </application>
 
 </manifest>

@@ -35,7 +35,7 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_mainactivity);
-        localhost="192.168.1.104";
+        localhost="192.168.43.53";
         myBroadcost=new MyBroadcost();
 
 

@@ -13,9 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.adapter.OrderAdapter;
+import com.example.administrator.steps_count.model.Dynamics;
 import com.example.administrator.steps_count.model.Order;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -34,50 +36,49 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NewMall extends AppCompatActivity {
-    private BaseAdapter baseAdapter;
-    private List<Order> list=new LinkedList<Order>();
+public class NewDynamic extends AppCompatActivity {
+
+    private List<Dynamics> list=new LinkedList<Dynamics>();
     private ListView listView;
     private Context context;
-private Handler handler=new Handler()
-{
-    @Override
-    public void handleMessage(Message msg) {
-        super.handleMessage(msg);
-        try {
-            JSONArray jsonArray=new JSONArray(msg.obj.toString());
-            for(int i=0;i<jsonArray.length();i++)
-            {
-                JSONObject jsonObject=null;
-                jsonObject=jsonArray.getJSONObject(i);
-                Order order=new Order();
-                order.setMall_img(jsonObject.get("mall_img").toString());
-                order.setMall_name(jsonObject.get("mall_name").toString());
-                order.setMall_describe(jsonObject.get("mall_describe").toString());
-                order.setMall_price(jsonObject.get("mall_price").toString());
-                list.add(order);
+    private BaseAdapter baseAdapter;
+    private List<Dynamics> dynamicsList=new LinkedList<>();
+    Handler mhandlers = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONArray jsonArray = new JSONArray(msg.obj.toString());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = null;
+                    jsonObject = jsonArray.getJSONObject(i);
+                    Dynamics dynamics=new Dynamics();
+                    dynamics.setId(Integer.parseInt(jsonObject.get("id").toString()));
+                    dynamics.setTitle(jsonObject.get("title").toString());
+                    dynamics.setContent(jsonObject.get("content").toString());
+                    dynamics.setImag(jsonObject.get("imag").toString());
+                    dynamicsList.add(dynamics);
 
+
+                }
+                context =NewDynamic.this;
+                listView.setAdapter(baseAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            context=NewMall.this;
-
-            listView.setAdapter(baseAdapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-    }
-};
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_mall);
-        listView= (ListView) findViewById(R.id.newlistmall);
-        String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/New?num=2";;
+        setContentView(R.layout.activity_new_dynamic);
+        listView= (ListView) findViewById(R.id.newdynamic);
+        String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/Dynamic?function=newdynamic";;
         ReadURL(url);
         baseAdapter=new BaseAdapter() {
             @Override
             public int getCount() {
-                return list.size();
+                return dynamicsList.size();
             }
 
             @Override
@@ -92,37 +93,31 @@ private Handler handler=new Handler()
 
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
-                ViewHolder holder=null;
+                ViewHolder viewHolder=null;
                 if(view==null)
                 {
-                    holder=new ViewHolder();
-                    view= LayoutInflater.from(context).inflate(R.layout.activity_order,viewGroup,false);
-                    holder.imag= (ImageView) view.findViewById(R.id.imag);
-                    holder.name= (TextView) view.findViewById(R.id.name);
-                    holder.describle= (TextView) view.findViewById(R.id.describe);
-                    holder.price= (TextView) view.findViewById(R.id.price);
-                    view.setTag(holder);
-                }else
-                {
-                    holder= (ViewHolder) view.getTag();
+                    viewHolder=new ViewHolder();
+                    view=LayoutInflater.from(context).inflate(R.layout.dynamic_layout,viewGroup,false);
+                    viewHolder=new ViewHolder();
+                    viewHolder.imageView= (ImageView) view.findViewById(R.id.dynamicimag);
+                    viewHolder.title= (TextView) view.findViewById(R.id.dynamicname);
+                    view.setTag(viewHolder);
+                }else {
+                    viewHolder= (ViewHolder) view.getTag();
                 }
-
-                ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(context);
+                viewHolder.title.setText(dynamicsList.get(i).getTitle());
+                ImageLoaderConfiguration configuration=ImageLoaderConfiguration.createDefault(context);
                 ImageLoader.getInstance().init(configuration);
-                ImageLoader.getInstance().displayImage(list.get(i).getMall_img(), holder.imag);
-               holder.name.setText(list.get(i).getMall_name());
-               holder.describle.setText(list.get(i).getMall_describe());
-               holder.price.setText(list.get(i).getMall_price());
+                ImageLoader.getInstance().displayImage(dynamicsList.get(i).getImag(),viewHolder.imageView);
                 return view;
             }
         };
+
     }
-    static class ViewHolder
+    static  class ViewHolder
     {
-        ImageView imag;
-        TextView name;
-        TextView describle;
-        TextView price;
+        ImageView imageView;
+        TextView title;
     }
     public void ReadURL(final String url) {
         new AsyncTask<String, Void, String>() {
@@ -161,7 +156,7 @@ private Handler handler=new Handler()
             protected void onPostExecute(String s) {
                 Message message = new Message();
                 message.obj = s;
-                handler.sendMessage(message);
+                mhandlers.sendMessage(message);
                 super.onPostExecute(s);
             }
 

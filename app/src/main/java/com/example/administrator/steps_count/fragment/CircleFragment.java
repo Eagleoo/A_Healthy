@@ -15,9 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
@@ -27,11 +31,17 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.administrator.steps_count.Activity.CotentActivity;
 import com.example.administrator.steps_count.Activity.Frag_MainActivity;
 import com.example.administrator.steps_count.Activity.NewConsult;
+import com.example.administrator.steps_count.Activity.NewDynamic;
 import com.example.administrator.steps_count.Activity.NewMall;
 import com.example.administrator.steps_count.Activity.SearchActivity;
+import com.example.administrator.steps_count.Activity.ShowDynamic;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.adapter.ConsultAdapter;
 import com.example.administrator.steps_count.model.Circle;
+import com.example.administrator.steps_count.model.Dynamics;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +73,9 @@ public class CircleFragment extends Fragment {
     private ConsultAdapter consultAdapter;
     private Button search;
     private EditText edt_search;
+    private BaseAdapter baseAdapter;
+    private ListView dlistview;
+    private List<Dynamics> dynamicsList=new LinkedList<>();
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -79,10 +92,35 @@ public class CircleFragment extends Fragment {
                     circle.setImag(jsonObject.get("imag").toString());
                     circlelist.add(circle);
 
+
                 }
                 context = getActivity();
                 consultAdapter = new ConsultAdapter((LinkedList<Circle>) circlelist, context);
                 circlelistview.setAdapter(consultAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Handler mhandlers = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                JSONArray jsonArray = new JSONArray(msg.obj.toString());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = null;
+                    jsonObject = jsonArray.getJSONObject(i);
+                    Dynamics dynamics=new Dynamics();
+                    dynamics.setId(Integer.parseInt(jsonObject.get("id").toString()));
+                    dynamics.setTitle(jsonObject.get("title").toString());
+                    dynamics.setContent(jsonObject.get("content").toString());
+                    dynamics.setImag(jsonObject.get("imag").toString());
+                    dynamicsList.add(dynamics);
+
+                }
+                context = getActivity();
+                dlistview.setAdapter(baseAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -105,6 +143,7 @@ public class CircleFragment extends Fragment {
                     searchlist.add(circle);
 
                 }
+
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 intent.putExtra("list", (Serializable) searchlist);
                 startActivity(intent);
@@ -132,17 +171,16 @@ public class CircleFragment extends Fragment {
             public void onClick(View view) {
                 String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Search?title=" + edt_search.getText().toString().trim();
                 SearchReadURL(url);
-
-
             }
         });
 
         listtitle = new ArrayList<String>();
         listtitle.add("资讯推荐");
         listtitle.add("动态");
-        View dynamic_pager = inflater.inflate(R.layout.dynamic_layout, null);
+        View dynamic_pager = inflater.inflate(R.layout.dynamicadapter, null);
         View consult_pager = inflater.inflate(R.layout.consultlistview, null);
         circlelistview = (ListView) consult_pager.findViewById(R.id.cusultlist);
+        dlistview= (ListView) dynamic_pager.findViewById(R.id.dynamiclist);
         circlelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -150,9 +188,19 @@ public class CircleFragment extends Fragment {
                 intent.putExtra("id", String.valueOf(circlelist.get(i).getId()));
                 intent.putExtra("title", circlelist.get(i).getTitle());
                 intent.putExtra("content", circlelist.get(i).getContent());
-
                 startActivity(intent);
 
+            }
+        });
+        dlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(getActivity(), ShowDynamic.class);
+                intent.putExtra("dyname",dynamicsList.get(i).getTitle());
+                intent.putExtra("dycontent",dynamicsList.get(i).getContent());
+                intent.putExtra("dyid",String.valueOf(dynamicsList.get(i).getId()));
+
+                startActivity(intent);
             }
         });
         list.add(consult_pager);
@@ -162,10 +210,51 @@ public class CircleFragment extends Fragment {
         viewPager.setAdapter(adapter);
         String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/SelectMessage";
         ReadURL(url);
+        String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Dynamic?function=show";
+        DynamicReadURL(address);
+        baseAdapter=new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return list.size();
+            }
 
+            @Override
+            public Object getItem(int i) {
+                return i;
+            }
+
+            @Override
+            public long getItemId(int i) {
+                return i;
+            }
+
+            @Override
+            public View getView(int i, View view, ViewGroup viewGroup) {
+                ViewHolder viewHolder=null;
+                if(view==null)
+                {
+                    view=LayoutInflater.from(context).inflate(R.layout.dynamic_layout,viewGroup,false);
+                    viewHolder=new ViewHolder();
+                    viewHolder.imageView= (ImageView) view.findViewById(R.id.dynamicimag);
+                    viewHolder.title= (TextView) view.findViewById(R.id.dynamicname);
+                    view.setTag(viewHolder);
+                }else {
+                    viewHolder= (ViewHolder) view.getTag();
+                }
+                viewHolder.title.setText(dynamicsList.get(i).getTitle());
+                ImageLoaderConfiguration configuration=ImageLoaderConfiguration.createDefault(context);
+                ImageLoader.getInstance().init(configuration);
+                ImageLoader.getInstance().displayImage(dynamicsList.get(i).getImag(),viewHolder.imageView);
+                return view;
+            }
+        };
         return view;
     }
-
+static  class ViewHolder
+{
+    ImageView imageView;
+    TextView title;
+}
 
     public class MyPagerAdapter extends PagerAdapter {
         //定义容纳带显示页面的集合对象
@@ -241,7 +330,8 @@ public class CircleFragment extends Fragment {
                                                      Intent intent = new Intent(getActivity(), NewMall.class);
                                                      startActivity(intent);
                                                  } else {
-
+                                                     Intent intent = new Intent(getActivity(), NewDynamic.class);
+                                                     startActivity(intent);
                                                  }
                                              }
                                          }
@@ -312,7 +402,59 @@ public class CircleFragment extends Fragment {
             }
         }.execute(url);
     }
+    public void DynamicReadURL(final String url) {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    URL url = new URL(params[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    int resultCode = connection.getResponseCode();
+                    StringBuffer response = null;
+                    if (HttpURLConnection.HTTP_OK == resultCode) {
+                        InputStream in = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        response = new StringBuffer();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                    }
 
+                    return response.toString();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "1";
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Message messages = new Message();
+                messages.obj = s;
+                mhandlers.sendMessage(messages);
+                super.onPostExecute(s);
+            }
+
+
+            @Override
+            protected void onCancelled(String s) {
+                super.onCancelled(s);
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+            }
+        }.execute(url);
+    }
 
     public void SearchReadURL(final String url) {
         new AsyncTask<String, Void, String>() {

@@ -50,4 +50,5 @@
     <string name="title_activity_qqbaidu_register">QQBaiduRegister</string>
     <string name="received">确认收货</string>
     <string name="distribution">查看物流</string>
+    <string name="review">查看评论</string>
 </resources>
