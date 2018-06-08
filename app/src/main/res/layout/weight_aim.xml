@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:lsp="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/aim_back"
+        android:background="@drawable/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置一个目标体重以帮助您管理体重。"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="目标体重(公斤)"
+        android:textSize="18sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:textColor="#000000"/>
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/btn_3">
+        <TextView
+            android:id="@+id/tv_weight_choose_aim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="目标"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="2dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kg"
+            android:textSize="25sp"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+
+    <com.lsp.RulerView
+        android:id="@+id/rulerView_aim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        lsp:bgColor="#fcfffc"
+        lsp:firstScale="55"
+        lsp:isBgRoundRect="true"
+        lsp:largeScaleColor="#50b586"
+        lsp:largeScaleStroke="5dp"
+        lsp:minScale="0"
+        lsp:maxScale="100"
+        lsp:midScaleColor="#999999"
+        lsp:midScaleStroke="3dp"
+        lsp:resultNumColor="#50b586"
+        lsp:resultNumTextSize="20sp"
+        lsp:rulerHeight="20dp"
+        lsp:rulerToResultgap="20dp"
+        lsp:scaleCount="10"
+        lsp:scaleGap="10dp"
+        lsp:scaleNumColor="#666666"
+        lsp:scaleNumTextSize="16sp"
+        lsp:showScaleResult="false"
+        lsp:smallScaleColor="#aaaaaa"
+        lsp:smallScaleStroke="2dp"
+        lsp:unit="kg"
+        lsp:unitColor="#50b586"
+        lsp:unitTextSize="10sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前体重："
+            android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/cur_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#000000"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ok_aim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:background="@drawable/btn_3"
+        android:textColor="#ffffff"
+        android:text="确    定"
+        android:textSize="15sp"/>
+</LinearLayout>

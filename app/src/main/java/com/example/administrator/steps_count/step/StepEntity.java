@@ -9,14 +9,18 @@ package com.example.administrator.steps_count.step;
 public class StepEntity {
 
     private String curDate; //当天的日期
-    private String steps;   //当天的步数
+    private String steps;//当天的步数
+    private String totalStepsKm;
+    private String totalStepsKa;
 
     public StepEntity() {
     }
 
-    public StepEntity(String curDate, String steps) {
+    public StepEntity(String curDate, String steps,String totalStepsKm,String totalStepsKa) {
         this.curDate = curDate;
         this.steps = steps;
+        this.totalStepsKm=totalStepsKm;
+        this.totalStepsKa=totalStepsKa;
     }
 
     public String getCurDate() {
@@ -35,6 +39,21 @@ public class StepEntity {
         this.steps = steps;
     }
 
+    public String getTotalStepsKm() {
+        return totalStepsKm;
+    }
+
+    public void setTotalStepsKm(String totalStepsKm) {
+        this.totalStepsKm = totalStepsKm;
+    }
+
+    public String getTotalStepsKa() {
+        return totalStepsKa;
+    }
+
+    public void setTotalStepsKa(String totalStepsKa) {
+        this.totalStepsKa = totalStepsKa;
+    }
 
     @Override
     public String toString() {

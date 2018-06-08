@@ -1,8 +1,10 @@
 package com.example.administrator.steps_count.Activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -18,12 +20,18 @@ import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
+import com.amap.api.maps2d.model.PolygonOptions;
+import com.amap.api.maps2d.model.PolylineOptions;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.step.Utils;
+import com.google.gson.annotations.Until;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Step_Map extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
+public class Step_Map extends CheckPermissionsActivity implements LocationSource, AMapLocationListener{
     private MapView mMapView = null;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
@@ -33,28 +41,33 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
     private boolean isFirstLoc = true;
+    //以前的定位点
+    private LatLng oldLatLng;
+    private TextView run_time,run_speed,run_km;
+    private double Trace[]={
+            30.73584, 103.957571,
+            30.73684, 103.957671,
+            30.73784, 103.957771,
+            30.73884, 103.957871,
+            30.73984, 103.957971,
+            30.74084, 103.958071,
+            30.74184, 103.958571};
+    private List<LatLng> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_map);
+        run_time=(TextView)findViewById(R.id.run_time);
+        run_speed=(TextView)findViewById(R.id.run_speed);
+        run_km=(TextView)findViewById(R.id.run_km);
         mMapView = (MapView) findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
-
 
         //初始化地图控制器对象
         if (aMap == null) {
             aMap = mMapView.getMap();
-            //aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(CHENGDU, 14));
 
-//            //修改地图的中心点位置
-//            CameraPosition cp = aMap.getCameraPosition();
-//            CameraPosition cpNew = CameraPosition.fromLatLngZoom(CHENGDU, cp.zoom);
-//            CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cpNew);
-//            aMap.moveCamera(cu);
-
-            //aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CHENGDU, 14));
-            //aMap.invalidate();// 刷新地图
         }
 
         //设置显示定位按钮 并且可以点击
@@ -63,17 +76,19 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         aMap.setLocationSource(this);
         // 是否显示定位按钮
         settings.setMyLocationButtonEnabled(true);
-        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-//        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.delete));
-//        myLocationStyle.strokeColor(Color.BLACK);
-//        myLocationStyle.radiusFillColor(Color.argb(100, 0, 0, 180));
-//        myLocationStyle.strokeWidth(1.0f);
+        myLocationStyle = new MyLocationStyle();
 
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
 
-        initLoc();
+
+//        list=new ArrayList<LatLng>();
+//        for(int i=0;i<Trace.length-1;i++){
+//            LatLng latLng=new LatLng(Trace[i],Trace[++i]);
+//            list.add(latLng);
+//        }
     }
 
     @Override
@@ -122,9 +137,13 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                 amapLocation.getStreetNum();//街道门牌号信息
                 amapLocation.getCityCode();//城市编码
                 amapLocation.getAdCode();//地区编码
+                run_speed.setText(String.valueOf(amapLocation.getSpeed()));
 
+                LatLng newLatLng =new LatLng(amapLocation.getLatitude(),amapLocation.getLongitude());
                 // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
                 if (isFirstLoc) {
+                    //记录第一次的定位信息
+                    oldLatLng = newLatLng;
                     //设置缩放级别
                     aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
                     //将地图移动到定位点
@@ -132,12 +151,18 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                     //点击定位按钮 能够将地图的中心移动到定位点
                     mListener.onLocationChanged(amapLocation);
                     //添加图钉
-                    //aMap.addMarker(getMarkerOptions(amapLocation));
+                    aMap.addMarker(getMarkerOptions(amapLocation));
                     //获取定位信息
                     StringBuffer buffer = new StringBuffer();
                     buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() + "" + amapLocation.getProvince() + "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
                     Toast.makeText(getApplicationContext(), buffer.toString(), Toast.LENGTH_LONG).show();
                     isFirstLoc = false;
+                }
+
+                //位置有变化
+                if(oldLatLng != newLatLng){
+                    setUpMap( oldLatLng , newLatLng );
+                    oldLatLng = newLatLng;
                 }
 
 
@@ -177,14 +202,6 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;
-    }
-
-    @Override
-    public void deactivate() {
-        mListener = null;
-    }
-
-    public void initLoc(){
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
         //设置定位回调监听
@@ -202,11 +219,26 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(2000);
+        mLocationOption.setInterval(1000);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
+    }
+
+    @Override
+    public void deactivate() {
+        mListener = null;
+    }
+
+
+    /**绘制两个坐标点之间的线段,从以前位置到现在位置*/
+    private void setUpMap(LatLng oldData,LatLng newData ) {
+
+        // 绘制一个大地曲线
+        aMap.addPolyline((new PolylineOptions())
+                .add(oldData, newData)
+                .geodesic(true).color(Color.BLUE));
 
     }
 }

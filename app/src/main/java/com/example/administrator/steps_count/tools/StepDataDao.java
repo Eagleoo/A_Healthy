@@ -55,7 +55,9 @@ public class StepDataDao {
             String date = cursor.getString(cursor.getColumnIndexOrThrow("curDate"));
             if (curDate.equals(date)) {
                 String steps = cursor.getString(cursor.getColumnIndexOrThrow("totalSteps"));
-                stepEntity = new StepEntity(date, steps);
+                String km = cursor.getString(cursor.getColumnIndexOrThrow("totalStepsKm"));
+                String ka = cursor.getString(cursor.getColumnIndexOrThrow("totalStepsKa"));
+                stepEntity = new StepEntity(date, steps,km,ka);
                 //跳出循环
                 break;
             }
@@ -71,23 +73,23 @@ public class StepDataDao {
      *
      * @return
      */
-    public List<StepEntity> getAllDatas() {
-        List<StepEntity> dataList = new ArrayList<>();
-        stepDb = stepHelper.getReadableDatabase();
-        Cursor cursor = stepDb.rawQuery("select * from step", null);
-
-        while (cursor.moveToNext()) {
-            String curDate = cursor.getString(cursor.getColumnIndex("curDate"));
-            String totalSteps = cursor.getString(cursor.getColumnIndex("totalSteps"));
-            StepEntity entity = new StepEntity(curDate, totalSteps);
-            dataList.add(entity);
-        }
-
-        //关闭数据库
-        stepDb.close();
-        cursor.close();
-        return dataList;
-    }
+//    public List<StepEntity> getAllDatas() {
+//        List<StepEntity> dataList = new ArrayList<>();
+//        stepDb = stepHelper.getReadableDatabase();
+//        Cursor cursor = stepDb.rawQuery("select * from step", null);
+//
+//        while (cursor.moveToNext()) {
+//            String curDate = cursor.getString(cursor.getColumnIndex("curDate"));
+//            String totalSteps = cursor.getString(cursor.getColumnIndex("totalSteps"));
+//            StepEntity entity = new StepEntity(curDate, totalSteps);
+//            dataList.add(entity);
+//        }
+//
+//        //关闭数据库
+//        stepDb.close();
+//        cursor.close();
+//        return dataList;
+//    }
 
     /**
      * 更新数据

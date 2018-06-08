@@ -12,22 +12,31 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
-import com.example.administrator.steps_count.Activity.TextActivity;
+import com.example.administrator.steps_count.Activity.Step_Map;
+import com.example.administrator.steps_count.Main_Activity.Eat_Activity;
+import com.example.administrator.steps_count.Main_Activity.Weight_Activity;
+import com.example.administrator.steps_count.Main_Activity.Weight_Add_Activity;
 import com.example.administrator.steps_count.Main_Activity.Text_Activity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.step.Constant;
+import com.example.administrator.steps_count.step.DBOpenHelper;
+import com.example.administrator.steps_count.step.Step_MainActivity;
+import com.example.administrator.steps_count.step.TimeUtil;
+import com.example.administrator.steps_count.step.User_DBOpenHelper;
 import com.example.administrator.steps_count.tools.Json_Tools;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
@@ -58,9 +67,13 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
     private final long TIME_INTERVAL = 4000L;
     private RollPagerView mRollViewPager;
     private boolean autoPlayFlag = true;
-    private TextView txt_timeCount,txt_min,txt_plan;
+    private TextView txt_timeCount,txt_min,txt_plan,tv_weight,tv_cur_ka;
     private ScrollView sc;
     private String string;
+    private Button btn_weight,btn_eat,btn_step_start,btn_run_start;
+    private LinearLayout linear_weight,linear_eat,linear_run,linear_step;
+    private DBOpenHelper db;
+    private User_DBOpenHelper u_db;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
         @Override
@@ -88,11 +101,41 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         txt_timeCount=(TextView)view.findViewById(R.id.txt_timeCount);
         txt_min=(TextView)view.findViewById(R.id.txt_min);
         txt_plan=(TextView)view.findViewById(R.id.txt_plan);
+        tv_weight=(TextView)view.findViewById(R.id.tv_weight);
+        tv_cur_ka=(TextView)view.findViewById(R.id.tv_cur_ka);
+        btn_weight=(Button)view.findViewById(R.id.btn_weight);
+        btn_eat=(Button)view.findViewById(R.id.btn_eat);
+        btn_step_start=(Button)view.findViewById(R.id.btn_step_start);
+        btn_run_start=(Button)view.findViewById(R.id.btn_run_start);
+        linear_weight=(LinearLayout)view.findViewById(R.id.linear_weight);
+        linear_eat=(LinearLayout)view.findViewById(R.id.linear_eat);
+        linear_step=(LinearLayout)view.findViewById(R.id.linear_step);
+        linear_run=(LinearLayout)view.findViewById(R.id.linear_run);
 
         viewAnimator=(ViewAnimator)view.findViewById(R.id.animator) ;
         animator_text=(ViewAnimator)view.findViewById(R.id.animator_text) ;
         mRollViewPager = (RollPagerView)view.findViewById(R.id.roll_view_pager);
         grid_layout=(GridLayout)view.findViewById(R.id.grid_layout);
+
+        String total_ka=getActivity().getIntent().getStringExtra("total_ka");
+        //tv_cur_ka.setText(total_ka+"千卡");
+
+        db=new DBOpenHelper(getActivity());
+        u_db=new User_DBOpenHelper(getActivity());
+
+        if(u_db.getCurUserDateByDate(TimeUtil.getCurrentDate())==null){
+            tv_cur_ka.setText("0.00千卡");
+        }
+        else {
+            tv_cur_ka.setText(u_db.getCurUserDateByDate(TimeUtil.getCurrentDate()).getUser_ka()+"千卡");
+        }
+
+        if(db.getWeight()==null){
+            tv_weight.setText("0.00公斤");
+        }
+        else {
+            tv_weight.setText(db.getWeight()+"公斤");
+        }
 
         grid_layout.setOnClickListener(
                 new View.OnClickListener() {
@@ -101,6 +144,77 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         Fragment fragment=new MallFragment();
                         fm.beginTransaction().replace(R.id.framelayout,fragment).commit();
+                    }
+                }
+        );
+
+        btn_weight.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Weight_Add_Activity.class));
+                    }
+                }
+        );
+
+        linear_weight.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Weight_Activity.class));
+                    }
+                }
+        );
+
+        linear_eat.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Eat_Activity.class));
+                    }
+                }
+        );
+        btn_eat.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Eat_Activity.class));
+                    }
+                }
+        );
+
+        linear_run.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Step_Map.class));
+                    }
+                }
+        );
+
+        linear_step.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Step_MainActivity.class));
+                    }
+                }
+        );
+
+        btn_run_start.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Step_Map.class));
+                    }
+                }
+        );
+
+        btn_step_start.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Step_MainActivity.class));
                     }
                 }
         );

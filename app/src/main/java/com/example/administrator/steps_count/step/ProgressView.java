@@ -9,16 +9,17 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
 
 public class ProgressView extends View {
-    private int mTrackColor = Color.GRAY;
+    private int mTrackColor;
     private int mTrackWidth = 20;
-    private int mProgressColor = Color.parseColor("#EAC100");
-    private int mProgressTextColor = Color.BLACK;
-    private int mProgressTextSize = 40;
+    private int mProgressColor ;
+    private int mProgressTextColor;
+    private int mProgressTextSize = 60;
 
     private Paint mTrackPaint, mProgressPaint, mTextPaint;
 
@@ -37,6 +38,20 @@ public class ProgressView extends View {
 
         initPaint();
 
+    }
+
+    public void setColor1(){
+        mTrackColor = Color.parseColor("#FFED97");
+        mProgressColor = Color.parseColor("#00A600");
+        mProgressTextColor=Color.BLACK;
+        initPaint();
+    }
+
+    public void setColor2(){
+        mTrackColor = Color.parseColor("#FFED97");
+        mProgressColor = Color.parseColor("#FF0000");
+        mProgressTextColor= Color.parseColor("#FF0000");
+        initPaint();
     }
 
     private void initPaint() {
@@ -98,7 +113,7 @@ public class ProgressView extends View {
         canvas.drawArc(rectF, 135, sweepAngle, false, mProgressPaint);
 
         //画文字
-        String text = (int) mCurrentProgress + "";
+        String text = (int)mCurrentProgress + "";
         Rect rect = new Rect();
         mTextPaint.getTextBounds(text, 0, text.length(), rect);
 
@@ -115,18 +130,35 @@ public class ProgressView extends View {
      * @param progress
      */
     public void setCurrentProgress(float progress) {
-        //属性动画更新进度，刷新界面
-        ValueAnimator animator = ValueAnimator.ofFloat(0, progress);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                mCurrentProgress = (float) valueAnimator.getAnimatedValue();
-                invalidate();
-            }
-        });
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.setDuration(2000);
-        animator.start();
+        if(progress<mMaxProgress){
+            //属性动画更新进度，刷新界面
+            ValueAnimator animator = ValueAnimator.ofFloat(0, progress);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    mCurrentProgress = (float) valueAnimator.getAnimatedValue();
+                    invalidate();
+                }
+            });
+            animator.setInterpolator(new AccelerateInterpolator());
+            animator.setDuration(2000);
+            animator.start();
+        }
+        else {
+            //属性动画更新进度，刷新界面
+            ValueAnimator animator = ValueAnimator.ofFloat(0, mMaxProgress);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    mCurrentProgress = (float) valueAnimator.getAnimatedValue();
+                    invalidate();
+                }
+            });
+            animator.setInterpolator(new AccelerateInterpolator());
+            animator.setDuration(2000);
+            animator.start();
+        }
+
     }
 
     /**
@@ -137,3 +169,4 @@ public class ProgressView extends View {
         this.mMaxProgress = maxProgress;
     }
 }
+

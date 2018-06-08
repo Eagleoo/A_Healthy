@@ -54,6 +54,8 @@ public class Look_steps_adapter extends BaseAdapter {
             holder=new ViewHolder();
             holder.curDate=(TextView)view.findViewById(R.id.tv_date);
             holder.steps=(TextView)view.findViewById(R.id.tv_step);
+            holder.totalStepsKm=(TextView)view.findViewById(R.id.tv_totalStepsKm);
+            holder.totalStepsKa=(TextView)view.findViewById(R.id.tv_totalStepsKa);
 
             view.setTag(holder);
         }
@@ -63,6 +65,8 @@ public class Look_steps_adapter extends BaseAdapter {
         }
         holder.curDate.setText(mData.get(i).getCurDate());
         holder.steps.setText(mData.get(i).getSteps());
+        holder.totalStepsKm.setText(mData.get(i).getTotalStepsKm());
+        holder.totalStepsKa.setText(mData.get(i).getTotalStepsKa());
 
 
         return view;
@@ -71,6 +75,8 @@ public class Look_steps_adapter extends BaseAdapter {
 
         TextView curDate;
         TextView steps;
+        TextView totalStepsKm;
+        TextView totalStepsKa;
     }
 }
 

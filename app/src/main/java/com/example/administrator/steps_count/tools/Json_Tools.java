@@ -3,12 +3,17 @@ package com.example.administrator.steps_count.tools;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.example.administrator.steps_count.Main_Activity.Food;
 import com.example.administrator.steps_count.Main_Activity.Plan;
 import com.example.administrator.steps_count.Main_Activity.Text;
 import com.example.administrator.steps_count.Main_Activity.TextResult;
+import com.example.administrator.steps_count.Main_Activity.U_Food;
 import com.example.administrator.steps_count.step.Constant;
 import com.example.administrator.steps_count.step.StepEntity;
+import com.example.administrator.steps_count.step.StepPlan;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,12 +54,56 @@ public class Json_Tools {
         return string;
     }
 
+    public StepPlan Json_To_StepPlan(String data) throws JSONException {
+        StepPlan stepPlan=new StepPlan();
+        JSONObject jsonObject = new JSONObject(data);
+        stepPlan.setP_steps(jsonObject.getString("p_steps"));
+        stepPlan.setP_km(jsonObject.getString("p_km"));
+        stepPlan.setP_ka(jsonObject.getString("p_ka"));
+        stepPlan.setU_id(jsonObject.getInt("u_id"));
+        return stepPlan;
+    }
+
     public  String Plan_ToJson(Plan plan) throws JSONException {
         if (plan== null) return "";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("p_name",plan.getP_name());
         jsonObject.put("p_select",plan.getP_select());
         jsonObject.put("p_type",plan.getP_type());
+
+        return jsonObject.toString();
+    }
+
+    public  String Food_ToJson(Food food) throws JSONException {
+        if (food== null) return "";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("f_name",food.getF_name());
+        jsonObject.put("f_ka",food.getF_ka());
+        jsonObject.put("f_type",food.getF_type());
+
+        return jsonObject.toString();
+    }
+
+    public  String U_Food_ToJson(U_Food food) throws JSONException {
+        if (food== null) return "";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("u_id",food.getU_id());
+        jsonObject.put("f_name",food.getF_name());
+        jsonObject.put("f_ka",food.getF_ka());
+        jsonObject.put("f_time",food.getF_time());
+        jsonObject.put("f_date",food.getF_date());
+        jsonObject.put("f_ke",food.getF_ke());
+
+        return jsonObject.toString();
+    }
+
+    public  String StepPlan_ToJson(StepPlan stepPlan) throws JSONException {
+        if (stepPlan== null) return "";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("p_steps",stepPlan.getP_steps());
+        jsonObject.put("p_km",stepPlan.getP_km());
+        jsonObject.put("p_ka",stepPlan.getP_ka());
+        jsonObject.put("u_id",stepPlan.getU_id());
 
         return jsonObject.toString();
     }
@@ -82,6 +131,53 @@ public class Json_Tools {
                 plan.setP_type(jsonObject2.getString("p_type"));
                 plan.setP_select(jsonObject2.getInt("p_select"));
                 list.add(plan);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<Food> Json_ToFood(String key, String jsonString) {
+        List<Food> list = new ArrayList<Food>();
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            JSONArray Persons = jsonObject.getJSONArray(key);
+
+            for (int i = 0; i < Persons.length(); i++) {
+                Food food = new Food();
+                JSONObject jsonObject2 = Persons.getJSONObject(i);
+                food.setF_name(jsonObject2.getString("f_name"));
+                food.setF_ka(jsonObject2.getString("f_ka"));
+                food.setF_type(jsonObject2.getString("f_type"));
+                list.add(food);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<U_Food> Json_ToUFood(String key, String jsonString) {
+        List<U_Food> list = new ArrayList<U_Food>();
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            JSONArray Persons = jsonObject.getJSONArray(key);
+
+            for (int i = 0; i < Persons.length(); i++) {
+                U_Food food = new U_Food();
+                JSONObject jsonObject2 = Persons.getJSONObject(i);
+                food.setU_id(jsonObject2.getInt("u_id"));
+                food.setF_name(jsonObject2.getString("f_name"));
+                food.setF_ka(jsonObject2.getString("f_ka"));
+                food.setF_time(jsonObject2.getString("f_time"));
+                food.setF_date(jsonObject2.getString("f_date"));
+                food.setF_ke(jsonObject2.getString("f_ke"));
+                list.add(food);
             }
         } catch (JSONException e) {
             e.printStackTrace();

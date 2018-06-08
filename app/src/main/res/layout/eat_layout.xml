@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/eat_tab_bar">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00E3E3">
+
+                <TextView
+                    android:id="@+id/today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="今日"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    android:textColor="#000000"
+                    android:paddingTop="5dp"/>
+
+
+                <TextView
+                    android:id="@+id/finish_steps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#003E3E"
+                    android:text="综合摄入量"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toLeftOf="@+id/progressView"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="食物摄入"
+                        android:textColor="#003E3E"/>
+                    <TextView
+                        android:id="@+id/total_ka"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1000"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#003E3E"/>
+
+                </LinearLayout>
+
+                <com.example.administrator.steps_count.step.ProgressView
+                    android:id="@+id/progressView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="180dp"
+                    android:layout_gravity="center"
+                    android:layout_below="@+id/list1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toRightOf="@+id/progressView"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="运动消耗"
+                        android:textColor="#003E3E"/>
+                    <TextView
+                        android:id="@+id/use_ka"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1000"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="#003E3E"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="150dp"
+                    android:layout_centerHorizontal="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="标准"/>
+                    <TextView
+                        android:id="@+id/tv_aim_ka"
+                        android:text="2000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#003E3E"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="千卡"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#BEBEBE">
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/breakfast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="早餐"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"
+                        android:paddingTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="建议：525-641千卡"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:paddingTop="5dp"
+                        android:layout_below="@+id/breakfast"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true">
+                        <TextView
+                            android:id="@+id/breakfast_ka"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="千卡"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#FFEEDD">
+
+                </LinearLayout>
+
+                <com.example.administrator.steps_count.Main_Activity.ListViewForScrollView
+                    android:id="@+id/breakfast_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </com.example.administrator.steps_count.Main_Activity.ListViewForScrollView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#FFEEDD">
+
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/lunch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="午餐"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"
+                        android:paddingTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="建议：700-855千卡"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:paddingTop="5dp"
+                        android:layout_below="@+id/lunch"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true">
+                        <TextView
+                            android:id="@+id/lunch_ka"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="千卡"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#FFEEDD">
+
+                </LinearLayout>
+                <com.example.administrator.steps_count.Main_Activity.ListViewForScrollView
+                    android:id="@+id/lunch_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </com.example.administrator.steps_count.Main_Activity.ListViewForScrollView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#FFEEDD">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/dinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="晚餐"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"
+                        android:paddingTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="建议：525-641千卡"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:paddingTop="5dp"
+                        android:layout_below="@+id/dinner"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true">
+                        <TextView
+                            android:id="@+id/dinner_ka"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="千卡"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#FFEEDD">
+
+                </LinearLayout>
+
+                <com.example.administrator.steps_count.Main_Activity.ListViewForScrollView
+                    android:id="@+id/dinner_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </com.example.administrator.steps_count.Main_Activity.ListViewForScrollView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#FFEEDD">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="加餐"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:textColor="#000000"
+                        android:paddingTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="建议：525-641千卡"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:typeface="serif"
+                        android:paddingTop="5dp"
+                        android:layout_below="@+id/add"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true">
+                        <TextView
+                            android:id="@+id/add_ka"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="500"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="千卡"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:typeface="serif"
+                            android:paddingTop="5dp"
+                            android:textColor="#00A600" />
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#FFEEDD">
+
+                </LinearLayout>
+
+                <com.example.administrator.steps_count.Main_Activity.ListViewForScrollView
+                    android:id="@+id/add_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </com.example.administrator.steps_count.Main_Activity.ListViewForScrollView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
+
+    <RadioGroup
+        android:id="@+id/eat_tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
+
+        <RadioButton
+            android:id="@+id/rd_breakfast"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/eat_add"
+            android:text="早餐"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rd_lunch"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/eat_add"
+            android:text="午餐"
+            android:textSize="12sp"/>
+
+        <RadioButton
+            android:id="@+id/rd_dinner"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/eat_add"
+            android:text="晚餐"
+            android:textSize="12sp"/>
+
+        <RadioButton
+            android:id="@+id/rd_add"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/eat_add"
+            android:text="加餐"
+            android:textSize="12sp"/>
+
+    </RadioGroup>
+</RelativeLayout>

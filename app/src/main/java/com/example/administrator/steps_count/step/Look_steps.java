@@ -117,10 +117,14 @@ public class Look_steps extends AppCompatActivity {
 
             String sDate = cursor.getString(cursor.getColumnIndex("curDate"));
             String step = cursor.getString(cursor.getColumnIndex("totalSteps"));
+            String totalStepsKm = cursor.getString(cursor.getColumnIndex("totalStepsKm"));
+            String totalStepsKa = cursor.getString(cursor.getColumnIndex("totalStepsKa"));
 
             StepEntity stepEntity=new StepEntity();
             stepEntity.setCurDate(sDate);
             stepEntity.setSteps(step);
+            stepEntity.setTotalStepsKm(totalStepsKm);
+            stepEntity.setTotalStepsKa(totalStepsKa);
             mData.add(stepEntity);
         }
         return mData;
