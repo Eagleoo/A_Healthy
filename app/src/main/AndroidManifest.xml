@@ -103,9 +103,11 @@
         <activity android:name=".mall.Mall_Detail_Activity" />
         <activity android:name=".mall.Mall_Firmorder_Acitvity" />
         <activity android:name=".mall.Mall_Search_Activity" />
+        <activity android:name=".mall.Mall_collect_Activity"></activity>
         <activity android:name=".Activity.Step_Map" />
         <activity android:name=".Activity.CheckPermissionsActivity" />
 
+        <activity android:name=".mall.Mall_Address_Activity"></activity>
 
         <activity android:name=".step.Step_MainActivity"></activity>
 

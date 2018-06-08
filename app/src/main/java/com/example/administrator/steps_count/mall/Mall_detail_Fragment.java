@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.adapter.Detailimg_adapter;
 import com.example.administrator.steps_count.fragment.MallFragment;
 
 import org.json.JSONArray;
@@ -35,24 +36,24 @@ import okhttp3.Response;
  */
 
 public class Mall_detail_Fragment extends Fragment {
-    private List<Mall> mall_list=new ArrayList<Mall>();
+    private ListView mall_detail_list;
+    private Detailimg_adapter adapter;
+    private List<Detail_img> detailImgs_list=new ArrayList<Detail_img>();
     private ImageView mall_detail_img;
     private String mall_id;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mall_detail_fragment, container, false);
-
-        mall_detail_img= (ImageView) view.findViewById(R.id.mall_detail_img);
+        mall_detail_list= (ListView) view.findViewById(R.id.mall_detail_list);
         mall_id=getActivity().getIntent().getExtras().getString("0x0");
-
         getDataAsync();
         return view;
     }
     private void getDataAsync() {
         OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
         RequestBody requestBody = new FormBody.Builder()
-                .add("fordetailimg",mall_id).build();
+                .add("mall_id",mall_id).build();
         final Request request = new Request.Builder()//创建Request 对象。
                 .url(MallFragment.user.getUrl()+"Fordetailimg_Servlet")
                 .post(requestBody)//传递请求体
@@ -69,9 +70,9 @@ public class Mall_detail_Fragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mall_list=getMall("mall",json);
-                            Glide.with(getContext()).load(mall_list.get(0).getMall_detail_img()).into(mall_detail_img);
-
+                            detailImgs_list=getMall("detail_img",json);
+                            adapter=new Detailimg_adapter(getContext(),detailImgs_list);
+                            mall_detail_list.setAdapter(adapter);
                         }
                     });
                 }
@@ -79,17 +80,17 @@ public class Mall_detail_Fragment extends Fragment {
         });
     }
 
-    private static List<Mall> getMall(String key, String jsonString) {
-        List<Mall> list = new ArrayList<Mall>();
+    private static List<Detail_img> getMall(String key, String jsonString) {
+        List<Detail_img> list = new ArrayList<Detail_img>();
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(jsonString);
             JSONArray Persons = jsonObject.getJSONArray(key);
             for (int i = 0; i < Persons.length(); i++) {
-                Mall mall = new Mall();
+                Detail_img detail_img = new Detail_img();
                 JSONObject jsonObject2 = Persons.getJSONObject(i);
-                mall.setMall_detail_img(jsonObject2.getString("mall_detail_img"));
-                list.add(mall);
+                detail_img.setImg_1(jsonObject2.getString("img_1"));
+                list.add(detail_img);
             }
         } catch (JSONException e) {
             e.printStackTrace();
