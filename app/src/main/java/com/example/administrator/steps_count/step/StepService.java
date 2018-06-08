@@ -277,7 +277,7 @@ public class StepService extends Service implements SensorEventListener{
          * 再来确定跳转页面，这里面太多坑，（别问我为什么知道 - -）
          * 总之有需要的可以和我交流
          */
-        nfIntent = new Intent(this, MainActivity.class);
+        nfIntent = new Intent(this, Step_MainActivity.class);
         builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)) // 设置PendingIntent
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher)) // 设置下拉列表中的图标(大图标)
                 .setContentTitle("今日步数"+CURRENT_STEP+"步") // 设置下拉列表里的标题
@@ -305,7 +305,6 @@ public class StepService extends Service implements SensorEventListener{
             entity = new StepEntity();
             entity.setCurDate(CURRENT_DATE);
             entity.setSteps(String.valueOf(CURRENT_STEP));
-            Log.e("66666666","6666666");
             db.addNewData(entity);
         } else {
             //有则更新当前的数据

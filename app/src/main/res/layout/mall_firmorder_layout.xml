@@ -50,6 +50,7 @@
                 android:drawableLeft="@drawable/more"
                 android:textSize="30sp"/>
          </FrameLayout>
+
             <FrameLayout
                 android:id="@+id/mall_firmorder_addresslayout"
                 android:layout_width="match_parent"
@@ -67,17 +68,20 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content">
                   <TextView
+                      android:id="@+id/mall_firmorder_consignee"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="刘泽宇"
+
                       android:textSize="25sp"/>
                      <TextView
+                         android:id="@+id/mall_firmorder_cellnumber"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:layout_marginLeft="100dp"
-                         android:text="17761241342"
+
                          android:textSize="25sp"/>
                      <TextView
+                         android:id="@+id/mall_firmorder_changeaddress"
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:layout_alignParentRight="true"
@@ -85,9 +89,9 @@
                          android:textSize="25sp"/>
                   </RelativeLayout>
                   <TextView
+                      android:id="@+id/mall_firmorder_address"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="四川省成都市高新西区百叶路一号"
                       android:textSize="20sp"/>
                </LinearLayout>
             </FrameLayout>
@@ -245,6 +249,7 @@
           android:layout_centerVertical="true"
           android:layout_toRightOf="@id/bottom_left"/>
       <Button
+          android:id="@+id/mall_firmorder_Torder"
           android:layout_width="150dp"
           android:layout_height="wrap_content"
           android:layout_centerVertical="true"

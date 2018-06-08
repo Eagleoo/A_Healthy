@@ -55,11 +55,10 @@ import okhttp3.Response;
 public class MallFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, OnBannerListener {
     private Mall_adapter mall_adapter;
     private GridView gridView;
-    private List<Mall> MallList=new ArrayList<Mall>();
-    private LinearLayout sort_layout;
+
+    private LinearLayout sort_layout;private List<Mall> MallList=new ArrayList<Mall>();
     private Button mall_btn1, mall_btn2, mall_btn3, mall_btn4, mall_btn5, mall_btn6;
-    private RadioButton searchbutton,radio_sales,radio_pricedown;
-    private RadioGroup radiogroup;
+    private RadioButton searchbutton,radio_sales,radio_pricedown,radio_priceup;
     private Banner banner;
     private List<Banner_img> Banner_urls=new ArrayList<Banner_img>();
     private ArrayList titles;
@@ -78,7 +77,7 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
         banner = (Banner) view.findViewById(R.id.mall_fragment_banner);
         radio_sales= (RadioButton) view.findViewById(R.id.radio_sales);
         radio_pricedown= (RadioButton) view.findViewById(R.id.radio_pricedown);
-        radiogroup= (RadioGroup) view.findViewById(R.id.radiogroup);
+        radio_priceup= (RadioButton) view.findViewById(R.id.radio_priceup);
         sort_layout= (LinearLayout) view.findViewById(R.id.sort_layout);
         user.setUrl("http://192.168.1.111:8080/");
         mall_btn1.setOnClickListener(this);
@@ -88,6 +87,9 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
         mall_btn5.setOnClickListener(this);
         mall_btn6.setOnClickListener(this);
         searchbutton.setOnClickListener(this);
+        radio_sales.setOnClickListener(this);
+        radio_pricedown.setOnClickListener(this);
+        radio_priceup.setOnClickListener(this);
 
         gridView = (GridView) view.findViewById(R.id.mall_gridview);
 
@@ -100,32 +102,31 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
     //分类按钮条点击事件
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.mall_btn1:
-
                 getDatabytype(mall_btn1.getText().toString());
                 sort_layout.setVisibility(view.getVisibility());
                 break;
             case R.id.mall_btn2:
-
                 getDatabytype(mall_btn2.getText().toString());
                 break;
             case R.id.mall_btn3:
-
                 getDatabytype(mall_btn3.getText().toString());
                 break;
             case R.id.mall_btn4:
-
                 getDatabytype(mall_btn4.getText().toString());
                 break;
             case R.id.mall_btn5:
-
                 getDatabytype(mall_btn5.getText().toString());
                 break;
             case R.id.mall_btn6:
-
                 getDatabytype(mall_btn6.getText().toString());
+                break;
+            case R.id.radio_priceup:
+                break;
+            case R.id.radio_sales:
+                break;
+            case R.id.radio_pricedown:
                 break;
             case R.id.mall_searchbtn:
                 Intent intent1 = new Intent(getContext(), Mall_Search_Activity.class);

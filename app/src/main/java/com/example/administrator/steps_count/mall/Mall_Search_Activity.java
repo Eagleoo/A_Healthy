@@ -3,6 +3,7 @@ package com.example.administrator.steps_count.mall;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -43,15 +45,16 @@ public class Mall_Search_Activity extends AppCompatActivity implements View.OnCl
     private EditText mall_search_edit;
     private ListView mall_search_list;
     private Button mall_search_btn;
+    private SearchView Search;
     private List<Mall_Name> mall_names_list=new ArrayList<Mall_Name>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mall_search_layout);
         init();
-        getMallName("");
-        Search_adapter search_adapter=new Search_adapter(getApplicationContext(),mall_names_list);
-        mall_search_list.setAdapter(search_adapter);
+//        getMallName("");
+//        Search_adapter search_adapter=new Search_adapter(getApplicationContext(),mall_names_list);
+//        mall_search_list.setAdapter(search_adapter);
 
     }
     private void init()
@@ -60,11 +63,11 @@ public class Mall_Search_Activity extends AppCompatActivity implements View.OnCl
         mall_search_edit= (EditText) findViewById(R.id.mall_search_edit);
         mall_search_list= (ListView) findViewById(R.id.mall_search_list);
         mall_search_btn= (Button) findViewById(R.id.mall_search_btn);
-
         mall_search_delete.setOnClickListener(this);
         mall_search_btn.setOnClickListener(this);
         mall_search_edit.addTextChangedListener(this);
     }
+
 
 
     @Override
@@ -103,14 +106,15 @@ public class Mall_Search_Activity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
         getMallName(String.valueOf(charSequence));
-        Search_adapter search_adapter=new Search_adapter(getApplicationContext(),mall_names_list);
-        mall_search_list.setAdapter(search_adapter);
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
     }
+
+
     private void getMallName(String mall_name) {
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
@@ -133,7 +137,8 @@ public class Mall_Search_Activity extends AppCompatActivity implements View.OnCl
                         public void run() {
                             mall_names_list=getMall("mall_name",json);
                             Log.i("mall_name", String.valueOf(mall_names_list));
-
+                            Search_adapter search_adapter=new Search_adapter(getApplicationContext(),mall_names_list);
+                            mall_search_list.setAdapter(search_adapter);
                         }
                     });
                 }

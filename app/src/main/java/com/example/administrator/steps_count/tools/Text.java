@@ -1,27 +1,19 @@
 package com.example.administrator.steps_count.tools;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.example.administrator.steps_count.R;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.WindowManager;
 
 public class Text extends AppCompatActivity {
     private LineChart chart;
@@ -33,8 +25,8 @@ public class Text extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.text);
-        chart=(LineChart)findViewById(R.id.chart);
+        setContentView(R.layout.step_chart);
+        chart=(LineChart)findViewById(R.id.chart1);
         chart.setBackgroundColor(Color.GREEN);
         xVals=new ArrayList<>();
         yVals=new ArrayList<>();

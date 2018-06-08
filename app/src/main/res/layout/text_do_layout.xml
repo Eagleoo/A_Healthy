@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/text_linearLayout">
+
+
+    <LinearLayout
+        android:background="@drawable/btn_3"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp">
+    <TextView
+        android:id="@+id/index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/text_tittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:textColor="#000000"
+        android:textSize="15sp"/>
+    <LinearLayout
+        android:id="@+id/select_a"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/btn_2"
+        android:layout_margin="30dp">
+    <TextView
+        android:id="@+id/text_a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:textSize="16sp"
+        android:textColor="#000000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/select_b"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/btn_2"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp">
+    <TextView
+        android:id="@+id/text_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:textSize="16sp"
+        android:textColor="#000000"/>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/select_c"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/btn_2"
+        android:layout_margin="30dp">
+    <TextView
+        android:id="@+id/text_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:textSize="16sp"
+        android:textColor="#000000"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_Result"
+        android:background="@drawable/btn_text_result"
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提 交 测 试 结 果"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:visibility="gone"/>
+
+</LinearLayout>

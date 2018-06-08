@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:background="@drawable/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加新计划"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/back"
+        android:paddingLeft="20dp"/>
+        <Button
+            android:id="@+id/create_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="自定义"
+            android:textColor="#000000"
+            android:background="@drawable/shape_button"/>
+</RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/plan_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp">
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/tabstrip"
+            android:background="#00EC00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </android.support.v4.view.PagerTabStrip>
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

@@ -1,34 +1,23 @@
 package com.example.administrator.steps_count.fragment;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
-import com.example.administrator.steps_count.step.Constant;
+import com.example.administrator.steps_count.Activity.Step_Map;
 import com.example.administrator.steps_count.step.DBOpenHelper;
-import com.example.administrator.steps_count.step.Look_steps;
-import com.example.administrator.steps_count.step.MainActivity;
-import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.step.ProgressView;
 import com.example.administrator.steps_count.step.StepEntity;
-import com.example.administrator.steps_count.step.StepService;
+import com.example.administrator.steps_count.step.Step_MainActivity;
+import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.step.TimeUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -45,33 +34,156 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
-//@SuppressLint("ValidFragment")
 public class FootFragment extends Fragment {
+
+    private LineChart chart;
+    private LineData data;
+    private ArrayList<String> xVals;
+    private LineDataSet dataSet;
+    private ArrayList<Entry> yVals;
+    private DBOpenHelper db;
+    private LinearLayout btn_step_run,btn_step;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.layout, container, false);
+        View view = inflater.inflate(R.layout.step_chart, container, false);
+        chart=(LineChart)view.findViewById(R.id.chart1);
+        btn_step_run=(LinearLayout) view.findViewById(R.id.btn_step_run);
+        btn_step=(LinearLayout) view.findViewById(R.id.btn_step);
+        ProgressView progressView = (ProgressView)view.findViewById(R.id.progressView);
+        db=new DBOpenHelper(getActivity());
+        if(initStep()<4000){
+            progressView.setMaxProgress(4000);
+            progressView.setCurrentProgress(initStep());
+        }
+        else {
+            progressView.setMaxProgress(4000);
+            progressView.setCurrentProgress(4000);
+        }
 
-        Intent intent = new Intent();
-        //SoilsenerActivity.class为想要跳转的Activity
-        intent.setClass(getActivity(), MainActivity.class);
-        startActivity(intent);
+        init();
+
+        btn_step_run.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), Step_Map.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        btn_step.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), Step_MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
 
         return view;
     }
 
-//    @SuppressLint("ValidFragment")
-//    public FootFragment(Activity activity){
-//        Intent intent=new Intent(activity.getApplicationContext(),StepService.class);
-//        activity.getApplicationContext().bindService(intent, conn, Context.BIND_AUTO_CREATE);
-//        activity.getApplicationContext().startService(intent);
-//
-//
-//    }
+    private int initStep(){
+        String curDate= TimeUtil.getCurrentDate();
+        StepEntity entity = db.getCurDataByDate(curDate);
+        int step=Integer.valueOf(entity.getSteps());
+        return step;
+    }
 
+    private void init(){
+        String curDate= TimeUtil.getCurrentDate();
+        int i=0;
+
+        xVals=new ArrayList<>();
+        yVals=new ArrayList<>();
+
+        Cursor cursor=db.mquery();
+        while (cursor.moveToNext()){
+            SimpleDateFormat sdf=new SimpleDateFormat("MM-dd");
+            String sDate = cursor.getString(cursor.getColumnIndex("curDate"));
+
+            float step=Float.parseFloat(cursor.getString(cursor.getColumnIndex("totalSteps")));
+            try {
+                Date d1 = sdf.parse(sDate);
+                Date d2=sdf.parse(curDate);
+                if(Math.abs(((d1.getTime()-d2.getTime())/(24*3600*1000)))<=7){
+                    xVals.add(sDate);
+                    yVals.add(new Entry(i,step ));
+                    i++;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        YAxis rightYAxis = chart.getAxisRight();
+        YAxis yAxis =chart.getAxisLeft();
+
+        AxisValueFormatter xFormatter = new AxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+
+                if(xVals.size()!=0) {
+                    return xVals.get((int) value % xVals.size());
+                }
+                else {
+                    return "";
+                }
+
+            }
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        };
+        AxisValueFormatter yFormatter = new AxisValueFormatter() {
+            public DecimalFormat mFormat=new DecimalFormat("####");
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return mFormat.format(value)+ "步";
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        };
+        xAxis.setLabelCount(xVals.size(),true);
+        yAxis.setLabelCount(yVals.size(),true);
+        xAxis.setValueFormatter(xFormatter);
+        yAxis.setValueFormatter(yFormatter);
+
+        xAxis.setAxisLineWidth(3f);
+        yAxis.setAxisLineWidth(3f);
+        xAxis.setAxisLineColor(Color.LTGRAY);
+        yAxis.setAxisLineColor(Color.LTGRAY);
+        //设置Y轴是否显示
+        rightYAxis.setEnabled(false); //右侧Y轴不显示
+        xAxis.setDrawGridLines(false);
+        yAxis.setDrawGridLines(false);
+        xAxis.setAxisMinValue(0f);
+        yAxis.setAxisMinValue(0f);
+
+        chart.setScaleEnabled(false);
+        dataSet=new LineDataSet(yVals,"历史步数");
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setDrawFilled(true);
+        data=new LineData(xVals,dataSet);
+        data.setDrawValues(false);
+        chart.setData(data);
+        chart.setDescription("历史步数");
+        chart.animateX(1000);
+    }
 }

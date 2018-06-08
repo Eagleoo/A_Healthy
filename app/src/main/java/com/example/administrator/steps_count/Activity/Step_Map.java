@@ -141,14 +141,14 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                 }
 
 
-            } else {
-                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                Log.e("AmapError", "location Error, ErrCode:"
-                        + amapLocation.getErrorCode() + ", errInfo:"
-                        + amapLocation.getErrorInfo());
-
-                Toast.makeText(getApplicationContext(), "定位失败", Toast.LENGTH_SHORT).show();
             }
+//            else {
+//                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+//                Log.e("AmapError", "location Error, ErrCode:"
+//                        + amapLocation.getErrorCode() + ", errInfo:"
+//                        + amapLocation.getErrorInfo());
+//
+//            }
         }
     }
 

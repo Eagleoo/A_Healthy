@@ -12,13 +12,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </FrameLayout>
+
     </RelativeLayout>
     <RadioGroup
         android:id="@+id/rg_tab_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
 
         <RadioButton
             android:id="@+id/tv_main"

@@ -83,6 +83,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+
     //删除数据  根据id删除数据
     public void delete(int id){
         db=getWritableDatabase();

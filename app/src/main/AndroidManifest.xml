@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.administrator.steps_count">
 
     <uses-sdk>
@@ -46,7 +47,11 @@
             android:name="com.amap.api.v2.apikey"
             android:value="ff093d2d117998d5bab4b1277a0455a7" />
 
-        <activity android:name=".Activity.Frag_MainActivity">
+
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="ff093d2d117998d5bab4b1277a0455a7">
+        </meta-data>
+        <activity android:name=".Activity.Frag_MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -94,14 +99,27 @@
             android:label="@string/title_activity_goods" />
         <activity android:name=".Activity.InsertAddress" />
         <activity android:name=".Activity.Updatepwd" />
+
         <activity android:name=".Activity.CotentActivity" />
         <activity android:name=".step.Look_steps" />
-        <activity android:name=".step.MainActivity" />
         <activity android:name=".mall.Mall_Detail_Activity" />
         <activity android:name=".mall.Mall_Firmorder_Acitvity" />
         <activity android:name=".mall.Mall_Search_Activity" />
         <activity android:name=".Activity.Step_Map" />
         <activity android:name=".Activity.CheckPermissionsActivity" />
+
+        <activity android:name=".mall.Mall_Address_Activity"></activity>
+
+        <activity android:name=".step.Step_MainActivity"></activity>
+
+
+        <activity android:name=".Main_Activity.Plan_Activity"/>
+        <activity android:name=".Main_Activity.Plan_Add_Activity"/>
+
+        <activity android:name=".Main_Activity.Text_Activity"/>
+        <activity android:name=".Main_Activity.Text_Do_Activity"/>
+        <activity android:name=".Main_Activity.Text_Result"/>
+
 
         <!-- 计步功能 -->
         <service

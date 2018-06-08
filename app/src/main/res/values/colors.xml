@@ -12,4 +12,9 @@
     <color name="gray">#cfcfcf</color>
     <color name="red">#d91d1d</color>
     <color name="orange">#ff6600</color>
+    <color name="shenghuo">#AFAF61</color>
+    <color name="woman">#ACD6FF</color>
+    <color name="ruodian">#FFE66F</color>
+    <color name="duanxin">#E1C4C4</color>
+    <color name="shouji">#E0E0E0</color>
 </resources>
