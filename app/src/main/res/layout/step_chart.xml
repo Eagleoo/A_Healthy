@@ -297,42 +297,43 @@
             android:layout_marginTop="20dp"/>
 </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/btn_step_run"
-        android:layout_width="180dp"
-        android:layout_height="80dp"
-        android:background="@drawable/shape_step"
-        android:orientation="vertical"
-        android:layout_weight="1">
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:id="@+id/btn_step_run"
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_step"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="跑步"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:src="@drawable/run" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="跑步"
-                android:textSize="18sp"
-                android:textColor="#FFFFFF"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"/>
-
-            <ImageView
-                android:src="@drawable/run"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"/>
-
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="从零开始，跑起来"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="从零开始，跑起来"
-            android:textColor="#FFFFFF"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"/>
-    </LinearLayout>
     </LinearLayout>
 
 

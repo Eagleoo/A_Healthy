@@ -104,7 +104,7 @@
         <activity android:name=".mall.Mall_Firmorder_Acitvity" />
         <activity android:name=".mall.Mall_Search_Activity" />
         <activity android:name=".mall.Mall_collect_Activity"></activity>
-        <activity android:name=".Activity.Step_Map" />
+        <activity android:name=".step.Step_Map" />
         <activity android:name=".Activity.CheckPermissionsActivity" />
 
         <activity android:name=".mall.Mall_Address_Activity"></activity>
@@ -125,11 +125,12 @@
             android:theme="@style/Theme.Design.Light"
             android:label="体重" />
         <activity android:name=".Main_Activity.Weight_Aim_Activity"/>
-        <activity android:name=".Main_Activity.Eat_Activity"/>
-        <activity android:name=".Main_Activity.Eat_Add_Activity"/>
-        <activity android:name=".Main_Activity.Food_select_Activity"/>
-        <activity android:name=".Main_Activity.Food_Self_Activity"/>
-        <activity android:name=".Main_Activity.Eat_Aim_Activity"/>
+        <activity android:name=".Main_Activity.Eat_Activity" />
+        <activity android:name=".Main_Activity.Eat_Add_Activity"
+            android:launchMode="singleTask" />
+        <activity android:name=".Main_Activity.Food_select_Activity" />
+        <activity android:name=".Main_Activity.Food_Self_Activity" />
+        <activity android:name=".Main_Activity.Eat_Aim_Activity" />
 
 
         <!-- 计步功能 -->

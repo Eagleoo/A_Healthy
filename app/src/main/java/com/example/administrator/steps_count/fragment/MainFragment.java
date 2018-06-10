@@ -12,7 +12,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
-import com.example.administrator.steps_count.Activity.Step_Map;
+import com.example.administrator.steps_count.step.Step_Map;
 import com.example.administrator.steps_count.Main_Activity.Eat_Activity;
 import com.example.administrator.steps_count.Main_Activity.Weight_Activity;
 import com.example.administrator.steps_count.Main_Activity.Weight_Add_Activity;

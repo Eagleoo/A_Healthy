@@ -1,6 +1,5 @@
 package com.example.administrator.steps_count.step;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.os.Message;
 import android.os.Bundle;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,7 +30,6 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.example.administrator.steps_count.Activity.CheckPermissionsActivity;
-import com.example.administrator.steps_count.Activity.Step_Map;
 import com.example.administrator.steps_count.R;
 
 import java.text.DecimalFormat;
@@ -51,7 +48,7 @@ public class Step_MainActivity extends CheckPermissionsActivity implements Locat
     private MapView mMapView = null;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
-    //private final static LatLng CHENGDU = new LatLng(30.679879, 104.064855);
+    //private final static LatLng_1 CHENGDU = new LatLng_1(30.679879, 104.064855);
     //定位功能
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocationClient mLocationClient;

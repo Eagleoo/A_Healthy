@@ -1,25 +1,20 @@
 package com.example.administrator.steps_count.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.steps_count.Activity.Step_About_Activity;
-import com.example.administrator.steps_count.Activity.Step_Map;
-import com.example.administrator.steps_count.Main_Activity.Plan_Btn;
-import com.example.administrator.steps_count.step.Constant;
+import com.example.administrator.steps_count.step.Step_Map;
 import com.example.administrator.steps_count.step.DBOpenHelper;
 import com.example.administrator.steps_count.step.Look_steps;
 import com.example.administrator.steps_count.step.ProgressView;
@@ -29,7 +24,6 @@ import com.example.administrator.steps_count.step.Step_MainActivity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.step.Step_Plan_Activity;
 import com.example.administrator.steps_count.step.TimeUtil;
-import com.example.administrator.steps_count.tools.Json_Tools;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -40,22 +34,11 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class FootFragment extends Fragment {
 
