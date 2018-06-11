@@ -9,15 +9,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.example.administrator.steps_count.Activity.Step_Map;
+import com.example.administrator.steps_count.Activity.Step_About_Activity;
+import com.example.administrator.steps_count.step.Step_Map;
 import com.example.administrator.steps_count.step.DBOpenHelper;
+import com.example.administrator.steps_count.step.Look_steps;
 import com.example.administrator.steps_count.step.ProgressView;
 import com.example.administrator.steps_count.step.StepEntity;
+import com.example.administrator.steps_count.step.StepPlan;
 import com.example.administrator.steps_count.step.Step_MainActivity;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.step.Step_Plan_Activity;
 import com.example.administrator.steps_count.step.TimeUtil;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -44,6 +49,13 @@ public class FootFragment extends Fragment {
     private ArrayList<Entry> yVals;
     private DBOpenHelper db;
     private LinearLayout btn_step_run,btn_step;
+    private ImageView setting1,record1;
+    private TextView totalStepsTv,totalStepsKm,totalStepsKa,aim,finish_steps;
+    private StepPlan stepPlan=new StepPlan();
+    private ProgressView progressView;
+    private ImageView left,right,step_about;
+    private int step, u_id=1;
+    private float km,ka;
 
     @Nullable
     @Override
@@ -53,18 +65,53 @@ public class FootFragment extends Fragment {
         chart=(LineChart)view.findViewById(R.id.chart1);
         btn_step_run=(LinearLayout) view.findViewById(R.id.btn_step_run);
         btn_step=(LinearLayout) view.findViewById(R.id.btn_step);
-        ProgressView progressView = (ProgressView)view.findViewById(R.id.progressView);
+        setting1=(ImageView)view.findViewById(R.id.setting1);
+        record1=(ImageView)view.findViewById(R.id.record1);
+        totalStepsTv=(TextView)view.findViewById(R.id.totalStepsTv);
+        totalStepsKm=(TextView)view.findViewById(R.id.totalStepsKm);
+        totalStepsKa=(TextView)view.findViewById(R.id.totalStepsKa);
+        finish_steps=(TextView)view.findViewById(R.id.finish_steps);
+        aim=(TextView)view.findViewById(R.id.aim);
+        left=(ImageView)view.findViewById(R.id.left);
+        right=(ImageView)view.findViewById(R.id.right);
+        step_about=(ImageView)view.findViewById(R.id.step_about) ;
+        progressView = (ProgressView)view.findViewById(R.id.progressView);
+        progressView.setColor1();
         db=new DBOpenHelper(getActivity());
-        if(initStep()<4000){
-            progressView.setMaxProgress(4000);
-            progressView.setCurrentProgress(initStep());
-        }
-        else {
-            progressView.setMaxProgress(4000);
-            progressView.setCurrentProgress(4000);
-        }
+        String curDate= TimeUtil.getCurrentDate();
+        StepEntity entity = db.getCurDataByDate(curDate);
 
+        step=Integer.valueOf(entity.getSteps());
+        km= Float.parseFloat(entity.getTotalStepsKm());
+        ka= Float.parseFloat(entity.getTotalStepsKa());
+        totalStepsTv.setText(entity.getSteps());
+        totalStepsKm.setText(entity.getTotalStepsKm());
+        totalStepsKa.setText(entity.getTotalStepsKa());
         init();
+        getStepPlan_steps();
+
+
+        setting1.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), Step_Plan_Activity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        record1.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), Look_steps.class);
+                        startActivity(intent);
+                    }
+                }
+        );
 
         btn_step_run.setOnClickListener(
                 new View.OnClickListener() {
@@ -88,15 +135,104 @@ public class FootFragment extends Fragment {
                 }
         );
 
+        left.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(finish_steps.getText().toString().equals("已完成步数")){
+                            getStepPlan_km();
+                        }
+                        else if (finish_steps.getText().toString().equals("已消耗卡路里")){
+                            getStepPlan_steps();
+                        }
+                        else {
+
+                        }
+
+                    }
+                }
+        );
+
+        right.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(finish_steps.getText().toString().equals("已完成步数")){
+                            getStepPlan_ka();
+                        }
+                        else if (finish_steps.getText().toString().equals("已行走距离")){
+                            getStepPlan_steps();
+                        }
+                        else {
+
+                        }
+                    }
+                }
+        );
+
+        step_about.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), Step_About_Activity.class));
+                    }
+                }
+        );
+
         return view;
     }
 
-    private int initStep(){
-        String curDate= TimeUtil.getCurrentDate();
-        StepEntity entity = db.getCurDataByDate(curDate);
-        int step=Integer.valueOf(entity.getSteps());
-        return step;
+
+    private void getStepPlan_steps(){
+        StepPlan stepPlans=db.getCurDataByUid(u_id);
+        int p_step=Integer.valueOf(stepPlans.getP_steps());
+        aim.setText("目标"+p_step+"步");
+        finish_steps.setText("已完成步数");
+        if(step<p_step){
+            progressView.setMaxProgress(p_step);
+            progressView.setCurrentProgress(step);
+        }
+        else {
+            progressView.setMaxProgress(step);
+            progressView.setCurrentProgress(step);
+        }
+
     }
+
+    private void getStepPlan_km(){
+
+        StepPlan stepPlans=db.getCurDataByUid(u_id);
+        float p_km=Float.parseFloat(stepPlans.getP_km());
+
+        aim.setText("目标"+p_km+"km");
+        finish_steps.setText("已行走距离");
+        if(km<p_km){
+            progressView.setMaxProgress(p_km);
+            progressView.setCurrentProgress(km);
+        }
+        else {
+            progressView.setMaxProgress(km);
+            progressView.setCurrentProgress(km);
+        }
+
+    }
+
+    private void getStepPlan_ka(){
+
+        StepPlan stepPlans=db.getCurDataByUid(u_id);
+        float p_ka=Float.parseFloat(stepPlans.getP_ka());
+        aim.setText("目标"+p_ka+"ka");
+        finish_steps.setText("已消耗卡路里");
+        if(ka<p_ka){
+            progressView.setMaxProgress(p_ka);
+            progressView.setCurrentProgress(ka);
+        }
+        else {
+            progressView.setMaxProgress(ka);
+            progressView.setCurrentProgress(ka);
+        }
+    }
+
 
     private void init(){
         String curDate= TimeUtil.getCurrentDate();
@@ -104,6 +240,17 @@ public class FootFragment extends Fragment {
 
         xVals=new ArrayList<>();
         yVals=new ArrayList<>();
+
+        //初始化计划
+        StepPlan stepPlan=new StepPlan();
+        stepPlan.setP_steps("5000");
+        stepPlan.setP_km("5");
+        stepPlan.setP_ka("500");
+        stepPlan.setU_id(1);
+        if(db.getCurDataByUid(u_id)==null){
+
+            db.addNewStepPlan(stepPlan);
+        }
 
         Cursor cursor=db.mquery();
         while (cursor.moveToNext()){
@@ -128,6 +275,7 @@ public class FootFragment extends Fragment {
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         YAxis rightYAxis = chart.getAxisRight();
+        YAxis leftYAxis = chart.getAxisLeft();
         YAxis yAxis =chart.getAxisLeft();
 
         AxisValueFormatter xFormatter = new AxisValueFormatter() {
@@ -170,8 +318,9 @@ public class FootFragment extends Fragment {
         yAxis.setAxisLineColor(Color.LTGRAY);
         //设置Y轴是否显示
         rightYAxis.setEnabled(false); //右侧Y轴不显示
-        xAxis.setDrawGridLines(false);
-        yAxis.setDrawGridLines(false);
+        //leftYAxis.setEnabled(false);
+        xAxis.setDrawGridLines(true);
+        yAxis.setDrawGridLines(true);
         xAxis.setAxisMinValue(0f);
         yAxis.setAxisMinValue(0f);
 
@@ -179,7 +328,6 @@ public class FootFragment extends Fragment {
         dataSet=new LineDataSet(yVals,"历史步数");
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        dataSet.setDrawFilled(true);
         data=new LineData(xVals,dataSet);
         data.setDrawValues(false);
         chart.setData(data);

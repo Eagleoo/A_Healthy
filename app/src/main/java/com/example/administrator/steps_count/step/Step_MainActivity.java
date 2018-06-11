@@ -1,6 +1,5 @@
 package com.example.administrator.steps_count.step;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +10,9 @@ import android.os.Message;
 import android.os.Bundle;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +30,6 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.example.administrator.steps_count.Activity.CheckPermissionsActivity;
-import com.example.administrator.steps_count.Activity.Step_Map;
 import com.example.administrator.steps_count.R;
 
 import java.text.DecimalFormat;
@@ -43,18 +41,20 @@ import java.util.TimerTask;
 public class Step_MainActivity extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
 
     private TextView totalStepsTv,look_steps,totalStepsKm,totalStepsKa;
+    private ImageView img_step;
     private boolean isBind = false;
     private Messenger mGetReplyMessenger = new Messenger(new MessengerHandler());
     private Button btn_run;
     private MapView mMapView = null;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
-    //private final static LatLng CHENGDU = new LatLng(30.679879, 104.064855);
+    //private final static LatLng_1 CHENGDU = new LatLng_1(30.679879, 104.064855);
     //定位功能
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
     private boolean isFirstLoc = true;
+    private DBOpenHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +65,12 @@ public class Step_MainActivity extends CheckPermissionsActivity implements Locat
         totalStepsKm=(TextView)findViewById(R.id.totalStepsKm);
         totalStepsKa=(TextView)findViewById(R.id.totalStepsKa);
         look_steps=(TextView)findViewById(R.id.look_steps);
-        //btn_add=(Button)findViewById(R.id.btn_add) ;
+        img_step=(ImageView) findViewById(R.id.img_step) ;
         btn_run=(Button)findViewById(R.id.btn_run);
 
         mMapView = (MapView) findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
+        db=new DBOpenHelper(this);
 
 
         //初始化地图控制器对象
@@ -123,11 +124,10 @@ public class Step_MainActivity extends CheckPermissionsActivity implements Locat
                 }
         );
 
-//        btn_add.setOnClickListener(
+//        img_step.setOnClickListener(
 //                new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View view) {
-//                        db=new DBOpenHelper(mContext);
 //                        StepEntity entity1 = new StepEntity();
 //                        StepEntity entity2 = new StepEntity();
 //                        StepEntity entity3 = new StepEntity();
@@ -137,36 +137,52 @@ public class Step_MainActivity extends CheckPermissionsActivity implements Locat
 //                        StepEntity entity7 = new StepEntity();
 //                        StepEntity entity8 = new StepEntity();
 //
-//                        entity1.setCurDate("05-4");
+//                        entity1.setCurDate("05-17");
 //                        entity1.setSteps("3200");
+//                        entity1.setTotalStepsKm("20");
+//                        entity1.setTotalStepsKa("500");
 //                        db.addNewData(entity1);
 //
-//                        entity2.setCurDate("05-5");
+//                        entity2.setCurDate("05-18");
 //                        entity2.setSteps("2500");
+//                        entity2.setTotalStepsKm("20");
+//                        entity2.setTotalStepsKa("500");
 //                        db.addNewData(entity2);
 //
-//                        entity3.setCurDate("05-6");
+//                        entity3.setCurDate("05-19");
 //                        entity3.setSteps("4500");
+//                        entity3.setTotalStepsKm("20");
+//                        entity3.setTotalStepsKa("500");
 //                        db.addNewData(entity3);
 //
-//                        entity4.setCurDate("05-7");
+//                        entity4.setCurDate("05-20");
 //                        entity4.setSteps("2000");
+//                        entity4.setTotalStepsKm("20");
+//                        entity4.setTotalStepsKa("500");
 //                        db.addNewData(entity4);
 //
-//                        entity5.setCurDate("05-8");
+//                        entity5.setCurDate("05-21");
 //                        entity5.setSteps("3200");
+//                        entity5.setTotalStepsKm("20");
+//                        entity5.setTotalStepsKa("500");
 //                        db.addNewData(entity5);
 //
-//                        entity6.setCurDate("05-9");
+//                        entity6.setCurDate("05-22");
 //                        entity6.setSteps("9000");
+//                        entity6.setTotalStepsKm("20");
+//                        entity6.setTotalStepsKa("500");
 //                        db.addNewData(entity6);
 //
-//                        entity7.setCurDate("05-10");
+//                        entity7.setCurDate("05-23");
 //                        entity7.setSteps("4500");
+//                        entity7.setTotalStepsKm("20");
+//                        entity7.setTotalStepsKa("500");
 //                        db.addNewData(entity7);
 //
-//                        entity8.setCurDate("05-11");
+//                        entity8.setCurDate("05-24");
 //                        entity8.setSteps("5600");
+//                        entity8.setTotalStepsKm("20");
+//                        entity8.setTotalStepsKa("500");
 //                        db.addNewData(entity8);
 //
 //

@@ -154,6 +154,7 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+
     public void initView(){
         frameLayout=(FrameLayout)findViewById(R.id.framelayout);
         tv_main= (RadioButton) findViewById(R.id.tv_main);

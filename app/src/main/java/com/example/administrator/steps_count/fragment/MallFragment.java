@@ -28,6 +28,7 @@ import com.example.administrator.steps_count.mall.Mall_Search_Activity;
 import com.example.administrator.steps_count.adapter.Mall_adapter;
 
 
+import com.example.administrator.steps_count.mall.Mall_collect_Activity;
 import com.example.administrator.steps_count.mall.User;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -79,7 +80,9 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
         radio_pricedown= (RadioButton) view.findViewById(R.id.radio_pricedown);
         radio_priceup= (RadioButton) view.findViewById(R.id.radio_priceup);
         sort_layout= (LinearLayout) view.findViewById(R.id.sort_layout);
-        user.setUrl("http://192.168.1.111:8080/");
+        //user.setUrl("http://192.168.1.111:8080/");
+        user.setUrl("http://192.168.43.37:8080/");
+        user.setUsername("lzy");
         mall_btn1.setOnClickListener(this);
         mall_btn2.setOnClickListener(this);
         mall_btn3.setOnClickListener(this);
@@ -153,7 +156,8 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
     public void OnBannerClick(int position) {
         switch (position) {
             case 0:
-                Toast.makeText(getContext(), "0", Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(getContext(), Mall_collect_Activity.class);
+                startActivity(intent);
                 break;
             case 1:
                 Toast.makeText(getContext(), "1", Toast.LENGTH_LONG).show();

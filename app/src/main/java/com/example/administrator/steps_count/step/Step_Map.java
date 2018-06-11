@@ -1,8 +1,16 @@
-package com.example.administrator.steps_count.Activity;
+package com.example.administrator.steps_count.step;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -18,43 +26,124 @@ import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
+import com.amap.api.maps2d.model.PolylineOptions;
+import com.example.administrator.steps_count.Activity.CheckPermissionsActivity;
 import com.example.administrator.steps_count.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-public class Step_Map extends CheckPermissionsActivity implements LocationSource, AMapLocationListener {
+public class Step_Map extends CheckPermissionsActivity implements LocationSource, AMapLocationListener{
     private MapView mMapView = null;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
-    //private final static LatLng CHENGDU = new LatLng(30.679879, 104.064855);
+    //private final static LatLng_1 CHENGDU = new LatLng_1(30.679879, 104.064855);
     //定位功能
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
     private boolean isFirstLoc = true;
-
+    private boolean isBtn=true;
+    //以前的定位点
+    private LatLng oldLatLng;
+    private TextView run_speed,run_km,run_ka;
+    private Chronometer run_time;
+    private Button stop_run,pause_run;
+    private Map_DBHelper db;
+    private double Trace[]={
+            30.73584, 103.957571,
+            30.73684, 103.957671,
+            30.73784, 103.957771,
+            30.73884, 103.957871,
+            30.73984, 103.957971,
+            30.74084, 103.958071,
+            30.74184, 103.958571};
+    private List<LatLng> list;
+    private int m=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_map);
+        run_speed=(TextView)findViewById(R.id.run_speed);
+        run_km=(TextView)findViewById(R.id.run_km);
+        run_ka=(TextView)findViewById(R.id.run_ka);
         mMapView = (MapView) findViewById(R.id.map);
+        run_time= (Chronometer) findViewById(R.id.run_time);
+        stop_run=(Button)findViewById(R.id.stop_run);
+        pause_run=(Button)findViewById(R.id.pause_run);
         mMapView.onCreate(savedInstanceState);
+        db=new Map_DBHelper(this);
+
+        run_time.start();
+
+        stop_run.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(Step_Map.this).setTitle("结束跑步")
+                                .setIcon(R.drawable.run_1)
+                                .setMessage("确定结束吗？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Map map=new Map();
+                                        map.setTime(run_time.getText().toString());
+                                        map.setSpeed(run_speed.getText().toString());
+                                        map.setKm(run_km.getText().toString());
+                                        map.setKa(run_ka.getText().toString());
+                                        map.setDate(TimeUtil.getCurrentDate());
+                                        db.addNewMapData(map);
+                                        run_time.setBase(SystemClock.elapsedRealtime());
+                                        run_time.stop();
+                                    }
+                                })
+                                .setNegativeButton("取消", null)
+                                .show();
+                    }
+                }
+        );
+
+        pause_run.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (isBtn){
+                            run_time.stop();
+
+                            pause_run.setText("继续跑步");
+                            isBtn=false;
+
+                        }
+                        else {
+                            run_time.setBase(convertStrTimeToLong(run_time.getText().toString()));
+                            run_time.start();
+                            pause_run.setText("暂停跑步");
+                            isBtn=true;
+                        }
+
+                        List<LatLng_1> list;
+                        list=db.getCurLatLngByDate(TimeUtil.getCurrentDate());
+
+                        for (int i=0;i<list.size();i++){
+                            if (i+1<list.size()){
+                                LatLng latLng1=new LatLng(Double.valueOf(list.get(i).getLatitude()),Double.valueOf(list.get(i).getLongitude()));
+                                LatLng latLng2=new LatLng(Double.valueOf(list.get(i+1).getLatitude()),Double.valueOf(list.get(i+1).getLongitude()));
+                                setUpMap(latLng1,latLng2);
+                            }
+
+                        }
+
+                    }
+                }
+        );
 
 
         //初始化地图控制器对象
         if (aMap == null) {
             aMap = mMapView.getMap();
-            //aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(CHENGDU, 14));
 
-//            //修改地图的中心点位置
-//            CameraPosition cp = aMap.getCameraPosition();
-//            CameraPosition cpNew = CameraPosition.fromLatLngZoom(CHENGDU, cp.zoom);
-//            CameraUpdate cu = CameraUpdateFactory.newCameraPosition(cpNew);
-//            aMap.moveCamera(cu);
-
-            //aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CHENGDU, 14));
-            //aMap.invalidate();// 刷新地图
         }
 
         //设置显示定位按钮 并且可以点击
@@ -63,17 +152,19 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         aMap.setLocationSource(this);
         // 是否显示定位按钮
         settings.setMyLocationButtonEnabled(true);
-        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-//        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.delete));
-//        myLocationStyle.strokeColor(Color.BLACK);
-//        myLocationStyle.radiusFillColor(Color.argb(100, 0, 0, 180));
-//        myLocationStyle.strokeWidth(1.0f);
+        myLocationStyle = new MyLocationStyle();
 
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
 
-        initLoc();
+
+//        list=new ArrayList<LatLng_1>();
+//        for(int i=0;i<Trace.length-1;i++){
+//            LatLng_1 latLng=new LatLng_1(Trace[i],Trace[++i]);
+//            list.add(latLng);
+//        }
     }
 
     @Override
@@ -123,8 +214,12 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                 amapLocation.getCityCode();//城市编码
                 amapLocation.getAdCode();//地区编码
 
+
+                LatLng newLatLng =new LatLng(amapLocation.getLatitude(),amapLocation.getLongitude());
                 // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
                 if (isFirstLoc) {
+                    //记录第一次的定位信息
+                    oldLatLng = newLatLng;
                     //设置缩放级别
                     aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
                     //将地图移动到定位点
@@ -132,7 +227,7 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                     //点击定位按钮 能够将地图的中心移动到定位点
                     mListener.onLocationChanged(amapLocation);
                     //添加图钉
-                    //aMap.addMarker(getMarkerOptions(amapLocation));
+                    aMap.addMarker(getMarkerOptions(amapLocation));
                     //获取定位信息
                     StringBuffer buffer = new StringBuffer();
                     buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() + "" + amapLocation.getProvince() + "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
@@ -140,6 +235,26 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                     isFirstLoc = false;
                 }
 
+                //位置有变化
+                if(oldLatLng != newLatLng){
+                    setUpMap( oldLatLng , newLatLng );
+                    oldLatLng = newLatLng;
+
+                    LatLng_1 latLng_1=new LatLng_1(String.valueOf(newLatLng.latitude),String.valueOf(newLatLng.longitude),TimeUtil.getCurrentDate());
+                    run_speed.setText(String.valueOf(amapLocation.getSpeed()));
+                    if (amapLocation.getSpeed()==0){
+                        run_speed.setText("0.0");
+
+                    }
+                    else {
+                        aMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude())));
+                        db=new Map_DBHelper(this);
+                        db.addNewLatLngData(latLng_1);
+                        db.close();
+                    }
+
+
+                }
 
             }
 //            else {
@@ -177,14 +292,6 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;
-    }
-
-    @Override
-    public void deactivate() {
-        mListener = null;
-    }
-
-    public void initLoc(){
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
         //设置定位回调监听
@@ -202,11 +309,39 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(2000);
+        mLocationOption.setInterval(1000);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
+    }
 
+    @Override
+    public void deactivate() {
+        mListener = null;
+    }
+
+
+    /**绘制两个坐标点之间的线段,从以前位置到现在位置*/
+    private void setUpMap(LatLng oldData,LatLng newData ) {
+
+        // 绘制一个大地曲线
+        aMap.addPolyline((new PolylineOptions())
+                .add(oldData, newData)
+                .geodesic(true).color(Color.parseColor("#01B468")));
+
+    }
+
+    protected long convertStrTimeToLong(String strTime) {
+        // TODO Auto-generated method stub
+        String []timeArry=strTime.split(":");
+        long longTime=0;
+        if (timeArry.length==2) {//如果时间是MM:SS格式
+            longTime=Integer.parseInt(timeArry[0])*1000*60+Integer.parseInt(timeArry[1])*1000;
+        }else if (timeArry.length==3){//如果时间是HH:MM:SS格式
+            longTime=Integer.parseInt(timeArry[0])*1000*60*60+Integer.parseInt(timeArry[1])
+                    *1000*60+Integer.parseInt(timeArry[0])*1000;
+        }
+        return SystemClock.elapsedRealtime()-longTime;//减去计时器一直在计时的时间就实现了从上一次开始计时
     }
 }

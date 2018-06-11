@@ -13,6 +13,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,7 +39,7 @@ import java.util.Date;
 public class StepService extends Service implements SensorEventListener{
 
     public static final String TAG = "StepService";
-
+    private NotificationCompat.Builder builder=new NotificationCompat.Builder(this);
     //当前日期
     private static String CURRENT_DATE;
     //当前步数
@@ -62,7 +64,6 @@ public class StepService extends Service implements SensorEventListener{
     private int hasStepCount;
     //下次记录之前的步数
     private int previousStepCount;
-    private Notification.Builder builder;
 
     private NotificationManager notificationManager;
     private Intent nfIntent;
@@ -85,12 +86,14 @@ public class StepService extends Service implements SensorEventListener{
 
         startTimeCount();
         initTodayData();
+        Log.e(TAG,"服务创建了");
 
     }
 
     @Override
     public int onStartCommand(Intent intent,int flags, int startId) {
         nfShow();
+        Log.e(TAG,"服务开始了");
         return START_STICKY;
     }
 
@@ -170,7 +173,7 @@ public class StepService extends Service implements SensorEventListener{
         //获取当天的数据，用于展示
         StepEntity entity = db.getCurDataByDate(CURRENT_DATE);
         //为空则说明还没有该天的数据，有则说明已经开始当天的计步了
-        if (entity == null) {
+        if (entity==null){
             CURRENT_STEP = 0;
         } else {
             CURRENT_STEP = Integer.parseInt(entity.getSteps());
@@ -271,7 +274,7 @@ public class StepService extends Service implements SensorEventListener{
          */
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //获取一个Notification构造器
-        NotificationCompat.Builder builder=new NotificationCompat.Builder(this);
+
         /**
          * 设置点击通知栏打开的界面，此处需要注意了，如果你的计步界面不在主界面，则需要判断app是否已经启动，
          * 再来确定跳转页面，这里面太多坑，（别问我为什么知道 - -）
@@ -295,9 +298,11 @@ public class StepService extends Service implements SensorEventListener{
     }
 
     private void saveStepData(){
+        CURRENT_DATE = TimeUtil.getCurrentDate();
         db = new DBOpenHelper(getApplicationContext());
         //查询数据库中的数据
         StepEntity entity = db.getCurDataByDate(CURRENT_DATE);
+        DecimalFormat df=new DecimalFormat("#.##");
 
         //为空则说明还没有该天的数据，有则说明已经开始当天的计步了
         if (entity == null) {
@@ -305,13 +310,16 @@ public class StepService extends Service implements SensorEventListener{
             entity = new StepEntity();
             entity.setCurDate(CURRENT_DATE);
             entity.setSteps(String.valueOf(CURRENT_STEP));
+            entity.setTotalStepsKm(df.format(CURRENT_STEP*0.0007));
+            entity.setTotalStepsKa(df.format(CURRENT_STEP*0.04));
             db.addNewData(entity);
         } else {
             //有则更新当前的数据
             entity.setSteps(String.valueOf(CURRENT_STEP));
-
+            entity.setTotalStepsKm(df.format(CURRENT_STEP*0.0007));
+            entity.setTotalStepsKa(df.format(CURRENT_STEP*0.04));
             db.updateCurData(entity);
-        }
+        }//0点过后，entity没被初始化，step被初始化为0了，所以就执行的update，就直接被更新成0了
     }
 
     /**
@@ -350,7 +358,14 @@ public class StepService extends Service implements SensorEventListener{
         if (time.equals(new SimpleDateFormat("HH:mm").format(new Date())) ||
                 !CURRENT_DATE.equals(TimeUtil.getCurrentDate())) {
             initTodayData();
+            onDestroy();
         }
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG,"服务销毁了");
+    }
 }

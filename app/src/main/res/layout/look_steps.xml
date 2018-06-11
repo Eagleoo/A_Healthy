@@ -5,11 +5,47 @@
     android:background="@drawable/background"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/look_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期"
+            android:textSize="15sp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="步数"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:paddingLeft="60dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="行走距离(Km)"
+            android:textSize="15sp"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消耗卡路里(Ka)"
+            android:textSize="15sp"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/steps_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_toWeb">
+        android:layout_below="@+id/look_linear">
     </ListView>
 
     <Button

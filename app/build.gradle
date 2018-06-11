@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility 1.7
+        targetCompatibility 1.7
+    }
 }
 
 dependencies {
@@ -41,4 +45,5 @@ dependencies {
     implementation files('libs/Amap_2DMap_V5.2.0_20170627.jar')
     implementation files('libs/AMap_Search_V6.1.0_20180330.jar')
     implementation files('libs/AMap_Location_V3.8.0_20180201.jar')
+    compile 'com.github.superSp:RulerView:v1.2'
 }
