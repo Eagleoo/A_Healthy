@@ -28,24 +28,30 @@ private BaseAdapter baseAdapter;
 private List<Circle> list=new LinkedList<Circle>();
 private Context context;
 private ListView listView;
+private TextView tip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         listView= (ListView) findViewById(R.id.list_search);
+        tip= (TextView) findViewById(R.id.tip);
         context=SearchActivity.this;
         final Intent intent=getIntent();
         list= (List<Circle>) intent.getSerializableExtra("list");
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               Intent intent1=new Intent(SearchActivity.this,CotentActivity.class);
-               intent1.putExtra("title",list.get(i).getTitle());
-               intent1.putExtra("content",list.get(i).getContent());
-               intent1.putExtra("id",list.get(i).getId());
-               startActivity(intent1);
-           }
-       });
+        Toast.makeText(SearchActivity.this,list+"",Toast.LENGTH_LONG).show();
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent intent1=new Intent(SearchActivity.this,CotentActivity.class);
+                    intent1.putExtra("title",list.get(i).getTitle());
+                    intent1.putExtra("content",list.get(i).getContent());
+                    intent1.putExtra("id",list.get(i).getId());
+                    startActivity(intent1);
+                }
+            });
+
+
         baseAdapter=new BaseAdapter() {
             @Override
             public int getCount() {

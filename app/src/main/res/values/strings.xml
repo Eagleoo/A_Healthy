@@ -53,6 +53,9 @@
     <string name="title_activity_qqbaidu_register">QQBaiduRegister</string>
     <string name="received">确认收货</string>
     <string name="distribution">查看物流</string>
+<<<<<<< HEAD
+    <string name="review">查看评论</string>
+=======
     <string name="step_about">安卓机与计步器不得不说的事儿！\n\n
 T- T+\n\n
 为什么安卓手机锁屏不计步?\n\n
@@ -77,4 +80,5 @@ vivo用户可以打开【设置】-【软件管理】-【自启动管理】，�
 情况5：手机不兼容情况  \n\n
 如果尝试了以上四种解决方案，还是无法解决锁屏不计步的问题，那么可能就是手机完全不具备计步功能。\n\n
 ▍解决方案：下载屏幕常亮助手的软件，搭配使用。但是代价是你的屏幕会被持续点亮，耗电量巨大且可能导致发热等问题。所以如果真的想要正常使用计步功能，换一部新的手机吧。</string>
+>>>>>>> 243e29e028ea366b84415a40e2f43274f7585d0b
 </resources>

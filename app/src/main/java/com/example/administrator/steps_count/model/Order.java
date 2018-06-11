@@ -4,16 +4,53 @@ import java.io.Serializable;
 
 public class Order implements Serializable{
     private int mall_id;
+    private int order_id;
     private String mall_name;
     private String mall_describe;
     private String mall_price;
     private String mall_img;
     private String mall_detail_img;
     private String mall_type;
+    private String consigee;
+   private String cellnumber;
+   private String address;
 
     public Order() {
 
     }
+
+    public String getConsigee() {
+        return consigee;
+    }
+
+    public void setConsigee(String consigee) {
+        this.consigee = consigee;
+    }
+
+    public String getCellnumber() {
+        return cellnumber;
+    }
+
+    public void setCellnumber(String cellnumber) {
+        this.cellnumber = cellnumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
+    }
+
     public int getMall_id() {
         return mall_id;
     }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.adapter.OrderAdapter;
+import com.example.administrator.steps_count.model.Dynamics;
 import com.example.administrator.steps_count.model.Order;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -35,47 +38,61 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CheckSend extends AppCompatActivity {
+public class NewDynamic extends AppCompatActivity {
+
+    private List<Dynamics> list=new LinkedList<Dynamics>();
     private ListView listView;
-    private List<Order> list = new LinkedList<Order>();
     private Context context;
-    private BaseAdapter adapter;
-    Handler handler = new Handler() {
+    private BaseAdapter baseAdapter;
+    private List<Dynamics> dynamicsList=new LinkedList<>();
+    Handler mhandlers = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             try {
                 JSONArray jsonArray = new JSONArray(msg.obj.toString());
-                JSONObject jsonObject = null;
                 for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = null;
                     jsonObject = jsonArray.getJSONObject(i);
-                    Order order = new Order();
-                    order.setMall_img(jsonObject.get("mall_img").toString());
-                    order.setMall_name(jsonObject.get("mall_name").toString());
-                    order.setMall_describe(jsonObject.get("mall_describe").toString());
-                    order.setMall_price(jsonObject.get("mall_price").toString());
-                    list.add(order);
-                }
-                context=CheckSend.this;
+                    Dynamics dynamics=new Dynamics();
+                    dynamics.setId(Integer.parseInt(jsonObject.get("id").toString()));
+                    dynamics.setTitle(jsonObject.get("title").toString());
+                    dynamics.setContent(jsonObject.get("content").toString());
+                    dynamics.setAuthor(jsonObject.get("author").toString());
+                    dynamics.setDescribe(jsonObject.getString("describe").toString());
+                    dynamicsList.add(dynamics);
 
-                listView.setAdapter(adapter);
+
+                }
+                context =NewDynamic.this;
+                listView.setAdapter(baseAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sendlistview);
-        listView = (ListView) findViewById(R.id.sendlist);
-        String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/CheckSend?username=" + Frag_MainActivity.user.getUsername();
-        ReadURL(address);
-         adapter = new BaseAdapter() {
+        setContentView(R.layout.activity_new_dynamic);
+        listView= (ListView) findViewById(R.id.newdynamic);
+      listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+              Intent intent=new Intent(NewDynamic.this, ShowDynamic.class);
+              intent.putExtra("dyname",dynamicsList.get(i).getTitle());
+              intent.putExtra("dycontent",dynamicsList.get(i).getContent());
+              intent.putExtra("dyid",String.valueOf(dynamicsList.get(i).getId()));
+
+              startActivity(intent);
+          }
+      });
+        String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/Dynamic?function=newdynamic";;
+        ReadURL(url);
+        baseAdapter=new BaseAdapter() {
             @Override
             public int getCount() {
-                return list.size();
+                return dynamicsList.size();
             }
 
             @Override
@@ -90,36 +107,33 @@ public class CheckSend extends AppCompatActivity {
 
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
-                ViewHolder holder = null;
-                if (view == null) {
-                    view = LayoutInflater.from(context).inflate(R.layout.activity_check_send, viewGroup, false);
-                    holder = new ViewHolder();
-                    holder.img = (ImageView) view.findViewById(R.id.imag);
-                    holder.name = (TextView) view.findViewById(R.id.name);
-                    holder.describe = (TextView) view.findViewById(R.id.describe);
-                    holder.price = (TextView) view.findViewById(R.id.price);
-                    view.setTag(holder);
-                } else {
-                    holder = (ViewHolder) view.getTag();
+                ViewHolder viewHolder=null;
+                if(view==null)
+                {
+                    viewHolder=new ViewHolder();
+                    view=LayoutInflater.from(context).inflate(R.layout.dynamic_layout,viewGroup,false);
+                    viewHolder=new ViewHolder();
+                    viewHolder.describle= (TextView) view.findViewById(R.id.describle);
+                    viewHolder.author= (TextView) view.findViewById(R.id.author);
+                    viewHolder.title= (TextView) view.findViewById(R.id.dynamicname);
+                    view.setTag(viewHolder);
+                }else {
+                    viewHolder= (ViewHolder) view.getTag();
                 }
-                ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(context);
-                ImageLoader.getInstance().init(configuration);
-                ImageLoader.getInstance().displayImage(list.get(i).getMall_img(), holder.img);
-                holder.name.setText(list.get(i).getMall_name());
-                holder.describe.setText(list.get(i).getMall_describe());
-                holder.price.setText(list.get(i).getMall_price());
+                viewHolder.title.setText(dynamicsList.get(i).getTitle());
+                viewHolder.describle.setText(dynamicsList.get(i).getDescribe());
+                viewHolder.author.setText(dynamicsList.get(i).getAuthor());
                 return view;
             }
         };
-    }
 
-    static class ViewHolder {
-        ImageView img;
-        TextView name;
-        TextView describe;
-        TextView price;
     }
-
+    static  class ViewHolder
+    {
+        TextView title;
+        TextView describle;
+        TextView author;
+    }
     public void ReadURL(final String url) {
         new AsyncTask<String, Void, String>() {
             @Override
@@ -157,9 +171,8 @@ public class CheckSend extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 Message message = new Message();
                 message.obj = s;
-                handler.sendMessage(message);
+                mhandlers.sendMessage(message);
                 super.onPostExecute(s);
-
             }
 
 
@@ -173,6 +186,5 @@ public class CheckSend extends AppCompatActivity {
                 super.onCancelled();
             }
         }.execute(url);
-
     }
 }

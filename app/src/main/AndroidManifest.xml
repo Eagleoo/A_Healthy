@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
 
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -44,11 +45,12 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="ff093d2d117998d5bab4b1277a0455a7" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="ff093d2d117998d5bab4b1277a0455a7" />
 
-
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="ff093d2d117998d5bab4b1277a0455a7">
-        </meta-data>
-        <activity android:name=".Activity.Frag_MainActivity"
+        <activity
+            android:name=".Activity.Frag_MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -97,7 +99,6 @@
             android:label="@string/title_activity_goods" />
         <activity android:name=".Activity.InsertAddress" />
         <activity android:name=".Activity.Updatepwd" />
-
         <activity android:name=".Activity.CotentActivity" />
         <activity android:name=".step.Look_steps" />
         <activity android:name=".mall.Mall_Detail_Activity" />
@@ -106,6 +107,15 @@
         <activity android:name=".mall.Mall_collect_Activity"></activity>
         <activity android:name=".step.Step_Map" />
         <activity android:name=".Activity.CheckPermissionsActivity" />
+<<<<<<< HEAD
+        <activity android:name=".mall.Mall_Address_Activity" />
+        <activity android:name=".step.Step_MainActivity" />
+        <activity android:name=".Main_Activity.Plan_Activity" />
+        <activity android:name=".Main_Activity.Plan_Add_Activity" />
+        <activity android:name=".Main_Activity.Text_Activity" />
+        <activity android:name=".Main_Activity.Text_Do_Activity" />
+        <activity android:name=".Main_Activity.Text_Result" />
+=======
 
         <activity android:name=".mall.Mall_Address_Activity"></activity>
 
@@ -132,6 +142,7 @@
         <activity android:name=".Main_Activity.Food_Self_Activity" />
         <activity android:name=".Main_Activity.Eat_Aim_Activity" />
 
+>>>>>>> 243e29e028ea366b84415a40e2f43274f7585d0b
 
         <!-- 计步功能 -->
         <service
@@ -159,16 +170,19 @@
             android:name=".Activity.QQBaiduRegister"
             android:label="@string/title_activity_qqbaidu_register"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".Activity.CheckReceive" />
-        <activity android:name=".Activity.OrderActivity" />
-        <activity android:name=".Activity.CheckPayment" />
-        <activity android:name=".Activity.CheckSend" />
         <activity android:name=".Activity.OrderInformation" />
         <activity android:name=".Activity.PerCollect" />
         <activity android:name=".Activity.CollectShow" />
         <activity android:name=".Activity.SearchActivity" />
         <activity android:name=".Activity.NewConsult" />
-        <activity android:name=".Activity.NewMall"></activity>
+        <activity android:name=".Activity.NewMall" />
+        <activity android:name=".Activity.NewDynamic" />
+        <activity android:name=".Activity.ShowDynamic" />
+        <activity android:name=".Activity.ReviewActivity" />
+        <activity android:name=".Activity.InsertReview" />
+        <activity android:name=".Activity.ReplyActivity" />
+        <activity android:name=".Activity.Publishdy" />
+        <activity android:name=".Activity.AllInformation"></activity>
     </application>
 
 </manifest>

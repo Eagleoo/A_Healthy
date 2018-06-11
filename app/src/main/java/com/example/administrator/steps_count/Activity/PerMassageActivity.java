@@ -52,7 +52,7 @@ public class PerMassageActivity extends AppCompatActivity {
           tall.setText(String.valueOf(Frag_MainActivity.user.getUser_tall()));
           weight.setText(String.valueOf(Frag_MainActivity.user.getUser_weight()));
           age.setText(String.valueOf(Frag_MainActivity.user.getUser_age()));
-          ImageLoader.getInstance().displayImage(Frag_MainActivity.user.getPortrait(),head);
+          ImageLoader.getInstance().displayImage(Frag_MainActivity.user.getPortrait().trim(),head);
 
       }
 

@@ -63,9 +63,13 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
 
 
 
+
+
+
         setupService();
 
-        localhost="192.168.1.104";
+        localhost="192.168.1.101";
+
 
         myBroadcost=new MyBroadcost();
 

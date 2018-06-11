@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.steps_count.Activity.ShowDynamic">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/dytitle"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@id/dytitle"
+        android:id="@+id/dycontent"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dycontent"
+        android:id="@+id/dyreview"
+        android:layout_marginLeft="100dp"
+        android:textSize="20dp"
+        android:text="@string/review"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dycontent"
+        android:layout_toRightOf="@id/dyreview"
+        android:text="评论"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/reviewcontent"/>
+</RelativeLayout>

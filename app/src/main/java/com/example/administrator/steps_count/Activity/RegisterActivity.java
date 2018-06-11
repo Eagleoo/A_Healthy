@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText tall;
     private EditText weight;
     private EditText age;
-    private EditText address;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
