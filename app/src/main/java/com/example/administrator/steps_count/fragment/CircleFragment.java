@@ -2,6 +2,7 @@ package com.example.administrator.steps_count.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.adapter.ConsultAdapter;
 import com.example.administrator.steps_count.model.Circle;
 import com.example.administrator.steps_count.model.Dynamics;
+import com.example.administrator.steps_count.tools.Text;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -115,7 +117,9 @@ public class CircleFragment extends Fragment {
                     dynamics.setId(Integer.parseInt(jsonObject.get("id").toString()));
                     dynamics.setTitle(jsonObject.get("title").toString());
                     dynamics.setContent(jsonObject.get("content").toString());
-                    dynamics.setImag(jsonObject.get("imag").toString());
+                   dynamics.setAuthor(jsonObject.get("author").toString());
+                   dynamics.setDescribe(jsonObject.getString("describe").toString());
+                   Toast.makeText(getActivity(),jsonArray.length()+"",Toast.LENGTH_LONG).show();
                     dynamicsList.add(dynamics);
 
                 }
@@ -162,6 +166,12 @@ public class CircleFragment extends Fragment {
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         tabStrip = (PagerTabStrip) view.findViewById(R.id.tabstrip);
+        tabStrip.setTextSize(1, 20);
+        tabStrip.setPadding(50, 50, 50, 50);
+        tabStrip.setDrawFullUnderline(false);
+        tabStrip.setTabIndicatorColor(Color.rgb(244,164,96));
+        tabStrip.setNonPrimaryAlpha(0.5f);
+        tabStrip.setTextColor(Color.rgb(244,164,96));
         sliderLayout = (SliderLayout) view.findViewById(R.id.slider);
         indicator = (PagerIndicator) view.findViewById(R.id.indicator);
         search = (Button) view.findViewById(R.id.btn_search);
@@ -215,7 +225,7 @@ public class CircleFragment extends Fragment {
         baseAdapter=new BaseAdapter() {
             @Override
             public int getCount() {
-                return list.size();
+                return  dynamicsList.size();
             }
 
             @Override
@@ -235,16 +245,16 @@ public class CircleFragment extends Fragment {
                 {
                     view=LayoutInflater.from(context).inflate(R.layout.dynamic_layout,viewGroup,false);
                     viewHolder=new ViewHolder();
-                    viewHolder.imageView= (ImageView) view.findViewById(R.id.dynamicimag);
                     viewHolder.title= (TextView) view.findViewById(R.id.dynamicname);
+                    viewHolder.describle= (TextView) view.findViewById(R.id.describle);
+                    viewHolder.author= (TextView) view.findViewById(R.id.author);
                     view.setTag(viewHolder);
                 }else {
                     viewHolder= (ViewHolder) view.getTag();
                 }
                 viewHolder.title.setText(dynamicsList.get(i).getTitle());
-                ImageLoaderConfiguration configuration=ImageLoaderConfiguration.createDefault(context);
-                ImageLoader.getInstance().init(configuration);
-                ImageLoader.getInstance().displayImage(dynamicsList.get(i).getImag(),viewHolder.imageView);
+               viewHolder.describle.setText(dynamicsList.get(i).getDescribe());
+               viewHolder.author.setText(dynamicsList.get(i).getAuthor());
                 return view;
             }
         };
@@ -252,8 +262,9 @@ public class CircleFragment extends Fragment {
     }
 static  class ViewHolder
 {
-    ImageView imageView;
     TextView title;
+    TextView describle;
+    TextView author;
 }
 
     public class MyPagerAdapter extends PagerAdapter {

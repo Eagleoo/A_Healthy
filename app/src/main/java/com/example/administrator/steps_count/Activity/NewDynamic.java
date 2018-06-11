@@ -1,6 +1,7 @@
 package com.example.administrator.steps_count.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -56,7 +58,8 @@ public class NewDynamic extends AppCompatActivity {
                     dynamics.setId(Integer.parseInt(jsonObject.get("id").toString()));
                     dynamics.setTitle(jsonObject.get("title").toString());
                     dynamics.setContent(jsonObject.get("content").toString());
-                    dynamics.setImag(jsonObject.get("imag").toString());
+                    dynamics.setAuthor(jsonObject.get("author").toString());
+                    dynamics.setDescribe(jsonObject.getString("describe").toString());
                     dynamicsList.add(dynamics);
 
 
@@ -73,6 +76,17 @@ public class NewDynamic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_dynamic);
         listView= (ListView) findViewById(R.id.newdynamic);
+      listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+              Intent intent=new Intent(NewDynamic.this, ShowDynamic.class);
+              intent.putExtra("dyname",dynamicsList.get(i).getTitle());
+              intent.putExtra("dycontent",dynamicsList.get(i).getContent());
+              intent.putExtra("dyid",String.valueOf(dynamicsList.get(i).getId()));
+
+              startActivity(intent);
+          }
+      });
         String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/Dynamic?function=newdynamic";;
         ReadURL(url);
         baseAdapter=new BaseAdapter() {
@@ -99,16 +113,16 @@ public class NewDynamic extends AppCompatActivity {
                     viewHolder=new ViewHolder();
                     view=LayoutInflater.from(context).inflate(R.layout.dynamic_layout,viewGroup,false);
                     viewHolder=new ViewHolder();
-                    viewHolder.imageView= (ImageView) view.findViewById(R.id.dynamicimag);
+                    viewHolder.describle= (TextView) view.findViewById(R.id.describle);
+                    viewHolder.author= (TextView) view.findViewById(R.id.author);
                     viewHolder.title= (TextView) view.findViewById(R.id.dynamicname);
                     view.setTag(viewHolder);
                 }else {
                     viewHolder= (ViewHolder) view.getTag();
                 }
                 viewHolder.title.setText(dynamicsList.get(i).getTitle());
-                ImageLoaderConfiguration configuration=ImageLoaderConfiguration.createDefault(context);
-                ImageLoader.getInstance().init(configuration);
-                ImageLoader.getInstance().displayImage(dynamicsList.get(i).getImag(),viewHolder.imageView);
+                viewHolder.describle.setText(dynamicsList.get(i).getDescribe());
+                viewHolder.author.setText(dynamicsList.get(i).getAuthor());
                 return view;
             }
         };
@@ -116,8 +130,9 @@ public class NewDynamic extends AppCompatActivity {
     }
     static  class ViewHolder
     {
-        ImageView imageView;
         TextView title;
+        TextView describle;
+        TextView author;
     }
     public void ReadURL(final String url) {
         new AsyncTask<String, Void, String>() {

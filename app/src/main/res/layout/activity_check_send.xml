@@ -46,5 +46,10 @@
             android:id="@+id/price"
             android:textSize="20dp"
             />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退款"
+            android:id="@+id/back"/>
     </LinearLayout>
 </LinearLayout>

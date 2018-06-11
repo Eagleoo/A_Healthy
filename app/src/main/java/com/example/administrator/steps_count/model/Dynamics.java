@@ -8,7 +8,8 @@ import java.io.Serializable;
 
 public class Dynamics implements Serializable{
     private int id;
-    private String imag;
+    private String author;
+    private String describe;
     private String title;
     private String content;
 
@@ -20,12 +21,20 @@ public class Dynamics implements Serializable{
         this.id = id;
     }
 
-    public String getImag() {
-        return imag;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setImag(String imag) {
-        this.imag = imag;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 
     public String getTitle() {

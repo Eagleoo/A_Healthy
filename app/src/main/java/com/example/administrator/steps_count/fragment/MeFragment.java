@@ -22,7 +22,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,26 +29,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.steps_count.Activity.CheckPayment;
-import com.example.administrator.steps_count.Activity.CheckReceive;
-import com.example.administrator.steps_count.Activity.CheckSend;
+import com.example.administrator.steps_count.Activity.AllInformation;
 import com.example.administrator.steps_count.Activity.Frag_MainActivity;
 import com.example.administrator.steps_count.Activity.LoginActivity;
-import com.example.administrator.steps_count.Activity.OrderActivity;
 import com.example.administrator.steps_count.Activity.PerCollect;
 import com.example.administrator.steps_count.Activity.PerMassageActivity;
-import com.example.administrator.steps_count.Activity.QQBaiduRegister;
+import com.example.administrator.steps_count.Activity.Publishdy;
 import com.example.administrator.steps_count.Activity.SettingActivity;
-import com.example.administrator.steps_count.Activity.UpdateMsgActivity;
 import com.example.administrator.steps_count.R;
-import com.example.administrator.steps_count.model.User;
-import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,22 +50,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
-import static com.loc.g.s;
-
 public class MeFragment extends Fragment implements View.OnClickListener {
     private TextView txt_login;
     private TextView per_message;
     private ImageView head;
     private TextView setting;
-    private TextView order;
-    private TextView isreceive;
-    private TextView payment;
-    private TextView issend;
+    private ImageView order;
+    private ImageView isreceive;
+    private ImageView payment;
+    private ImageView issend;
     private TextView collect;
+    private TextView insertdy;
     private Uri imagurl;
     public static final int TAKE_PHONTO = 1;
-    public static final int CHOOSE_PHONTO=2;
+    public static final int CHOOSE_PHONTO = 2;
     private AlertDialog.Builder builder = null;
     private AlertDialog alertDialog;
     private String[] address = new String[]{"相册", "拍照"};
@@ -98,29 +85,29 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         head.setOnClickListener(this);
         setting = (TextView) view.findViewById(R.id.setting);
         setting.setOnClickListener(this);
-        order = (TextView) view.findViewById(R.id.order);
+        order = (ImageView) view.findViewById(R.id.order);
         order.setOnClickListener(this);
-        isreceive = (TextView) view.findViewById(R.id.isreceive);
+        isreceive = (ImageView) view.findViewById(R.id.isreceive);
         isreceive.setOnClickListener(this);
-        payment = (TextView) view.findViewById(R.id.payment);
+        payment = (ImageView) view.findViewById(R.id.payment);
         payment.setOnClickListener(this);
-        issend = (TextView) view.findViewById(R.id.issend);
+        issend = (ImageView) view.findViewById(R.id.issend);
         issend.setOnClickListener(this);
         collect = (TextView) view.findViewById(R.id.collect);
         collect.setOnClickListener(this);
-
+        insertdy = (TextView) view.findViewById(R.id.insertdy);
+        insertdy.setOnClickListener(this);
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(getActivity());
         ImageLoader.getInstance().init(configuration);
 
         if (Frag_MainActivity.user != null) {
             txt_login.setText(Frag_MainActivity.user.getUsername());
             txt_login.setEnabled(false);
-            if (Frag_MainActivity.user.getPortrait().startsWith("/storage"))
-            {
+            if (Frag_MainActivity.user.getPortrait().startsWith("/storage")) {
 
-                String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/ClientUpdate?function=imag&username="+Frag_MainActivity.user.getUsername();
+                String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientUpdate?function=imag&username=" + Frag_MainActivity.user.getUsername();
                 SeReadURL(url);
-            }else {
+            } else {
                 ImageLoader.getInstance().displayImage(Frag_MainActivity.user.getPortrait().trim(), head);
             }
         }
@@ -157,8 +144,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                                         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                                         intent.putExtra(MediaStore.EXTRA_OUTPUT, imagurl);
                                         startActivityForResult(intent, TAKE_PHONTO);
-                                    }else if (address[which] == "相册")
-                                    {
+                                    } else if (address[which] == "相册") {
                                         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                                             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
@@ -174,7 +160,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                             .create();
                     alertDialog.show();
                 }
-
 
 
                 break;
@@ -193,7 +178,8 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.order:
                 if (Frag_MainActivity.user != null) {
-                    Intent intent1 = new Intent(getActivity(), OrderActivity.class);
+                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
+                    intent1.putExtra("item","0");
                     startActivity(intent1);
                 } else {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
@@ -201,24 +187,27 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.issend:
                 if (Frag_MainActivity.user != null) {
-                    Intent intent2 = new Intent(getActivity(), CheckSend.class);
-                    startActivity(intent2);
+                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
+                    intent1.putExtra("item","2");
+                    startActivity(intent1);
                 } else {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.isreceive:
                 if (Frag_MainActivity.user != null) {
-                    Intent intent3 = new Intent(getActivity(), CheckReceive.class);
-                    startActivity(intent3);
+                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
+                    intent1.putExtra("item","1");
+                    startActivity(intent1);
                 } else {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.payment:
                 if (Frag_MainActivity.user != null) {
-                    Intent intent4 = new Intent(getActivity(), CheckPayment.class);
-                    startActivity(intent4);
+                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
+                    intent1.putExtra("item","3");
+                    startActivity(intent1);
                 } else {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
                 }
@@ -235,6 +224,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 Intent setting = new Intent(getActivity(), SettingActivity.class);
                 startActivity(setting);
                 break;
+            case R.id.insertdy:
+                if (Frag_MainActivity.user != null) {
+                    Intent inserdy = new Intent(getActivity(), Publishdy.class);
+                    startActivity(inserdy);
+                } else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+                }
+
+                break;
         }
 
     }
@@ -244,6 +242,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         intent.setType("image/*");
         startActivityForResult(intent, CHOOSE_PHONTO);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -257,6 +256,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -338,14 +338,14 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-                Log.e("ssssyyy", path);
+
             }
             cursor.close();
         }
 
         return path;
     }
-    
+
 
     public void ReadURL(final String url) {
         new AsyncTask<String, Void, String>() {
@@ -397,6 +397,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         }.execute(url);
 
     }
+
     public void SeReadURL(final String url) {
         new AsyncTask<String, Void, String>() {
             @Override
