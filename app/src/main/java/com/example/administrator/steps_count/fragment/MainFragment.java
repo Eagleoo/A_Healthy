@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.step.Constant;
 import com.example.administrator.steps_count.step.DBOpenHelper;
 import com.example.administrator.steps_count.step.Step_MainActivity;
+import com.example.administrator.steps_count.step.Step_Map_Activity;
 import com.example.administrator.steps_count.step.TimeUtil;
 import com.example.administrator.steps_count.step.User_DBOpenHelper;
 import com.example.administrator.steps_count.tools.Json_Tools;
@@ -118,6 +120,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
 
         String total_ka=getActivity().getIntent().getStringExtra("total_ka");
         //tv_cur_ka.setText(total_ka+"千卡");
+        Log.e("","");
 
         db=new DBOpenHelper(getActivity());
         u_db=new User_DBOpenHelper(getActivity());
@@ -186,7 +189,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), Step_Map.class));
+                        startActivity(new Intent(getActivity(), Step_Map_Activity.class));
                     }
                 }
         );

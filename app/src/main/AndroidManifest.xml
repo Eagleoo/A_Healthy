@@ -110,7 +110,7 @@
         <activity android:name=".mall.Mall_Address_Activity"></activity>
 
         <activity android:name=".step.Step_MainActivity"></activity>
-
+        <activity android:name=".step.Step_Map_Activity"></activity>
 
         <activity android:name=".Main_Activity.Plan_Activity"/>
         <activity android:name=".Main_Activity.Plan_Add_Activity"/>
