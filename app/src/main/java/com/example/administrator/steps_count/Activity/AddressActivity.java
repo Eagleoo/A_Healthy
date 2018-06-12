@@ -112,7 +112,7 @@ public class AddressActivity extends AppCompatActivity implements CompoundButton
         delete = (TextView) findViewById(R.id.delete);
         allcheck.setOnCheckedChangeListener(this);
         if (Frag_MainActivity.user != null) {
-            String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/AdressQuery?name=" + Frag_MainActivity.user.getUsername();
+            String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/AdressQuery?name=" + Frag_MainActivity.user.getUsername();
             QueryReadURL(url);
         }
 
@@ -131,7 +131,7 @@ public class AddressActivity extends AppCompatActivity implements CompoundButton
                 sender = list.get(position).getSender();
                 tel = list.get(position).getClienttel();
                 district = list.get(position).getClientaddress();
-                String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/SelectId?sender=" + sender
+                String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/SelectId?sender=" + sender
                         + "&tel=" + tel + "&address=" + district;
                 IdReadURL(url);
                 return false;
@@ -166,7 +166,7 @@ public class AddressActivity extends AppCompatActivity implements CompoundButton
                                             ids.add(list.get(i).getId());
                                         }
                                     }
-                                    String url ="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/AddressDelete?id="+ids.toString();
+                                    String url ="http://"+Frag_MainActivity.localhost+":8080/circle/servlet/AddressDelete?id="+ids.toString();
                                     DeleteReadURL(url);
                                     finish();
 

@@ -40,7 +40,7 @@ id=Integer.parseInt(intent.getStringExtra("dyid"));
             public void onClick(View view) {
                 if (Frag_MainActivity.user!=null)
                 {
-                    String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/Dynamic?function=insertreview&username="+Frag_MainActivity.user.getUsername()
+                    String url="http://"+Frag_MainActivity.localhost+":8080/circle/servlet/Dynamic?function=insertreview&username="+Frag_MainActivity.user.getUsername()
                             +"&consult_id="+id+"&content="+recontent.getText().toString().trim();
 
                     ReadURL(url);

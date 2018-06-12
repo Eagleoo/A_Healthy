@@ -39,7 +39,7 @@ public class Updatepwd extends AppCompatActivity {
                 if (!newpwd.getText().toString().equals(surepwd.getText().toString())) {
                     Toast.makeText(Updatepwd.this, "请输入相同的密码！", Toast.LENGTH_LONG).show();
                 } else {
-                    String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/UpdatePwd?"
+                    String address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/UpdatePwd?"
                             + "user_id=" + Frag_MainActivity.user.getUser_id()
                             + "&oldpassword=" + oldpwd.getText().toString()
                             + "&newpassword=" + newpwd.getText().toString();

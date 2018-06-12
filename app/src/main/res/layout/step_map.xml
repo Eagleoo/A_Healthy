@@ -158,9 +158,6 @@
                     android:text="2000"
                     android:textColor="#EAC100"/>
             </LinearLayout>
-
-
-
     </LinearLayout>
     </RelativeLayout>
 

@@ -47,7 +47,7 @@ users= (User) intent.getSerializableExtra("user");
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String address = "http://"+Frag_MainActivity.localhost+":8080/Health/servlet/ClientUpdate?user_id="+users.getUser_id()
+                String address = "http://"+Frag_MainActivity.localhost+":8080/circle/servlet/ClientUpdate?user_id="+users.getUser_id()
                         + "&user_name=" + users.getUsername()
                         + "&user_sex=" + users.getSex()
                         + "&user_tall=" + tall.getText().toString()

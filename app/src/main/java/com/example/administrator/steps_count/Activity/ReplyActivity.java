@@ -87,7 +87,7 @@ public class ReplyActivity extends AppCompatActivity {
         });
         intent = getIntent();
         id=Integer.parseInt(intent.getStringExtra("id"));
-        String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Dynamic?function=response&reviewid=" +id;
+        String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Dynamic?function=response&reviewid=" +id;
         ReadURL(url);
         username = intent.getStringExtra("name");
         baseAdapter = new BaseAdapter() {
@@ -146,7 +146,7 @@ public class ReplyActivity extends AppCompatActivity {
                     Toast.makeText(ReplyActivity.this, "请先登录", Toast.LENGTH_LONG).show();
                 } else if (Frag_MainActivity.user.getUsername().equals(respones.get(position).getName())) {
 
-                    String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Dynamic?function=delete&name=" + respones.get(position).getName()
+                    String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Dynamic?function=delete&name=" + respones.get(position).getName()
                             + "&content=" + respones.get(position).getContent() + "&reviewid=" + respones.get(position).getReviewid();
                     DeleteURL(url);
                 } else {

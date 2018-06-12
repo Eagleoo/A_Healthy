@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_ok:
-                address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientLogin?user_name=" + user_name.getText().toString() +
+                address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/ClientLogin?user_name=" + user_name.getText().toString() +
                         "&user_password=" + user_password.getText().toString();
                 ReadURL(address);
                 break;
@@ -290,7 +290,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                }
                 String url = "http://tb.himg.baidu.com/sys/portrait/item/%7B$" + userimg + "%7D";
 
-                String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientRegister?user_name=" + username
+                String address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/ClientRegister?user_name=" + username
                         + "&user_password="+"&user_sex="+usr.getSex()+"&portrait="+url;
                QQBaiduReadURL(address);
 
@@ -327,7 +327,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             String na = oo.getString("nickname");
                             String url = oo.getString("figureurl_2");
                             String sex=oo.getString("gender");
-                            String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientRegister?user_name=" + na
+                            String address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/ClientRegister?user_name=" + na
                                     + "&user_password="+"&user_sex="+sex+"&portrait="+url;
                             QQBaiduReadURL(address);
                         } catch (JSONException e) {

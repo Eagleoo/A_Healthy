@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         || age.getText().toString().equals("")) {
                     Toast.makeText(RegisterActivity.this, "请输入完整您的信息", Toast.LENGTH_LONG).show();
                 } else {
-                    String adress = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientRegister?user_name=" + username.getText().toString() + "&user_password=" +
+                    String adress = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/ClientRegister?user_name=" + username.getText().toString() + "&user_password=" +
                             password.getText().toString() + "&user_sex=" + sex.getText().toString() + "&user_tall=" + tall.getText().toString()
                             + "&user_weight=" + weight.getText().toString()
                             + "&user_age=" + age.getText().toString();

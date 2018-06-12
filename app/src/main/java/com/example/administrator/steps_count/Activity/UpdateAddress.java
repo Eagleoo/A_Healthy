@@ -61,7 +61,7 @@ public class UpdateAddress extends AppCompatActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/AddressUpdate?id=" + id
+                                String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/AddressUpdate?id=" + id
                                         + "&sender=" + sender.getText().toString()
                                         + "&tel=" + telephone.getText().toString()
                                         + "&address=" + location.getText().toString();

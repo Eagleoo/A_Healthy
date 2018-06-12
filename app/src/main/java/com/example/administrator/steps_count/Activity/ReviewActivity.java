@@ -94,7 +94,7 @@ public class ReviewActivity extends AppCompatActivity {
         edt = (EditText) findViewById(R.id.replycon);
         relist = (ListView) findViewById(discuss);
         Intent intent = getIntent();
-        String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Dynamic?function=review&consult_id="
+        String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Dynamic?function=review&consult_id="
                 + Integer.parseInt(intent.getStringExtra("dyid"));
         ReadURL(url);
         relist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -119,7 +119,7 @@ public class ReviewActivity extends AppCompatActivity {
                     {
                         Toast.makeText(ReviewActivity.this,"请输入内容",Toast.LENGTH_LONG).show();
                     }else {
-                        String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Dynamic?function=discuss&username=" + reviews.get(position).getUsername()
+                        String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Dynamic?function=discuss&username=" + reviews.get(position).getUsername()
                                 + "&name=" + Frag_MainActivity.user.getUsername() + "&content=" + content + "&reviewid=" + reviews.get(position).getId();
                         InserURL(url);
                     }
@@ -208,7 +208,7 @@ public class ReviewActivity extends AppCompatActivity {
                     Toast.makeText(ReviewActivity.this, "请先登录", Toast.LENGTH_LONG).show();
                 }else if(Frag_MainActivity.user.getUsername().equals(reviews.get(position).getUsername()))
             {
-                String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/Dynamic?function=deletereview&name="+reviews.get(position).getUsername()+
+                String url="http://"+Frag_MainActivity.localhost+":8080/circle/servlet/Dynamic?function=deletereview&name="+reviews.get(position).getUsername()+
                         "&content="+reviews.get(position).getContent()+"&consult_id="+reviews.get(position).getConsult_id();
                 DeleteURL(url);
             }else

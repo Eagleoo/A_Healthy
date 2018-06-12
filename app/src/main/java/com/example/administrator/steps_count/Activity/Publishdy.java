@@ -38,7 +38,7 @@ private Button publish;
             @Override
             public void onClick(View view) {
 
-                    String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/Dynamic?function=insert&title="+title.getText().toString()
+                    String url="http://"+Frag_MainActivity.localhost+":8080/circle/servlet/Dynamic?function=insert&title="+title.getText().toString()
                             +"&describe="+describe.getText().toString()+"&content="+content.getText().toString()
                             +"&author="+Frag_MainActivity.user.getUsername();
 

@@ -107,7 +107,6 @@
         <activity android:name=".mall.Mall_collect_Activity"></activity>
         <activity android:name=".step.Step_Map" />
         <activity android:name=".Activity.CheckPermissionsActivity" />
-<<<<<<< HEAD
         <activity android:name=".mall.Mall_Address_Activity" />
         <activity android:name=".step.Step_MainActivity" />
         <activity android:name=".Main_Activity.Plan_Activity" />
@@ -115,7 +114,6 @@
         <activity android:name=".Main_Activity.Text_Activity" />
         <activity android:name=".Main_Activity.Text_Do_Activity" />
         <activity android:name=".Main_Activity.Text_Result" />
-=======
 
         <activity android:name=".mall.Mall_Address_Activity"></activity>
 
@@ -141,8 +139,6 @@
         <activity android:name=".Main_Activity.Food_select_Activity" />
         <activity android:name=".Main_Activity.Food_Self_Activity" />
         <activity android:name=".Main_Activity.Eat_Aim_Activity" />
-
->>>>>>> 243e29e028ea366b84415a40e2f43274f7585d0b
 
         <!-- 计步功能 -->
         <service

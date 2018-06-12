@@ -87,7 +87,7 @@ public class NewDynamic extends AppCompatActivity {
               startActivity(intent);
           }
       });
-        String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/Dynamic?function=newdynamic";;
+        String url="http://"+Frag_MainActivity.localhost+":8080/circle/servlet/Dynamic?function=newdynamic";;
         ReadURL(url);
         baseAdapter=new BaseAdapter() {
             @Override

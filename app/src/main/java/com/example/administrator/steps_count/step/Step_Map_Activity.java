@@ -2,14 +2,23 @@ package com.example.administrator.steps_count.step;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.Chronometer;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,37 +44,46 @@ import com.example.administrator.steps_count.step.Step_Map;
 import com.example.administrator.steps_count.step.TimeUtil;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 public class Step_Map_Activity extends AppCompatActivity implements LocationSource, AMapLocationListener {
 
     private MapView mMapView = null;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
-    //private final static LatLng_1 CHENGDU = new LatLng_1(30.679879, 104.064855);
     //定位功能
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocationClient mLocationClient;
     private AMapLocationClientOption mLocationOption;
     private boolean isFirstLoc = true;
-    private boolean isBtn=true;
-    //以前的定位点
-    private LatLng oldLatLng;
-    private TextView run_speed,run_km,run_ka;
-    private Chronometer run_time;
-    private Button stop_run,pause_run;
     private Map_DBHelper db;
-    private List<LatLng> list;
+    private ImageView map_record,back_map;
+    private Button start;
+    private CalendarView calendar;
+    private List<LatLng_1> latLng1List;
+    private List<LatLng_1> list;
+    private LinearLayout record_data;
+    private TextView tv_run_km,tv_run_ka,tv_run_time,tv_run_speed;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_map_layout);
         mMapView = (MapView) findViewById(R.id.step_map);
+        map_record=(ImageView)findViewById(R.id.map_record);
+        back_map=(ImageView)findViewById(R.id.back_map);
+        tv_run_km=(TextView)findViewById(R.id.tv_run_km);
+        tv_run_ka=(TextView)findViewById(R.id.tv_run_ka);
+        tv_run_time=(TextView)findViewById(R.id.tv_run_time);
+        tv_run_speed=(TextView)findViewById(R.id.tv_run_speed);
+        start=(Button)findViewById(R.id.start);
+        record_data=(LinearLayout)findViewById(R.id.record_data);
         mMapView.onCreate(savedInstanceState);
         db=new Map_DBHelper(this);
-
+        Init_Road();
         //初始化地图控制器对象
         if (aMap == null) {
             aMap = mMapView.getMap();
@@ -84,13 +102,81 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+        final View view = LayoutInflater.from(Step_Map_Activity.this).inflate(R.layout.m_calendar, null, false);
+        calendar=(CalendarView)view.findViewById(R.id.calendar);
+        map_record.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        latLng1List=new ArrayList<>();
+                        latLng1List=Select_Calendar();
+                        new AlertDialog.Builder(Step_Map_Activity.this).setTitle("查看跑步记录")
+                                .setIcon(R.drawable.run_1)
+                                .setMessage("选择查看的日期")
+                                .setView(view)
+                                .setPositiveButton("查看", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
+                                        if(Select_Calendar()!=null){
+                                            latLng1List=Select_Calendar();
+                                        }
+                                        else {
+                                            latLng1List=db.getCurLatLngByDate(TimeUtil.getCurrentDate());
+                                        }
+                                        if (latLng1List.size()==0){
+                                            Toast.makeText(Step_Map_Activity.this, "这天没有跑步哦！", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(Step_Map_Activity.this,Step_Map_Activity.class));
+                                            finish();
+                                        }
+                                        else {
+                                            for (int i=0;i<latLng1List.size();i++){
+                                                if (i+1<latLng1List.size()){
+                                                    LatLng latLng1=new LatLng(Double.valueOf(latLng1List.get(i).getLatitude()),Double.valueOf(latLng1List.get(i).getLongitude()));
+                                                    LatLng latLng2=new LatLng(Double.valueOf(latLng1List.get(i+1).getLatitude()),Double.valueOf(latLng1List.get(i+1).getLongitude()));
+                                                    setUpMap(latLng1,latLng2);
+                                                }
+                                            }
+                                            record_data.setVisibility(View.VISIBLE);
+                                            showData();
+                                            aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+                                            aMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(Double.valueOf(latLng1List.get(latLng1List.size()/2).getLatitude()),Double.valueOf(latLng1List.get(latLng1List.size()/2).getLongitude()))));
+                                        }
 
-//        list=new ArrayList<LatLng_1>();
-//        for(int i=0;i<Trace.length-1;i++){
-//            LatLng_1 latLng=new LatLng_1(Trace[i],Trace[++i]);
-//            list.add(latLng);
-//        }
+                                        destoryView(view);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        destoryView(view);
+                                    }
+                                })
+                                .setCancelable(false)
+                                .show();
+
+                    }
+                }
+        );
+
+        start.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Step_Map_Activity.this,Step_Map.class));
+                        finish();
+                    }
+                }
+        );
+
+        back_map.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
     }
 
     @Override
@@ -140,12 +226,8 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
                 amapLocation.getCityCode();//城市编码
                 amapLocation.getAdCode();//地区编码
 
-
-                LatLng newLatLng =new LatLng(amapLocation.getLatitude(),amapLocation.getLongitude());
                 // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
                 if (isFirstLoc) {
-                    //记录第一次的定位信息
-                    oldLatLng = newLatLng;
                     //设置缩放级别
                     aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
                     //将地图移动到定位点
@@ -235,5 +317,62 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
                 .add(oldData, newData)
                 .geodesic(true).color(Color.parseColor("#01B468")));
 
+    }
+
+    private List<LatLng_1> Select_Calendar(){
+        calendar.setOnDateChangeListener(
+                new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                        list=new ArrayList<>();
+                        if(month<10&&dayOfMonth<10){
+                            String select_date="0"+(month+1)+"-"+"0"+dayOfMonth;
+                            list=db.getCurLatLngByDate(select_date);
+                        }
+                        else if(dayOfMonth>=10&&month<10){
+                            String select_date="0"+(month+1)+"-"+dayOfMonth;
+                            list=db.getCurLatLngByDate(select_date);
+                        }
+                        else if(month>=10&&dayOfMonth<10){
+                            String select_date=(month+1)+"-"+"0"+dayOfMonth;
+                            list=db.getCurLatLngByDate(select_date);
+                        }
+                        else if(month>=10&&dayOfMonth>=10){
+                            String select_date=(month+1)+"-"+dayOfMonth;
+                            list=db.getCurLatLngByDate(select_date);
+
+                        }
+                    }
+                }
+        );
+        return list;
+    }
+
+    private void Init_Road(){
+        latLng1List=new ArrayList<>();
+        latLng1List=db.getCurLatLngByDate(TimeUtil.getCurrentDate());
+        for (int i=0;i<latLng1List.size();i++){
+            if (i+1<latLng1List.size()){
+                LatLng latLng1=new LatLng(Double.valueOf(latLng1List.get(i).getLatitude()),Double.valueOf(latLng1List.get(i).getLongitude()));
+                LatLng latLng2=new LatLng(Double.valueOf(latLng1List.get(i+1).getLatitude()),Double.valueOf(latLng1List.get(i+1).getLongitude()));
+                setUpMap(latLng1,latLng2);
+            }
+        }
+    }
+
+    private void showData(){
+        Map map=new Map();
+        map=db.getCurUserDateByDate(TimeUtil.getCurrentDate());
+        tv_run_km.setText(map.getKm());
+        tv_run_ka.setText(map.getKa());
+        tv_run_time.setText(map.getTime());
+        tv_run_speed.setText(map.getSpeed());
+    }
+
+    private void destoryView(View view) {
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
     }
 }

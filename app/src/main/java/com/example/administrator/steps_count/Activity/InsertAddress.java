@@ -46,7 +46,7 @@ public class InsertAddress extends AppCompatActivity {
                             + "&sender=" + clientname.getText().toString()
                             + "&tel=" + tel.getText().toString()
                             + "&address=" + address.getText().toString();
-                    String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/InsertAdress" + adurl;
+                    String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/InsertAdress" + adurl;
                     ReadURL(url);
                     finish();
 

@@ -179,7 +179,7 @@ public class CircleFragment extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Search?title=" + edt_search.getText().toString().trim();
+                String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Search?title=" + edt_search.getText().toString().trim();
                 SearchReadURL(url);
             }
         });
@@ -218,9 +218,9 @@ public class CircleFragment extends Fragment {
         initImageSlider();
         MyPagerAdapter adapter = new MyPagerAdapter(list);
         viewPager.setAdapter(adapter);
-        String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/SelectMessage";
+        String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/SelectMessage";
         ReadURL(url);
-        String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Dynamic?function=show";
+        String address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Dynamic?function=show";
         DynamicReadURL(address);
         baseAdapter=new BaseAdapter() {
             @Override

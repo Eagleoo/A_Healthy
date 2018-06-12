@@ -59,7 +59,7 @@ public class UpdateMsgActivity extends AppCompatActivity {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String address = "http://"+Frag_MainActivity.localhost+":8080/Health/servlet/ClientUpdate?function=update&user_id="+Frag_MainActivity.user.getUser_id()
+                String address = "http://"+Frag_MainActivity.localhost+":8080/circle/servlet/ClientUpdate?function=update&user_id="+Frag_MainActivity.user.getUser_id()
                         + "&user_name=" + username.getText().toString()
                         + "&user_sex=" + sex.getText().toString()
                         + "&user_tall=" + tall.getText().toString()

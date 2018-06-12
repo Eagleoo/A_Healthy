@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,10 +56,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private TextView per_message;
     private ImageView head;
     private TextView setting;
-    private ImageView order;
-    private ImageView isreceive;
-    private ImageView payment;
-    private ImageView issend;
+
+    private RadioButton order;
+    private RadioButton isreceive;
+    private RadioButton payment;
+    private RadioButton issend;
+
     private TextView collect;
     private TextView insertdy;
     private Uri imagurl;
@@ -85,13 +88,13 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         head.setOnClickListener(this);
         setting = (TextView) view.findViewById(R.id.setting);
         setting.setOnClickListener(this);
-        order = (ImageView) view.findViewById(R.id.order);
+        order = (RadioButton) view.findViewById(R.id.order);
         order.setOnClickListener(this);
-        isreceive = (ImageView) view.findViewById(R.id.isreceive);
+        isreceive = (RadioButton) view.findViewById(R.id.isreceive);
         isreceive.setOnClickListener(this);
-        payment = (ImageView) view.findViewById(R.id.payment);
+        payment = (RadioButton) view.findViewById(R.id.payment);
         payment.setOnClickListener(this);
-        issend = (ImageView) view.findViewById(R.id.issend);
+        issend = (RadioButton) view.findViewById(R.id.issend);
         issend.setOnClickListener(this);
         collect = (TextView) view.findViewById(R.id.collect);
         collect.setOnClickListener(this);

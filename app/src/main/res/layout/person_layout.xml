@@ -33,70 +33,43 @@
             android:layout_gravity="center"
             android:paddingTop="15dp"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="15dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/order"
-                android:src="@drawable/order"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="全部订单"/>
-        </LinearLayout>
-        <LinearLayout
+    <RadioGroup
+        android:id="@+id/rg_tab_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-            android:layout_marginLeft="50dp">
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
+
+        <RadioButton
+            android:id="@+id/order"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/order"
+            android:text="全部订单"
+            android:textSize="15sp"/>
+        <RadioButton
+            android:id="@+id/payment"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/pay1"
+            android:text="待付款"
+            android:textSize="15dp"/>
+
+        <RadioButton
+            android:id="@+id/issend"
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/send1"
+            android:text="待发货"
+            android:textSize="15sp"/>
+
+        <RadioButton
             android:id="@+id/isreceive"
-            android:src="@drawable/recevive"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="待收货"/>
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="50dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/issend"
-                android:src="@drawable/send1"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="待发货"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="50dp">
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/payment"
-                android:src="@drawable/pay1"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="待付款"/>
-        </LinearLayout>
-    </LinearLayout>
+            style="@style/myradiobutton"
+            android:drawableTop="@drawable/recevive"
+            android:text="待收货"
+            android:textSize="15sp"/>
+
+
+    </RadioGroup>
 
 
     <LinearLayout

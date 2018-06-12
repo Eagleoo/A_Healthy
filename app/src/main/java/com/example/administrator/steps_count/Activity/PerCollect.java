@@ -72,7 +72,7 @@ public class PerCollect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_per_collect);
         listView = (ListView) findViewById(R.id.collectlist);
-        String url = "http://"+Frag_MainActivity.localhost+":8080/Health/servlet/SelectConllect?username="+Frag_MainActivity.user.getUsername();
+        String url = "http://"+Frag_MainActivity.localhost+":8080/circle/servlet/SelectConllect?username="+Frag_MainActivity.user.getUsername();
        ReadURL(url);
        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override

@@ -57,7 +57,7 @@ public class OrderInformation extends AppCompatActivity {
         name.setText(intent.getStringExtra("name"));
         describe.setText(intent.getStringExtra("describe"));
         price.setText(intent.getStringExtra("price"));
-        String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/SelectOrder?function=show&order_id=" + Integer.parseInt(intent.getStringExtra("order_id"));
+        String address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/SelectOrder?function=show&order_id=" + Integer.parseInt(intent.getStringExtra("order_id"));
        ReadURL(address);
     }
 

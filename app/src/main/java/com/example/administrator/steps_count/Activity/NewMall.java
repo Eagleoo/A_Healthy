@@ -72,7 +72,7 @@ private Handler handler=new Handler()
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_mall);
         listView= (ListView) findViewById(R.id.newlistmall);
-        String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/New?num=2";;
+        String url="http://"+Frag_MainActivity.localhost+":8080/circle/servlet/New?num=2";
         ReadURL(url);
         baseAdapter=new BaseAdapter() {
             @Override

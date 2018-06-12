@@ -238,10 +238,10 @@ public class AllInformation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/SelectOrder?function=order&username=" + Frag_MainActivity.user.getUsername();
+        String address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/SelectOrder?function=order&username=" + Frag_MainActivity.user.getUsername();
         OrderReadURL(address);
         ReceivelistView = (ListView) checkreceive.findViewById(R.id.receivelist);
-        String receive = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/IsRecieve?username=" + Frag_MainActivity.user.getUsername();
+        String receive = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/IsRecieve?username=" + Frag_MainActivity.user.getUsername();
         ReceiveReadURL(receive);
         baseAdapter = new BaseAdapter() {
             @Override
@@ -294,7 +294,7 @@ public class AllInformation extends AppCompatActivity {
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        String address = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/EnsuerReceive?mall_name=" + finalHolder.name.getText();
+                                        String address = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/EnsuerReceive?mall_name=" + finalHolder.name.getText();
                                         ReceiveReadURL(address);
                                         Intent intent = new Intent(context, AllInformation.class);
                                         startActivity(intent);
@@ -311,7 +311,7 @@ public class AllInformation extends AppCompatActivity {
             }
         };
         SendlistView = (ListView) checksend.findViewById(R.id.sendlist);
-        String sendaddress = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/CheckSend?username=" + Frag_MainActivity.user.getUsername();
+        String sendaddress = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/CheckSend?username=" + Frag_MainActivity.user.getUsername();
         SendReadURL(sendaddress);
         sendadapter = new BaseAdapter() {
             @Override
@@ -360,7 +360,7 @@ public class AllInformation extends AppCompatActivity {
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        String backaddress = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/SelectOrder?function=back&order_id=" +
+                                        String backaddress = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/SelectOrder?function=back&order_id=" +
                                                 Sendlist.get(i).getOrder_id();
                                         BackReadURL(backaddress);
                                         Toast.makeText(context, "退款成功", Toast.LENGTH_LONG).show();
@@ -380,7 +380,7 @@ public class AllInformation extends AppCompatActivity {
             }
         };
         PaylistView = (ListView) checkpay.findViewById(R.id.paylist);
-        String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/IsPayment?username=" + Frag_MainActivity.user.getUsername();
+        String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/IsPayment?username=" + Frag_MainActivity.user.getUsername();
         PayReadURL(url);
 
     }

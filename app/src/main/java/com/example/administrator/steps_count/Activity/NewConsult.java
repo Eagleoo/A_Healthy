@@ -69,7 +69,7 @@ private Context context;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_consult);
-        String url="http://"+Frag_MainActivity.localhost+":8080/Health/servlet/New?num=1";
+        String url="http://"+Frag_MainActivity.localhost+":8080/circle/servlet/New?num=1";
         ReadURL(url);
         listView= (ListView) findViewById(R.id.newlistcon);
 

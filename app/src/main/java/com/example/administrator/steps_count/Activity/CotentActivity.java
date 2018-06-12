@@ -39,7 +39,7 @@ public class CotentActivity extends AppCompatActivity implements CompoundButton.
         title.setText(intent.getStringExtra("title"));
         content.setText(intent.getStringExtra("content"));
         if (Frag_MainActivity.user != null) {
-            String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Colletction?id=" + id + "&username=" + Frag_MainActivity.user.getUsername();
+            String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Colletction?id=" + id + "&username=" + Frag_MainActivity.user.getUsername();
             ReadURL(url);
         }
 
@@ -54,12 +54,12 @@ public class CotentActivity extends AppCompatActivity implements CompoundButton.
                 aSwitch.setChecked(false);
             } else {
 
-                String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/Collectdy?id=" + id + "&username=" + Frag_MainActivity.user.getUsername();
+                String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Collectdy?id=" + id + "&username=" + Frag_MainActivity.user.getUsername();
                 ReadURL(url);
             }
 
         } else {
-            String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/CancelCon?id=" + id + "&username=" + Frag_MainActivity.user.getUsername();
+            String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/CancelCon?id=" + id + "&username=" + Frag_MainActivity.user.getUsername();
             ReadURL(url);
         }
     }

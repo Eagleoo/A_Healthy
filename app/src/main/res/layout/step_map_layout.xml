@@ -32,6 +32,7 @@
             android:background="@drawable/record"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"/>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -49,6 +50,9 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/text_btn_2">
+
+
+
         <com.amap.api.maps2d.MapView
 
             android:id="@+id/step_map"
@@ -57,6 +61,107 @@
 
             android:layout_height="wrap_content"
             android:layout_margin="3dp"/>
+        <LinearLayout
+            android:id="@+id/record_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/btn_3"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="持续公里:"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#EAC100"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_run_km"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#EAC100"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="燃烧卡路里:"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#EAC100"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_run_ka"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#EAC100"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="持续时间:"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#EAC100"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_run_time"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#EAC100"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最高时速:"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#EAC100"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_run_speed"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="#EAC100"/>
+            </LinearLayout>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

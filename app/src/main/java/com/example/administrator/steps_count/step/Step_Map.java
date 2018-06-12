@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -38,7 +39,6 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
     private MapView mMapView = null;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
-    //private final static LatLng_1 CHENGDU = new LatLng_1(30.679879, 104.064855);
     //定位功能
     private LocationSource.OnLocationChangedListener mListener;
     private AMapLocationClient mLocationClient;
@@ -51,16 +51,6 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
     private Chronometer run_time;
     private Button stop_run,pause_run;
     private Map_DBHelper db;
-    private double Trace[]={
-            30.73584, 103.957571,
-            30.73684, 103.957671,
-            30.73784, 103.957771,
-            30.73884, 103.957871,
-            30.73984, 103.957971,
-            30.74084, 103.958071,
-            30.74184, 103.958571};
-    private List<LatLng> list;
-    private int m=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +86,7 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                                         db.addNewMapData(map);
                                         run_time.setBase(SystemClock.elapsedRealtime());
                                         run_time.stop();
+                                        finish();
                                     }
                                 })
                                 .setNegativeButton("取消", null)
@@ -158,13 +149,6 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
-
-
-//        list=new ArrayList<LatLng_1>();
-//        for(int i=0;i<Trace.length-1;i++){
-//            LatLng_1 latLng=new LatLng_1(Trace[i],Trace[++i]);
-//            list.add(latLng);
-//        }
     }
 
     @Override
@@ -309,7 +293,7 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         mLocationOption.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        mLocationOption.setInterval(1000);
+        mLocationOption.setInterval(5000);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
@@ -343,5 +327,16 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                     *1000*60+Integer.parseInt(timeArry[0])*1000;
         }
         return SystemClock.elapsedRealtime()-longTime;//减去计时器一直在计时的时间就实现了从上一次开始计时
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Toast.makeText(this, "跑步中，不能退出，请先暂停跑步！", Toast.LENGTH_SHORT).show();
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+
     }
 }

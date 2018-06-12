@@ -110,7 +110,6 @@ public class Map_DBHelper extends SQLiteOpenHelper {
                 weight = new LatLng_1(w_weight, w_text,w_date);
                 list.add(weight);
             }
-
         }
         //关闭
         cursor.close();
