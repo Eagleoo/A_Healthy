@@ -118,8 +118,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemClickLis
         mRollViewPager = (RollPagerView)view.findViewById(R.id.roll_view_pager);
         grid_layout=(GridLayout)view.findViewById(R.id.grid_layout);
 
-        String total_ka=getActivity().getIntent().getStringExtra("total_ka");
-        //tv_cur_ka.setText(total_ka+"千卡");
         Log.e("","");
 
         db=new DBOpenHelper(getActivity());

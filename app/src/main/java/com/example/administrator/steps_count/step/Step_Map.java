@@ -3,6 +3,7 @@ package com.example.administrator.steps_count.step;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
@@ -31,7 +35,9 @@ import com.amap.api.maps2d.model.PolylineOptions;
 import com.example.administrator.steps_count.Activity.CheckPermissionsActivity;
 import com.example.administrator.steps_count.R;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,10 +53,15 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
     private boolean isBtn=true;
     //以前的定位点
     private LatLng oldLatLng;
-    private TextView run_speed,run_km,run_ka;
+//    private LatLng latLng1=new LatLng(30.67,104.06);
+//    private LatLng latLng2=new LatLng(39.9,116.3);
+    private TextView run_speed,run_km,run_ka,tv_pause;
     private Chronometer run_time;
-    private Button stop_run,pause_run;
+    private LinearLayout stop_run,pause_run;
     private Map_DBHelper db;
+    private ImageView img_pause;
+    private DecimalFormat df1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +69,12 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         run_speed=(TextView)findViewById(R.id.run_speed);
         run_km=(TextView)findViewById(R.id.run_km);
         run_ka=(TextView)findViewById(R.id.run_ka);
+        tv_pause=(TextView)findViewById(R.id.tv_pause);
+        img_pause=(ImageView)findViewById(R.id.img_pause);
         mMapView = (MapView) findViewById(R.id.map);
         run_time= (Chronometer) findViewById(R.id.run_time);
-        stop_run=(Button)findViewById(R.id.stop_run);
-        pause_run=(Button)findViewById(R.id.pause_run);
+        stop_run=(LinearLayout)findViewById(R.id.stop_run);
+        pause_run=(LinearLayout)findViewById(R.id.pause_run);
         mMapView.onCreate(savedInstanceState);
         db=new Map_DBHelper(this);
 
@@ -102,29 +115,19 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
 
                         if (isBtn){
                             run_time.stop();
-
-                            pause_run.setText("继续跑步");
+                            tv_pause.setText("继续跑步");
+                            img_pause.setBackgroundResource(R.drawable.start);
                             isBtn=false;
 
                         }
                         else {
                             run_time.setBase(convertStrTimeToLong(run_time.getText().toString()));
                             run_time.start();
-                            pause_run.setText("暂停跑步");
+                            tv_pause.setText("暂停跑步");
+                            img_pause.setBackgroundResource(R.drawable.pause);
                             isBtn=true;
                         }
 
-                        List<LatLng_1> list;
-                        list=db.getCurLatLngByDate(TimeUtil.getCurrentDate());
-
-                        for (int i=0;i<list.size();i++){
-                            if (i+1<list.size()){
-                                LatLng latLng1=new LatLng(Double.valueOf(list.get(i).getLatitude()),Double.valueOf(list.get(i).getLongitude()));
-                                LatLng latLng2=new LatLng(Double.valueOf(list.get(i+1).getLatitude()),Double.valueOf(list.get(i+1).getLongitude()));
-                                setUpMap(latLng1,latLng2);
-                            }
-
-                        }
 
                     }
                 }
@@ -221,9 +224,11 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
 
                 //位置有变化
                 if(oldLatLng != newLatLng){
-                    setUpMap( oldLatLng , newLatLng );
-                    oldLatLng = newLatLng;
 
+                    df1=new DecimalFormat();
+                    oldLatLng = newLatLng;
+                    run_km.setText(returnInstance());
+                    run_ka.setText(df1.format(Float.valueOf(returnInstance())*60*1.036*0.001));
                     LatLng_1 latLng_1=new LatLng_1(String.valueOf(newLatLng.latitude),String.valueOf(newLatLng.longitude),TimeUtil.getCurrentDate());
                     run_speed.setText(String.valueOf(amapLocation.getSpeed()));
                     if (amapLocation.getSpeed()==0){
@@ -231,6 +236,7 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
 
                     }
                     else {
+                        setUpMap( oldLatLng , newLatLng );
                         aMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude())));
                         db=new Map_DBHelper(this);
                         db.addNewLatLngData(latLng_1);
@@ -338,5 +344,20 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
             return super.onKeyDown(keyCode, event);
         }
 
+    }
+
+    private String returnInstance(){
+        float instance=0;//两点间距离
+        DecimalFormat df=new DecimalFormat("#.##");
+        List<LatLng_1> latLng_1List=new ArrayList<>();
+        latLng_1List=db.getCurLatLngByDate(TimeUtil.getCurrentDate());
+        for(int i=0;i<latLng_1List.size();i++){
+            if (i+1<latLng_1List.size()) {
+                LatLng latLng1 = new LatLng(Double.valueOf(latLng_1List.get(i).getLatitude()), Double.valueOf(latLng_1List.get(i).getLongitude()));
+                LatLng latLng2 = new LatLng(Double.valueOf(latLng_1List.get(i + 1).getLatitude()), Double.valueOf(latLng_1List.get(i + 1).getLongitude()));
+                instance += AMapUtils.calculateLineDistance(latLng1, latLng2);
+            }
+        }
+        return df.format(instance);
     }
 }

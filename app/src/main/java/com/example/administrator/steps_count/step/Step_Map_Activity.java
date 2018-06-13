@@ -27,6 +27,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
@@ -43,6 +44,7 @@ import com.example.administrator.steps_count.step.Map_DBHelper;
 import com.example.administrator.steps_count.step.Step_Map;
 import com.example.administrator.steps_count.step.TimeUtil;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,9 +69,10 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
     private List<LatLng_1> list;
     private LinearLayout record_data;
     private TextView tv_run_km,tv_run_ka,tv_run_time,tv_run_speed;
+    private DecimalFormat df;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_map_layout);
         mMapView = (MapView) findViewById(R.id.step_map);
@@ -83,13 +86,12 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
         record_data=(LinearLayout)findViewById(R.id.record_data);
         mMapView.onCreate(savedInstanceState);
         db=new Map_DBHelper(this);
-        Init_Road();
+        df=new DecimalFormat("#.##");
         //初始化地图控制器对象
         if (aMap == null) {
             aMap = mMapView.getMap();
 
         }
-
         //设置显示定位按钮 并且可以点击
         UiSettings settings = aMap.getUiSettings();
         //设置定位监听
@@ -126,10 +128,11 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
                                         }
                                         if (latLng1List.size()==0){
                                             Toast.makeText(Step_Map_Activity.this, "这天没有跑步哦！", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(Step_Map_Activity.this,Step_Map_Activity.class));
-                                            finish();
+                                            record_data.setVisibility(View.GONE);
+                                            aMap.clear();
                                         }
                                         else {
+                                            aMap.clear();
                                             for (int i=0;i<latLng1List.size();i++){
                                                 if (i+1<latLng1List.size()){
                                                     LatLng latLng1=new LatLng(Double.valueOf(latLng1List.get(i).getLatitude()),Double.valueOf(latLng1List.get(i).getLongitude()));
@@ -163,7 +166,7 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Step_Map_Activity.this,Step_Map.class));
+                        startActivity(new Intent(Step_Map_Activity.this,Run_Timer.class));
                         finish();
                     }
                 }
@@ -311,11 +314,13 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
 
     /**绘制两个坐标点之间的线段,从以前位置到现在位置*/
     private void setUpMap(LatLng oldData,LatLng newData ) {
+        if(AMapUtils.calculateLineDistance(oldData, newData)<50){
+            // 绘制一个大地曲线
+            aMap.addPolyline((new PolylineOptions())
+                    .add(oldData, newData)
+                    .geodesic(true).color(Color.parseColor("#01B468")));
+        }
 
-        // 绘制一个大地曲线
-        aMap.addPolyline((new PolylineOptions())
-                .add(oldData, newData)
-                .geodesic(true).color(Color.parseColor("#01B468")));
 
     }
 
@@ -348,25 +353,27 @@ public class Step_Map_Activity extends AppCompatActivity implements LocationSour
         return list;
     }
 
-    private void Init_Road(){
-        latLng1List=new ArrayList<>();
-        latLng1List=db.getCurLatLngByDate(TimeUtil.getCurrentDate());
-        for (int i=0;i<latLng1List.size();i++){
-            if (i+1<latLng1List.size()){
-                LatLng latLng1=new LatLng(Double.valueOf(latLng1List.get(i).getLatitude()),Double.valueOf(latLng1List.get(i).getLongitude()));
-                LatLng latLng2=new LatLng(Double.valueOf(latLng1List.get(i+1).getLatitude()),Double.valueOf(latLng1List.get(i+1).getLongitude()));
-                setUpMap(latLng1,latLng2);
-            }
-        }
-    }
-
     private void showData(){
+
         Map map=new Map();
         map=db.getCurUserDateByDate(TimeUtil.getCurrentDate());
-        tv_run_km.setText(map.getKm());
-        tv_run_ka.setText(map.getKa());
+        tv_run_km.setText(returnInstance());
+        tv_run_ka.setText(df.format(Float.valueOf(returnInstance())*60*1.036*0.001));
         tv_run_time.setText(map.getTime());
         tv_run_speed.setText(map.getSpeed());
+    }
+
+    private String returnInstance(){
+        float instance=0;
+
+        for(int i=0;i<latLng1List.size();i++){
+            if (i+1<latLng1List.size()) {
+                LatLng latLng1 = new LatLng(Double.valueOf(latLng1List.get(i).getLatitude()), Double.valueOf(latLng1List.get(i).getLongitude()));
+                LatLng latLng2 = new LatLng(Double.valueOf(latLng1List.get(i + 1).getLatitude()), Double.valueOf(latLng1List.get(i + 1).getLongitude()));
+                instance += AMapUtils.calculateLineDistance(latLng1, latLng2);
+            }
+        }
+        return df.format(instance);
     }
 
     private void destoryView(View view) {

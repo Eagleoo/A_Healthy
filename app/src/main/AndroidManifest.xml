@@ -139,6 +139,7 @@
         <activity android:name=".Main_Activity.Food_select_Activity" />
         <activity android:name=".Main_Activity.Food_Self_Activity" />
         <activity android:name=".Main_Activity.Eat_Aim_Activity" />
+        <activity android:name=".step.Run_Timer" />
 
         <!-- 计步功能 -->
         <service

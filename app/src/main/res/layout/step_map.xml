@@ -63,26 +63,66 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
-        <Button
+        <LinearLayout
             android:id="@+id/stop_run"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:text="停止跑步"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:background="@drawable/shape_step"
-            android:layout_marginRight="10dp"/>
+            android:layout_weight="1"
+            android:layout_marginRight="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/stop"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="停止跑步"
+                    android:paddingTop="5dp"
+                    android:textColor="#000000"/>
+            </LinearLayout>
 
-        <Button
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/pause_run"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:background="@drawable/shape_step"
-            android:text="暂停跑步"/>
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center">
+                <ImageView
+                    android:id="@+id/img_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/pause"/>
+                <TextView
+                    android:id="@+id/tv_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂停跑步"
+                    android:textColor="#000000"
+                    android:paddingTop="5dp"
+                    android:layout_marginLeft="2dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
     </LinearLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -122,7 +162,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="持续公里:"
+                    android:text="持续距离(m):"
                     android:textStyle="bold"
                     android:textSize="25sp"
                     android:textColor="#EAC100"/>
@@ -145,7 +185,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="燃烧卡路里:"
+                    android:text="燃烧卡路里(kcal):"
                     android:textStyle="bold"
                     android:textSize="25sp"
                     android:textColor="#EAC100"/>
