@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.example.administrator.steps_count.Activity.Frag_MainActivity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.adapter.Mall_adapter;
 import com.example.administrator.steps_count.fragment.MallFragment;
@@ -37,7 +38,7 @@ public class Mall_collect_Activity extends AppCompatActivity implements AdapterV
     private List<Mall> MallList;
     private Mall_adapter mall_adapter;
     private GridView mall_collect_gridview;
-    private String username=MallFragment.user.getUsername();
+    private String username= Frag_MainActivity.user.getUsername();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

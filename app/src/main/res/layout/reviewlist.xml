@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/reimag"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/reimag"
+            app:riv_corner_radius="30dip"
+            app:riv_border_width="1dip"
+            app:riv_border_color="#333333"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="repeat"
+            app:riv_oval="true"
+            android:scaleType="fitXY"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/reusername"
-            android:textSize="20dp"/>
+            android:textSize="12sp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/reimag"
+            android:layout_marginLeft="10dp"
+            android:textColor="#2894FF"/>
         <TextView
+            android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=":"
-            android:textSize="20dp"/>
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/reusername"
+            android:layout_centerVertical="true"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/recontent"
-            />
-    </LinearLayout>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/checkres"
-    android:text="查看回复"
-    android:layout_marginTop="20dp"
-    android:layout_gravity="right"/>
+            android:layout_toRightOf="@+id/tv"
+            android:layout_centerVertical="true"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"/>
+    </RelativeLayout>
 </LinearLayout>

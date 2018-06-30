@@ -54,6 +54,15 @@
     <string name="received">确认收货</string>
     <string name="distribution">查看物流</string>
     <string name="review">查看评论</string>
+    <string name="startup">     若不设置自启动记录的步数可能不准确，这都是因为各大手机厂商对后台用电的限制，请确保自启动和用电无限制的开启！</string>
+    <string name="speed_about">一天内多次跑步的情况，平均速度按最高的那个时段计算，距离、时间和卡路里消耗为今天内跑步总和。</string>
+    <string name="drink_about">正常人每天平均耗水量为2000－2500毫升\n
+    体内物质氧化可生水300毫升\n
+    故每日应补充水分2200毫升\n
+    包括饮食中的含水量\n
+    夏天每日补充在3000毫升左右</string>
+    <string name="coffee_about">咖啡因量因每种饮料而异。请参考下表以查看常见饮料中的咖啡因含量。例如，一杯
+    普通咖啡含有80毫克的咖啡因。</string>
     <string name="step_about">安卓机与计步器不得不说的事儿！\n\n
 T- T+\n\n
 为什么安卓手机锁屏不计步?\n\n

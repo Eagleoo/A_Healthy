@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.administrator.steps_count.Activity.Frag_MainActivity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.fragment.MallFragment;
 
@@ -98,7 +99,6 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
         mall_firmorder_rb_addaddress.setOnClickListener(this);
         mall_firmorder_changeaddress.setOnClickListener(this);
 
-//        unitprice= Double.parseDouble(mall_firmorder_unitprice.getText().toString());
         extra= Double.parseDouble(mall_firmorder_extra.getText().toString());
         mNum= Integer.parseInt(mall_firmorder_num.getText().toString());
         mall_firmorder_framelayout.removeView(mall_firmorder_addresslayout);
@@ -139,6 +139,12 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
                 }
                 else {
                 insertorder();
+                    Intent intent2 = new Intent(Mall_Firmorder_Acitvity.this, Order_Management_Activity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("0x0", "0");
+                    intent2.putExtras(bundle);
+                    startActivity(intent2);
+                finish();
                 }
                 break;
         }
@@ -230,7 +236,7 @@ public class Mall_Firmorder_Acitvity extends AppCompatActivity implements View.O
     private void insertorder() {
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
-                .add("username","lzy")
+                .add("username", Frag_MainActivity.user.getUsername())
                 .add("mall_id",mall_id)
                 .add("address",mall_firmorder_address.getText().toString())
                 .add("order_count",mall_firmorder_num.getText().toString())

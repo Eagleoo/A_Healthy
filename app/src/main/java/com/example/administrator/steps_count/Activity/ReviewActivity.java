@@ -44,8 +44,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.example.administrator.steps_count.R.id.discuss;
-import static com.example.administrator.steps_count.R.id.img_dct;
-import static com.example.administrator.steps_count.R.id.receivelist;
+
 
 
 public class ReviewActivity extends AppCompatActivity {
@@ -152,7 +151,6 @@ public class ReviewActivity extends AppCompatActivity {
                     holder.imag = (ImageView) view.findViewById(R.id.reimag);
                     holder.content = (TextView) view.findViewById(R.id.recontent);
                     holder.name = (TextView) view.findViewById(R.id.reusername);
-                    holder.check = (TextView) view.findViewById(R.id.checkres);
                     view.setTag(holder);
                 } else {
                     holder = (ViewHolder) view.getTag();
@@ -162,15 +160,7 @@ public class ReviewActivity extends AppCompatActivity {
                 ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(context);
                 ImageLoader.getInstance().init(configuration);
                 ImageLoader.getInstance().displayImage(reviews.get(i).getImag(), holder.imag);
-                holder.check.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent1 = new Intent(ReviewActivity.this, ReplyActivity.class);
-                        intent1.putExtra("id", String.valueOf(reviews.get(i).getId()));
-                        intent1.putExtra("name",reviews.get(i).getUsername());
-                        startActivity(intent1);
-                    }
-                });
+
                 return view;
             }
         };
@@ -181,7 +171,7 @@ public class ReviewActivity extends AppCompatActivity {
         ImageView imag;
         TextView name;
         TextView content;
-        TextView check;
+
     }
 
     @Override

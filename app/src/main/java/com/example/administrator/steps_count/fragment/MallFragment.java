@@ -57,7 +57,8 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
     private Mall_adapter mall_adapter;
     private GridView gridView;
 
-    private LinearLayout sort_layout;private List<Mall> MallList=new ArrayList<Mall>();
+    private LinearLayout sort_layout;
+    private List<Mall> MallList=new ArrayList<Mall>();
     private Button mall_btn1, mall_btn2, mall_btn3, mall_btn4, mall_btn5, mall_btn6;
     private RadioButton searchbutton,radio_sales,radio_pricedown,radio_priceup;
     private Banner banner;
@@ -156,8 +157,7 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
     public void OnBannerClick(int position) {
         switch (position) {
             case 0:
-                Intent intent=new Intent(getContext(), Mall_collect_Activity.class);
-                startActivity(intent);
+                Toast.makeText(getContext(), "0", Toast.LENGTH_LONG).show();
                 break;
             case 1:
                 Toast.makeText(getContext(), "1", Toast.LENGTH_LONG).show();
@@ -225,14 +225,17 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     final String json = response.body().string();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            MallList=getMall("mall",json);
-                            mall_adapter = new Mall_adapter(getContext(),MallList);
-                            gridView.setAdapter(mall_adapter);
-                        }
-                    });
+                    if(getActivity()!=null){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MallList=getMall("mall",json);
+                                mall_adapter = new Mall_adapter(getContext(),MallList);
+                                gridView.setAdapter(mall_adapter);
+                            }
+                        });
+                    }
+
                 }
             }
         });
@@ -276,19 +279,25 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     final String json = response.body().string();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Banner_urls=getBanner("banner",json);
-                            List<String> bannerlist=new ArrayList<>();
-                            bannerlist.add(Banner_urls.get(0).getBanner_img1());
-                            bannerlist.add(Banner_urls.get(0).getBanner_img2());
-                            bannerlist.add(Banner_urls.get(0).getBanner_img3());
-                            bannerlist.add(Banner_urls.get(0).getBanner_img4());
-                            bannerlist.add(Banner_urls.get(0).getBanner_img5());
-                            banner(bannerlist);
-                        }
-                    });
+                    if(getActivity()!=null){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Banner_urls=getBanner("banner",json);
+                                if(Banner_urls.size()!=0){
+                                    List<String> bannerlist=new ArrayList<>();
+                                    bannerlist.add(Banner_urls.get(0).getBanner_img1());
+                                    bannerlist.add(Banner_urls.get(0).getBanner_img2());
+                                    bannerlist.add(Banner_urls.get(0).getBanner_img3());
+                                    bannerlist.add(Banner_urls.get(0).getBanner_img4());
+                                    bannerlist.add(Banner_urls.get(0).getBanner_img5());
+                                    banner(bannerlist);
+                                }
+
+                            }
+                        });
+                    }
+
                 }
             }
         });
@@ -335,14 +344,17 @@ public class MallFragment extends Fragment implements View.OnClickListener, Adap
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     final String json = response.body().string();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            MallList=getMall("mall",json);
-                            mall_adapter = new Mall_adapter(getContext(),MallList);
-                            gridView.setAdapter(mall_adapter);
-                        }
-                    });
+                    if(getActivity()!=null){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MallList=getMall("mall",json);
+                                mall_adapter = new Mall_adapter(getContext(),MallList);
+                                gridView.setAdapter(mall_adapter);
+                            }
+                        });
+                    }
+
                 }
             }
         });

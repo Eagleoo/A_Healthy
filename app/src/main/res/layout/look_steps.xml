@@ -9,7 +9,9 @@
         android:id="@+id/look_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp">
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,15 +47,22 @@
         android:id="@+id/steps_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/look_linear">
+        android:layout_above="@+id/btn_toWeb"
+        android:layout_below="@+id/look_linear"
+        android:layout_margin="10dp">
     </ListView>
 
     <Button
-        android:background="@drawable/shape_login"
+        android:background="@drawable/btn_shap"
+        android:textSize="17sp"
+        android:textColor="#fff"
         android:id="@+id/btn_toWeb"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="将步数同步到云端"
-        android:layout_alignParentBottom="true"/>
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>

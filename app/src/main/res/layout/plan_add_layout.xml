@@ -21,7 +21,8 @@
         android:textColor="#000000"
         android:textSize="20sp"
         android:layout_toRightOf="@+id/back"
-        android:paddingLeft="20dp"/>
+        android:paddingLeft="20dp"
+        android:layout_centerVertical="true"/>
         <Button
             android:id="@+id/create_plan"
             android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
             android:layout_alignParentRight="true"
             android:text="自定义"
             android:textColor="#000000"
-            android:background="@drawable/shape_button"/>
+            android:background="@drawable/shape_button"
+            android:layout_centerVertical="true"/>
 </RelativeLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/plan_viewpager"

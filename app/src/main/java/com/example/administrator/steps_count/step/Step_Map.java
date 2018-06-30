@@ -53,14 +53,13 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
     private boolean isBtn=true;
     //以前的定位点
     private LatLng oldLatLng;
-//    private LatLng latLng1=new LatLng(30.67,104.06);
-//    private LatLng latLng2=new LatLng(39.9,116.3);
     private TextView run_speed,run_km,run_ka,tv_pause;
     private Chronometer run_time;
     private LinearLayout stop_run,pause_run;
     private Map_DBHelper db;
     private ImageView img_pause;
-    private DecimalFormat df1;
+    private DecimalFormat df1,df;
+    private float curInstance=0;//每次开始跑步的距离
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +76,7 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         pause_run=(LinearLayout)findViewById(R.id.pause_run);
         mMapView.onCreate(savedInstanceState);
         db=new Map_DBHelper(this);
+        df=new DecimalFormat("#.##");
 
         run_time.start();
 
@@ -90,9 +90,10 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+
                                         Map map=new Map();
                                         map.setTime(run_time.getText().toString());
-                                        map.setSpeed(run_speed.getText().toString());
+                                        map.setSpeed(df.format(curInstance/getChronometerSeconds()));
                                         map.setKm(run_km.getText().toString());
                                         map.setKa(run_ka.getText().toString());
                                         map.setDate(TimeUtil.getCurrentDate());
@@ -147,8 +148,10 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         // 是否显示定位按钮
         settings.setMyLocationButtonEnabled(true);
         myLocationStyle = new MyLocationStyle();
-
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.location));
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
+        myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));// 设置圆形的边框颜色
+        myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));// 设置圆形的填充颜色
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
@@ -214,7 +217,7 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                     //点击定位按钮 能够将地图的中心移动到定位点
                     mListener.onLocationChanged(amapLocation);
                     //添加图钉
-                    aMap.addMarker(getMarkerOptions(amapLocation));
+                    //aMap.addMarker(getMarkerOptions(amapLocation));
                     //获取定位信息
                     StringBuffer buffer = new StringBuffer();
                     buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() + "" + amapLocation.getProvince() + "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
@@ -224,11 +227,6 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
 
                 //位置有变化
                 if(oldLatLng != newLatLng){
-
-                    df1=new DecimalFormat();
-                    oldLatLng = newLatLng;
-                    run_km.setText(returnInstance());
-                    run_ka.setText(df1.format(Float.valueOf(returnInstance())*60*1.036*0.001));
                     LatLng_1 latLng_1=new LatLng_1(String.valueOf(newLatLng.latitude),String.valueOf(newLatLng.longitude),TimeUtil.getCurrentDate());
                     run_speed.setText(String.valueOf(amapLocation.getSpeed()));
                     if (amapLocation.getSpeed()==0){
@@ -237,6 +235,12 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                     }
                     else {
                         setUpMap( oldLatLng , newLatLng );
+
+                        curInstance+=AMapUtils.calculateLineDistance(oldLatLng, newLatLng);//每次定位记录一次距离
+                        df1=new DecimalFormat();
+                        oldLatLng = newLatLng;
+                        run_km.setText(df1.format(curInstance));
+                        run_ka.setText(df1.format(curInstance*60*1.036*0.001));
                         aMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude())));
                         db=new Map_DBHelper(this);
                         db.addNewLatLngData(latLng_1);
@@ -247,37 +251,30 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
                 }
 
             }
-//            else {
-//                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-//                Log.e("AmapError", "location Error, ErrCode:"
-//                        + amapLocation.getErrorCode() + ", errInfo:"
-//                        + amapLocation.getErrorInfo());
-//
-//            }
         }
     }
 
-    //自定义一个图钉，并且设置图标，当我们点击图钉时，显示设置的信息
-    private MarkerOptions getMarkerOptions(AMapLocation amapLocation) {
-        //设置图钉选项
-        MarkerOptions options = new MarkerOptions();
-        //图标
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.delete));
-        //位置
-        options.position(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude()));
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() +  "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
-        //标题
-        options.title(buffer.toString());
-        //子标题
-        options.snippet("这里好火");
-        //设置多少帧刷新一次图片资源
-        options.period(60);
-
-        return options;
-
-
-    }
+//    //自定义一个图钉，并且设置图标，当我们点击图钉时，显示设置的信息
+//    private MarkerOptions getMarkerOptions(AMapLocation amapLocation) {
+//        //设置图钉选项
+//        MarkerOptions options = new MarkerOptions();
+//        //图标
+//        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.delete));
+//        //位置
+//        options.position(new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude()));
+//        StringBuffer buffer = new StringBuffer();
+//        buffer.append(amapLocation.getCountry() + "" + amapLocation.getProvince() + "" + amapLocation.getCity() +  "" + amapLocation.getDistrict() + "" + amapLocation.getStreet() + "" + amapLocation.getStreetNum());
+//        //标题
+//        options.title(buffer.toString());
+//        //子标题
+//        options.snippet("这里好火");
+//        //设置多少帧刷新一次图片资源
+//        options.period(60);
+//
+//        return options;
+//
+//
+//    }
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
@@ -335,6 +332,14 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
         return SystemClock.elapsedRealtime()-longTime;//减去计时器一直在计时的时间就实现了从上一次开始计时
     }
 
+    public int getChronometerSeconds() {
+        //split分割字符串以:的形式
+        int tempf = Integer.parseInt(run_time.getText().toString().split(":")[0]);
+        int tempm =Integer.parseInt(run_time.getText().toString().split(":")[1]);
+        int temp=tempf*60+tempm;
+        return temp;
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
@@ -346,18 +351,4 @@ public class Step_Map extends CheckPermissionsActivity implements LocationSource
 
     }
 
-    private String returnInstance(){
-        float instance=0;//两点间距离
-        DecimalFormat df=new DecimalFormat("#.##");
-        List<LatLng_1> latLng_1List=new ArrayList<>();
-        latLng_1List=db.getCurLatLngByDate(TimeUtil.getCurrentDate());
-        for(int i=0;i<latLng_1List.size();i++){
-            if (i+1<latLng_1List.size()) {
-                LatLng latLng1 = new LatLng(Double.valueOf(latLng_1List.get(i).getLatitude()), Double.valueOf(latLng_1List.get(i).getLongitude()));
-                LatLng latLng2 = new LatLng(Double.valueOf(latLng_1List.get(i + 1).getLatitude()), Double.valueOf(latLng_1List.get(i + 1).getLongitude()));
-                instance += AMapUtils.calculateLineDistance(latLng1, latLng2);
-            }
-        }
-        return df.format(instance);
-    }
 }

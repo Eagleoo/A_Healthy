@@ -2,10 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-<ListView
+    android:orientation="vertical">
+<com.example.administrator.steps_count.Main_Activity.ListViewForScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/cusultlist"
-    android:descendantFocusability="blocksDescendants"></ListView>
+    android:descendantFocusability="blocksDescendants">
+
+</com.example.administrator.steps_count.Main_Activity.ListViewForScrollView>
+    <LinearLayout
+        android:background="#ADADAD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/change_news"
+        android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/change"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="换一批"
+                android:textSize="18sp"/>
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -18,20 +18,31 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="15dp"/>
         <TextView
+            android:id="@+id/grade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="跑步成绩"
             android:layout_toRightOf="@+id/back_map"
             android:layout_marginLeft="20dp"
             android:textSize="18sp"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:id="@+id/speed_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wenhao"
+            android:layout_toRightOf="@+id/grade"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"/>
         <ImageView
             android:id="@+id/map_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/record"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"/>
 
     </RelativeLayout>
 
@@ -71,12 +82,52 @@
             android:layout_marginBottom="20dp"
             android:visibility="gone">
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="10"
+                    android:background="#EAC100"
+                    android:layout_marginLeft="10dp">
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="记录日期"
+                    android:textSize="12sp"
+                    android:textColor="#EAC100"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="10"
+                    android:background="#EAC100"
+                    android:layout_marginRight="10dp">
+
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/record_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#EAC100"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingTop="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginRight="20dp"
+                >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -90,7 +141,8 @@
                     android:id="@+id/tv_run_km"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="#EAC100"/>
+                    android:textColor="#EAC100"
+                    android:layout_marginLeft="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -112,7 +164,8 @@
                     android:id="@+id/tv_run_ka"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="#EAC100"/>
+                    android:textColor="#EAC100"
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -128,14 +181,15 @@
                     android:text="持续时间:"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:textColor="#EAC100"/>
+                    android:textColor="#EAC100" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_run_time"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="#EAC100"/>
+                    android:textColor="#EAC100"
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -145,20 +199,26 @@
                 android:paddingTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp">
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="最高时速:"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textColor="#EAC100"/>
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(最高)平均速度(m/s):"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#EAC100"/>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_run_speed"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:textColor="#EAC100"/>
+                    android:textColor="#EAC100"
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
         </LinearLayout>
 

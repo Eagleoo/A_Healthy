@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.example.administrator.steps_count.Activity.AboutActivity;
 import com.example.administrator.steps_count.Activity.ActivityControl;
+import com.example.administrator.steps_count.Activity.Frag_MainActivity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.adapter.Address_adapter;
 import com.example.administrator.steps_count.adapter.Mall_adapter;
@@ -41,21 +42,31 @@ import okhttp3.Response;
 public class Mall_Address_Activity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private ListView mall_address_list;
     private List<Address> list=new ArrayList<Address>();
+    private Button new_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mall_address_layout);
         mall_address_list= (ListView) findViewById(R.id.mall_address_list);
+        new_address=(Button)findViewById(R.id.new_address);
         getAddr();
         mall_address_list.setOnItemClickListener(this);
+        new_address.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Mall_Address_Activity.this,Addaddress_Acitvity.class));
+                    }
+                }
+        );
     }
 
 
     private void getAddr() {
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
-                .add("username", "lzy").build();
+                .add("username", Frag_MainActivity.user.getUsername()).build();
         final Request request = new Request.Builder()
                 .url(MallFragment.user.getUrl()+"selectaddr_Servlet")
                 .post(requestBody)

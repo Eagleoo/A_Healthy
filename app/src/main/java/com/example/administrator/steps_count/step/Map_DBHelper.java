@@ -48,20 +48,14 @@ public class Map_DBHelper extends SQLiteOpenHelper {
 
     public void addNewMapData(Map weight) {
         db = getReadableDatabase();
-        String cur_date=TimeUtil.getCurrentDate();
 
-        if(getCurUserDateByDate(cur_date)==null){
-            ContentValues values = new ContentValues();
-            values.put("time", weight.getTime());
-            values.put("speed", weight.getSpeed());
-            values.put("km",weight.getKm());
-            values.put("ka",weight.getKa());
-            values.put("date",weight.getDate());
-            db.insert("map", null, values);
-        }
-        else {
-            updateCurUserData(weight);
-        }
+        ContentValues values = new ContentValues();
+        values.put("time", weight.getTime());
+        values.put("speed", weight.getSpeed());
+        values.put("km",weight.getKm());
+        values.put("ka",weight.getKa());
+        values.put("date",weight.getDate());
+        db.insert("map", null, values);
 
     }
 
@@ -76,8 +70,9 @@ public class Map_DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public Map getCurUserDateByDate(String curDate) {
+    public List<Map> getCurUserDateByDate(String curDate) {
         db=getReadableDatabase();
+        List<Map> list=new ArrayList<>();
         Map weight = null;
         Cursor cursor = db.query("map", null, null, null, null, null, null);
         while (cursor.moveToNext()) {
@@ -87,14 +82,13 @@ public class Map_DBHelper extends SQLiteOpenHelper {
                 String w_text = cursor.getString(cursor.getColumnIndexOrThrow("speed"));
                 String w_aim = cursor.getString(cursor.getColumnIndexOrThrow("km"));
                 String w_ka = cursor.getString(cursor.getColumnIndexOrThrow("ka"));
-                weight = new Map(w_weight, w_date,w_text,w_aim,w_ka);
-                //跳出循环
-                break;
+                weight = new Map(w_weight, w_text,w_aim,w_ka,w_date);
+                list.add(weight);
             }
         }
         //关闭
         cursor.close();
-        return weight;
+        return list;
     }
 
     public List<LatLng_1> getCurLatLngByDate(String curDate) {

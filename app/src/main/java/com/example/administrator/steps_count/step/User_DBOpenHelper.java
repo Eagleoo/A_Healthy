@@ -87,7 +87,6 @@ public class User_DBOpenHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("user_aim_ka",aim);
         db.update("user_ka", values, "user_aim_ka=?", new String[]{getAimKa()});
-        Log.e("ssssss","更新了"+getAimKa());
     }
 
 
@@ -113,7 +112,7 @@ public class User_DBOpenHelper extends SQLiteOpenHelper {
                 String w_weight = cursor.getString(cursor.getColumnIndexOrThrow("user_ka"));
                 String w_text = cursor.getString(cursor.getColumnIndexOrThrow("user_drink"));
                 String w_aim = cursor.getString(cursor.getColumnIndexOrThrow("user_coffee"));
-                weight = new User_Data(w_weight, w_date,w_text,w_aim,w_date);
+                weight = new User_Data(w_weight, w_text,w_aim,w_aim,w_date);
                 //跳出循环
                 break;
             }

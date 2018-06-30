@@ -5,67 +5,12 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="持续时间:"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-        <Chronometer
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:format="%s"
-            android:id="@+id/run_time"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:textStyle="bold"/>
-
-    </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="当前速度:"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/run_speed"
-                android:textSize="20sp"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="km/h"
-                android:textSize="20sp"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:id="@+id/stop_run"
@@ -135,6 +80,107 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="持续时间"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+            <Chronometer
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format="%s"
+                android:id="@+id/run_time"
+                android:textSize="25sp"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toLeftOf="@+id/line4"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前速度"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/run_speed"
+                    android:textSize="25sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="km/h"
+                    android:textSize="25sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line2"
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:background="#000000"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true">
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/line3"
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:background="#000000"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line4"
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:background="#000000"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true">
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            android:orientation="horizontal"
+            android:layout_below="@id/line3">
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/temp"
@@ -172,8 +218,9 @@
                     android:id="@+id/run_km"
                     android:textStyle="bold"
                     android:textSize="30sp"
-                    android:text="9.5"
-                    android:textColor="#EAC100"/>
+                    android:textColor="#EAC100"
+                    android:layout_marginLeft="5dp"
+                    android:text="0.00"/>
             </LinearLayout>
 
             <LinearLayout
@@ -195,8 +242,9 @@
                     android:id="@+id/run_ka"
                     android:textStyle="bold"
                     android:textSize="30sp"
-                    android:text="2000"
-                    android:textColor="#EAC100"/>
+                    android:text="0.00"
+                    android:textColor="#EAC100"
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
     </LinearLayout>
     </RelativeLayout>

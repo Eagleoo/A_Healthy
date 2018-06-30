@@ -21,7 +21,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,26 +32,48 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.steps_count.Activity.AllInformation;
 import com.example.administrator.steps_count.Activity.Frag_MainActivity;
 import com.example.administrator.steps_count.Activity.LoginActivity;
-import com.example.administrator.steps_count.Activity.PerCollect;
+
 import com.example.administrator.steps_count.Activity.PerMassageActivity;
 import com.example.administrator.steps_count.Activity.Publishdy;
 import com.example.administrator.steps_count.Activity.SettingActivity;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.mall.Mall_collect_Activity;
+import com.example.administrator.steps_count.mall.Order_Management_Activity;
+import com.example.administrator.steps_count.step.Constant;
+import com.example.administrator.steps_count.tools.Json_Tools;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.json.JSONException;
+
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.example.administrator.steps_count.Activity.Publishdy.TAKE_PHOTO;
+import static com.example.administrator.steps_count.Activity.Publishdy.compressImage;
 
 public class MeFragment extends Fragment implements View.OnClickListener {
     private TextView txt_login;
@@ -57,19 +81,25 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private ImageView head;
     private TextView setting;
 
-    private RadioButton order;
-    private RadioButton isreceive;
-    private RadioButton payment;
-    private RadioButton issend;
+    private RadioButton radio_all;
+    private RadioButton radio_pay;
+    private RadioButton radio_send;
+    private RadioButton radio_recevive;
 
     private TextView collect;
     private TextView insertdy;
-    private Uri imagurl;
+    private static Uri imagurl;
     public static final int TAKE_PHONTO = 1;
     public static final int CHOOSE_PHONTO = 2;
     private AlertDialog.Builder builder = null;
     private AlertDialog alertDialog;
     private String[] address = new String[]{"相册", "拍照"};
+    private File outputImage,filee;
+    private long t;
+    private String time,times;
+    public static String string;
+    private String json;
+    private Bitmap bmp = null;
 
     @Nullable
     @Override
@@ -88,14 +118,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         head.setOnClickListener(this);
         setting = (TextView) view.findViewById(R.id.setting);
         setting.setOnClickListener(this);
-        order = (RadioButton) view.findViewById(R.id.order);
-        order.setOnClickListener(this);
-        isreceive = (RadioButton) view.findViewById(R.id.isreceive);
-        isreceive.setOnClickListener(this);
-        payment = (RadioButton) view.findViewById(R.id.payment);
-        payment.setOnClickListener(this);
-        issend = (RadioButton) view.findViewById(R.id.issend);
-        issend.setOnClickListener(this);
+        radio_recevive= (RadioButton) view.findViewById(R.id.radio_recevive);
+        radio_all= (RadioButton) view.findViewById(R.id.radio_all);
+        radio_pay= (RadioButton) view.findViewById(R.id.radio_pay);
+        radio_send= (RadioButton) view.findViewById(R.id.radio_send);
+
+        radio_send.setOnClickListener(this);
+        radio_recevive.setOnClickListener(this);
+        radio_all.setOnClickListener(this);
+        radio_pay.setOnClickListener(this);
         collect = (TextView) view.findViewById(R.id.collect);
         collect.setOnClickListener(this);
         insertdy = (TextView) view.findViewById(R.id.insertdy);
@@ -103,16 +134,16 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(getActivity());
         ImageLoader.getInstance().init(configuration);
 
+        //获取时间
+        t=System.currentTimeMillis();
+        Date date=new Date(t);
+        SimpleDateFormat format1=new SimpleDateFormat("MMddHHmmssSSS");
+        times=format1.format(date);
+
         if (Frag_MainActivity.user != null) {
             txt_login.setText(Frag_MainActivity.user.getUsername());
             txt_login.setEnabled(false);
-            if (Frag_MainActivity.user.getPortrait().startsWith("/storage")) {
-
-                String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientUpdate?function=imag&username=" + Frag_MainActivity.user.getUsername();
-                SeReadURL(url);
-            } else {
-                ImageLoader.getInstance().displayImage(Frag_MainActivity.user.getPortrait().trim(), head);
-            }
+            Load_Portrait();
         }
 
         return view;
@@ -134,19 +165,28 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
 
                                     if (address[which] == "拍照") {
-                                        File outputImage = new File(getActivity().getExternalCacheDir(), Frag_MainActivity.user.getUsername() + "output_image.jpg");
-                                        outputImage.delete();
-
+                                        outputImage = new File(getActivity().getExternalCacheDir(), Frag_MainActivity.user.getUser_id()+ "output_image.jpg");
                                         try {
+                                            if (outputImage.exists()){
+                                                outputImage.delete();
+                                            }
                                             outputImage.createNewFile();
+
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
 
-                                        imagurl = Uri.fromFile(outputImage);
+                                        if(Build.VERSION.SDK_INT>=24){
+                                            imagurl= FileProvider.getUriForFile(getActivity(), "com.example.administrator.steps_count", outputImage);
+                                        }
+                                        else {
+                                            imagurl=Uri.fromFile(outputImage);
+                                        }
+
+
                                         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imagurl);
-                                        startActivityForResult(intent, TAKE_PHONTO);
+                                        intent.putExtra(MediaStore.EXTRA_OUTPUT,imagurl);
+                                        startActivityForResult(intent,TAKE_PHOTO);
                                     } else if (address[which] == "相册") {
                                         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                                             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -179,45 +219,56 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
                 }
                 break;
-            case R.id.order:
-                if (Frag_MainActivity.user != null) {
-                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
-                    intent1.putExtra("item","0");
-                    startActivity(intent1);
-                } else {
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+            case R.id.radio_all:
+                if (Frag_MainActivity.user == null)
+                {
+                    Toast.makeText(getContext(),"您还未登录，请先登录再试！",Toast.LENGTH_LONG).show();
+                }else {
+                Intent intent = new Intent(getContext(), Order_Management_Activity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("0x0", "0");
+                intent.putExtras(bundle);
+                startActivity(intent);
                 }
                 break;
-            case R.id.issend:
-                if (Frag_MainActivity.user != null) {
-                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
-                    intent1.putExtra("item","2");
-                    startActivity(intent1);
-                } else {
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+            case R.id.radio_pay:
+                if (Frag_MainActivity.user == null)
+                {
+                    Toast.makeText(getContext(),"您还未登录，请先登录再试！",Toast.LENGTH_LONG).show();
+                }else {                Intent intent2 = new Intent(getContext(), Order_Management_Activity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("0x0", "1");
+                intent2.putExtras(bundle2);
+                startActivity(intent2);
                 }
                 break;
-            case R.id.isreceive:
-                if (Frag_MainActivity.user != null) {
-                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
-                    intent1.putExtra("item","1");
-                    startActivity(intent1);
-                } else {
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+            case R.id.radio_send:
+                if (Frag_MainActivity.user == null)
+                {
+                    Toast.makeText(getContext(),"您还未登录，请先登录再试！",Toast.LENGTH_LONG).show();
+                }else {
+                Intent intent3=new Intent(getContext(),Order_Management_Activity.class);
+                Bundle bundle3=new Bundle();
+                bundle3.putString("0x0","2");
+                intent3.putExtras(bundle3);
+                startActivity(intent3);
                 }
                 break;
-            case R.id.payment:
-                if (Frag_MainActivity.user != null) {
-                    Intent intent1 = new Intent(getActivity(), AllInformation.class);
-                    intent1.putExtra("item","3");
-                    startActivity(intent1);
-                } else {
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
+            case R.id.radio_recevive:
+                if (Frag_MainActivity.user == null)
+                {
+                    Toast.makeText(getContext(),"您还未登录，请先登录再试！",Toast.LENGTH_LONG).show();
+                }else {
+                Intent intent4 = new Intent(getContext(), Order_Management_Activity.class);
+                Bundle bundle4 = new Bundle();
+                bundle4.putString("0x0", "3");
+                intent4.putExtras(bundle4);
+                startActivity(intent4);
                 }
                 break;
             case R.id.collect:
                 if (Frag_MainActivity.user != null) {
-                    Intent intent5 = new Intent(getActivity(), PerCollect.class);
+                    Intent intent5 = new Intent(getActivity(), Mall_collect_Activity.class);
                     startActivity(intent5);
                 } else {
                     Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_LONG).show();
@@ -263,20 +314,23 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(imagurl));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            head.setImageBitmap(bitmap);
+            bmp = compressImage(bitmap);
+            filee =  saveBitmapFile(bmp);
+            Insert_Dynamic();
+        }
         switch (requestCode) {
-            case TAKE_PHONTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(imagurl));
-                        head.setImageBitmap(bitmap);
-                        String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientUpdate?function=updateimag"
-                                + "&url=" + imagurl.toString() + "&username=" + Frag_MainActivity.user.getUsername();
-                        ReadURL(url);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
+
             case CHOOSE_PHONTO:
                 if (resultCode == Activity.RESULT_OK) {
                     if (Build.VERSION.SDK_INT >= 19) {
@@ -288,6 +342,109 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
         }
+    }
+
+    public void Insert_Dynamic(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    FormBody.Builder requestbuilder = new FormBody.Builder();
+                    RequestBody builder = requestbuilder
+                            .add("username", Frag_MainActivity.user.getUsername())
+                            .add("portrait",Constant.CONNECTURL+"portrait_img/"+times+outputImage.getName())
+                            .build();
+
+
+                    Request request = new Request.Builder()
+                            .url(Constant.CONNECTURL + "circle/servlet/Update_Portrait_info").post(builder)
+                            .build();
+
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            OkHttpClient client = new OkHttpClient();
+
+                            RequestBody requestBody = null;
+                            try {
+                                requestBody = RequestBody.create(MediaType.parse("application/octet0stream"),filee);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            Request request = new Request.Builder()
+                                    .url(Constant.CONNECTURL + "circle/servlet/Update_Portrait").post(requestBody).addHeader("imagename",times+outputImage.getName())
+                                    .build();
+
+                            try {
+                                client.newCall(request).execute();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+
+
+                    Response response = client.newCall(request).execute();
+                    String responseData=response.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void Load_Portrait(){
+        OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
+        RequestBody requestBody = new FormBody.Builder()
+                .add("username", Frag_MainActivity.user.getUsername()).build();
+        final Request request = new Request.Builder()//创建Request 对象。
+                .url("http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/Show_UserInfo")
+                .post(requestBody)//传递请求体
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("failure", "onFailure: ");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Json_Tools json_tools=new Json_Tools();
+                            try {
+                                string=json_tools.Json_To_String(json);
+                                ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(getActivity());
+                                ImageLoader.getInstance().init(configuration);
+                                ImageLoader.getInstance().displayImage(string,head);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public File saveBitmapFile(Bitmap bitmap){
+        File file=new File(getActivity().getExternalCacheDir(),"output_image.jpg");//将要保存图片的路径
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 
     private void handleImageBeforeKitkat(Intent data) {
@@ -323,14 +480,12 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     private void displayImage(String imagepath) {
         if (imagepath != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagepath);
-            String url = "http://" + Frag_MainActivity.localhost + ":8080/Health/servlet/ClientUpdate?function=updateimag"
+            head.setImageBitmap(bitmap);
+            String url = "http://" + Frag_MainActivity.localhost + ":8080/circle/servlet/ClientUpdate?function=updateimag"
                     + "&url=" + imagepath + "&username=" + Frag_MainActivity.user.getUsername();
             ReadURL(url);
-            head.setImageBitmap(bitmap);
 
 
-        } else {
-            Toast.makeText(getActivity(), "获取图片失败", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -348,6 +503,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
         return path;
     }
+
 
 
     public void ReadURL(final String url) {
@@ -436,8 +592,69 @@ public class MeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             protected void onPostExecute(String s) {
+
                 Bitmap bitmap = BitmapFactory.decodeFile(s);
                 head.setImageBitmap(bitmap);
+
+
+            }
+
+            @Override
+            protected void onCancelled(String s) {
+                super.onCancelled(s);
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+            }
+        }.execute(url);
+
+    }
+    public void URL(final String url) {
+        new AsyncTask<String, Void, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    URL url = new URL(params[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    int resultCode = connection.getResponseCode();
+                    StringBuffer response = null;
+                    if (HttpURLConnection.HTTP_OK == resultCode) {
+                        InputStream in = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        response = new StringBuffer();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                    }
+
+                    return response.toString();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "1";
+            }
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Uri uri = Uri.parse((String) s);
+                try {
+                    Bitmap  bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
+                    head.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
             @Override

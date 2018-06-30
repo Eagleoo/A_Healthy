@@ -49,53 +49,63 @@ public class Step_Plan_Activity extends AppCompatActivity {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        if(edt_steps.getText().toString().equals("")||edt_km.getText().toString().equals("")||edt_ka.getText().toString().equals("")){
+
+                                        Json_Tools json_tools=new Json_Tools();
+                                        if(!json_tools.isNetworkAvailable(Step_Plan_Activity.this)){
                                             Looper.prepare();
-                                            Toast.makeText(Step_Plan_Activity.this, "请填写完整数据！", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Step_Plan_Activity.this, "请检查你的网络！", Toast.LENGTH_SHORT).show();
                                             Looper.loop();
                                         }
                                         else {
-                                            stepPlan.setP_steps(edt_steps.getText().toString());
-                                            stepPlan.setP_km(edt_km.getText().toString());
-                                            stepPlan.setP_ka(edt_ka.getText().toString());
-                                            //这里放用户id·············································
-                                            stepPlan.setU_id(1);
-                                            db=new DBOpenHelper(Step_Plan_Activity.this);
-                                            Cursor cursor=db.mquery_step_plan();
-                                            if (!cursor.moveToNext()){
-                                                db.addNewStepPlan(stepPlan);
-
+                                            if(edt_steps.getText().toString().equals("")||edt_km.getText().toString().equals("")||edt_ka.getText().toString().equals("")){
+                                                Looper.prepare();
+                                                Toast.makeText(Step_Plan_Activity.this, "请填写完整数据！", Toast.LENGTH_SHORT).show();
+                                                Looper.loop();
                                             }
                                             else {
-                                                db.updateStepPlan(stepPlan);
-                                            }
-                                            Json_Tools json_tools=new Json_Tools();
-                                            Looper.prepare();
-                                            Toast.makeText(Step_Plan_Activity.this, "创建成功！", Toast.LENGTH_SHORT).show();
-                                            Looper.loop();
-                                            try {
-                                                String jsonString=json_tools.StepPlan_ToJson(stepPlan);
-
-                                                OkHttpClient okHttpClient=new OkHttpClient();
-                                                RequestBody requestBody = new FormBody.Builder()
-                                                        .add("StepPlan",jsonString).build();
-                                                //创建一个Request
-                                                final Request request = new Request.Builder()
-                                                        .url(Constant.CONNECTURL+"StepPlan_Into_Servlet")
-                                                        .post(requestBody)//传递请求体
-                                                        .build();
-                                                Response response = okHttpClient.newCall(request).execute();
-
-                                                if(response.isSuccessful()){
-                                                    //打印服务端返回结果
+                                                stepPlan.setP_steps(edt_steps.getText().toString());
+                                                stepPlan.setP_km(edt_km.getText().toString());
+                                                stepPlan.setP_ka(edt_ka.getText().toString());
+                                                //这里放用户id·············································
+                                                stepPlan.setU_id(1);
+                                                db=new DBOpenHelper(Step_Plan_Activity.this);
+                                                Cursor cursor=db.mquery_step_plan();
+                                                if (!cursor.moveToNext()){
+                                                    db.addNewStepPlan(stepPlan);
 
                                                 }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
+                                                else {
+                                                    db.updateStepPlan(stepPlan);
+                                                }
+                                                Looper.prepare();
+                                                Toast.makeText(Step_Plan_Activity.this, "创建成功！", Toast.LENGTH_SHORT).show();
+                                                Looper.loop();
+                                                try {
+                                                    String jsonString=json_tools.StepPlan_ToJson(stepPlan);
+
+                                                    OkHttpClient okHttpClient=new OkHttpClient();
+                                                    RequestBody requestBody = new FormBody.Builder()
+                                                            .add("StepPlan",jsonString).build();
+                                                    //创建一个Request
+                                                    final Request request = new Request.Builder()
+                                                            .url(Constant.CONNECTURL+"StepPlan_Into_Servlet")
+                                                            .post(requestBody)//传递请求体
+                                                            .build();
+                                                    Response response = okHttpClient.newCall(request).execute();
+
+                                                    if(response.isSuccessful()){
+                                                        //打印服务端返回结果
+
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
                                             }
                                         }
+
+
 
 
                                     }

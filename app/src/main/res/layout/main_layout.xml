@@ -5,10 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="6dp"
     android:background="#FFFFFF">
+
     <ScrollView
         android:id="@+id/sc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -45,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_below="@+id/rl_explore"
+                android:layout_margin="5dp"
                 app:rollviewpager_play_delay="3000" />
 
             <ListView
@@ -57,72 +61,12 @@
 
             </ListView>
 
-            <RelativeLayout
-
-                android:id="@+id/rl_doctor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/list1">
-
-                <ImageView
-                    android:id="@+id/img_dct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/question_dct" />
-
-                <TextView
-                    android:id="@+id/txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/img_dct"
-                    android:paddingLeft="10dp"
-                    android:text="问医生"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
-
-                <ListView
-                    android:id="@+id/List"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/img_dct"
-                    android:layout_marginTop="3dp"
-                    android:background="#E0E0E0">
-
-                </ListView>
-
-                <GridView
-
-                    android:id="@+id/grid_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/List"
-                    android:horizontalSpacing="5dp"
-                    android:numColumns="3"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:verticalSpacing="5dp">
-
-                </GridView>
-
-
-            </RelativeLayout>
-
-            <ListView
-                android:id="@+id/list2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/rl_doctor"
-                android:layout_marginTop="10dp"
-                android:background="#E0E0E0">
-
-            </ListView>
 
             <LinearLayout
                 android:id="@+id/news"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/list2">
+                android:layout_below="@id/list1">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -333,7 +277,8 @@
                     android:paddingLeft="3dp"
                     android:text="健康计划"
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"/>
 
                 <TextView
                     android:id="@+id/add_plan"
@@ -443,7 +388,8 @@
                     android:paddingLeft="3dp"
                     android:text="健康评测"
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_centerVertical="true"/>
 
                 <TextView
                     android:id="@+id/text_more"
@@ -535,293 +481,369 @@
                 android:id="@+id/linear_control"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_below="@+id/list8"
-                android:layout_marginTop="3dp">
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/control"/>
+                    android:background="@drawable/control" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="3dp"
                     android:text="健康管理"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:paddingLeft="3dp"/>
+                    android:textSize="18sp" />
             </LinearLayout>
-
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear_control"
-                android:background="#F0F0F0"
                 android:layout_marginTop="5dp"
+                android:background="#F0F0F0"
                 android:orientation="vertical">
 
-            <android.support.v7.widget.GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:rowCount="2"
-                app:columnCount="2">
-                <LinearLayout
-                    android:id="@+id/linear_eat"
-                    android:background="@drawable/main_record"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:orientation="vertical"
-                    app:layout_rowWeight="1"
-                    app:layout_columnWeight="1"
-                    android:gravity="center">
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:columnCount="2"
+                    app:rowCount="2">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/fork"
-                        android:layout_marginTop="20dp" />
-                    <TextView
-                        android:id="@+id/tv_cur_ka"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="61.8千卡"
-                        android:layout_marginTop="1dp"
-                        android:textSize="18sp"
-                        android:textColor="#000000"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="饮食"
-                        android:layout_marginTop="5dp" />
-                    <Button
-                        android:id="@+id/btn_eat"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:text="添加"
-                        android:textColor="#00E3E3"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/eat_btn"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/linear_weight"
-                    android:orientation="vertical"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="2dp"
-                    app:layout_rowWeight="1"
-                    app:layout_columnWeight="1"
-                    android:gravity="center"
-                    android:background="@drawable/main_record">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/weight"
-                        android:layout_marginTop="22dp" />
-                    <TextView
-                        android:id="@+id/tv_weight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="55.0公斤"
-                        android:textSize="18sp"
-                        android:textColor="#000000" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="体重"
-                        android:layout_marginTop="5dp"/>
-                    <Button
-                        android:id="@+id/btn_weight"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:text="记录"
-                        android:textColor="#000000"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/weight_btn"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:background="@drawable/main_record"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginTop="2dp"
-                    android:orientation="vertical"
-                    app:layout_rowWeight="1"
-                    app:layout_columnWeight="1"
-                    android:gravity="center">
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/linear_eat"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/main_record"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/water"
-                        android:layout_marginTop="20dp" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/fork" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_cur_ka"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="61.8"
+                                android:textColor="#000000"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="千卡"
+                                android:textColor="#000000"
+                                android:textSize="18sp" />
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:layout_marginTop="20dp"
-                            android:textColor="#ffffff"
-                            android:layout_centerInParent="true"
-                            android:textSize="25sp"
-                            android:textStyle="bold"
-                            android:paddingTop="10dp"/>
-                    </RelativeLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="喝水"
-                        android:layout_marginTop="10dp"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/water_add"
-                        android:layout_marginTop="10dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:background="@drawable/main_record"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginTop="2dp"
-                    android:orientation="vertical"
-                    app:layout_rowWeight="1"
-                    app:layout_columnWeight="1"
-                    android:gravity="center">
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/coffe"
-                        android:layout_marginTop="20dp" />
+                            android:layout_marginTop="5dp"
+                            android:text="饮食" />
+
+                        <Button
+                            android:id="@+id/btn_eat"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/eat_btn"
+                            android:text="添加"
+                            android:textColor="#00E3E3" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_weight"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/main_record"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="22dp"
+                            android:background="@drawable/weight" />
+
+                        <TextView
+                            android:id="@+id/tv_weight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="55.0公斤"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:layout_marginTop="5dp"
+                            android:text="体重" />
+
+                        <Button
+                            android:id="@+id/btn_weight"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/weight_btn"
+                            android:text="记录"
+                            android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_drink"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/main_record"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/water" />
+
+                            <TextView
+                                android:id="@+id/drink_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="20dp"
+                                android:paddingTop="10dp"
+                                android:text="0"
+                                android:textColor="#ffffff"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="喝水" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/drink_"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/drink_" />
+
+                            <ImageView
+                                android:id="@+id/add_drink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/water_add" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_coffee"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/main_record"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/coffe" />
+
+                            <TextView
+                                android:id="@+id/coffee_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="20dp"
+                                android:paddingTop="5dp"
+                                android:text="0"
+                                android:textColor="#ffffff"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="咖啡因" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/coffee_"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/coffee_" />
+
+                            <ImageView
+                                android:id="@+id/add_coffee"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/coffee_add" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_run"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/main_record"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:textColor="#ffffff"
-                            android:layout_centerInParent="true"
-                            android:textSize="25sp"
-                            android:textStyle="bold"
-                            android:paddingTop="5dp"/>
-                    </RelativeLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="咖啡因"
-                        android:layout_marginTop="10dp"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/coffee_add"
-                        android:layout_marginTop="10dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/linear_run"
-                    android:background="@drawable/main_record"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:orientation="vertical"
-                    app:layout_rowWeight="1"
-                    app:layout_columnWeight="1"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/run_1"
-                        android:layout_marginTop="20dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="跑步"
-                        android:layout_marginTop="10dp"/>
-                    <Button
-                        android:id="@+id/btn_run_start"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:text="开始"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="30dp"
-                        android:textColor="#EAC100"
-                        android:background="@drawable/run_1_btn"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/linear_step"
-                    android:background="@drawable/main_record"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginTop="2dp"
-                    android:orientation="vertical"
-                    app:layout_rowWeight="1"
-                    app:layout_columnWeight="1"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/step_1"
-                        android:layout_marginTop="20dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="健走"
-                        android:layout_marginTop="10dp"/>
-                    <Button
-                        android:id="@+id/btn_step_start"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:text="开始"
-                        android:textColor="#00EC00"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@drawable/step_1_btn"/>
-                </LinearLayout>
-            </android.support.v7.widget.GridLayout>
+                            android:background="@drawable/run_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="跑步" />
+
+                        <Button
+                            android:id="@+id/btn_run_start"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="30dp"
+                            android:background="@drawable/run_1_btn"
+                            android:text="开始"
+                            android:textColor="#EAC100" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_step"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/main_record"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_columnWeight="1"
+                        app:layout_rowWeight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/step_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="健走" />
+
+                        <Button
+                            android:id="@+id/btn_step_start"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="30dp"
+                            android:background="@drawable/step_1_btn"
+                            android:text="开始"
+                            android:textColor="#00EC00" />
+                    </LinearLayout>
+                </android.support.v7.widget.GridLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    >
+                    android:layout_marginTop="50dp">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="10"
-                        android:background="#E0E0E0"
-                        android:layout_gravity="center_vertical">
+                        android:background="#E0E0E0">
 
                     </LinearLayout>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="我是有底线的"
-                        android:textSize="12sp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:text="我是有底线的"
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="10"
-                        android:background="#E0E0E0"
-                        android:layout_gravity="center_vertical">
+                        android:background="#E0E0E0">
 
                     </LinearLayout>
                 </LinearLayout>

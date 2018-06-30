@@ -18,6 +18,7 @@ import com.example.administrator.steps_count.mall.Mall;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -34,23 +35,31 @@ import okhttp3.Response;
 
 public class Mall_adapter extends BaseAdapter {
     private Context context;
-    private List<Mall> list;
+    private List<Mall> list1=new ArrayList<>();
     private LayoutInflater layoutInflater;
 
     private Bitmap imgBit;
     public Mall_adapter(Context context, List<Mall> list) {
-        layoutInflater=LayoutInflater.from(context);
-        this.context = context;
-        this.list = list;
+        if(context!=null&&list1!=null&&list!=null){
+            layoutInflater=LayoutInflater.from(context);
+            this.context = context;
+            this.list1 = list;
+        }
+
     }
     @Override
     public int getCount() {
-         return list.size();
+        if(list1.size()!=0){
+            return list1.size();
+        }else {
+            return 0;
+        }
+
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return list1.get(i);
     }
 
     @Override
@@ -60,7 +69,7 @@ public class Mall_adapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Mall mall=list.get(i);
+        Mall mall=list1.get(i);
         ViewHolder holder;
         if (view==null)
         {
@@ -87,32 +96,5 @@ public class Mall_adapter extends BaseAdapter {
         TextView mall_price;
     }
 
-
-    private Bitmap getimg(String url) {
-        OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
-        RequestBody requestBody = new FormBody.Builder()
-                .add("url", url).build();
-        final Request request = new Request.Builder()//创建Request 对象。
-                .url("http://192.168.1.111:8080/OutPutImg")
-                .post(requestBody)//传递请求体
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.i("failure", "onFailure: ");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                        InputStream inputStream = response.body().byteStream();
-                        imgBit=BitmapFactory.decodeStream(inputStream);
-
-                }
-            }
-        });
-
-        return imgBit;
-    }
 }
 

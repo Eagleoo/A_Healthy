@@ -8,16 +8,22 @@ import java.io.Serializable;
 
 public class User implements Serializable{
         private int user_id;
-
+        private String user_phone;
         private String user_password;
         private String sex;
         private double user_tall;
         private double user_weight;
         private int user_age;
         private String username;
-
-
         private String portrait;
+
+    public String getUser_phone() {
+        return user_phone;
+    }
+
+    public void setUser_phone(String user_phone) {
+        this.user_phone = user_phone;
+    }
 
     public String getSex() {
         return sex;

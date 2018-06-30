@@ -87,17 +87,23 @@ public class Mall_Shop_Fragment extends Fragment implements My_Scrollview.OnScro
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     final String json = response.body().string();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mall_list=getMall("mall",json);
-                            Glide.with(getContext()).load(mall_list.get(0).getMall_img()).into(shop_head);
-                            mall_shop_shopname.setText(mall_list.get(0).getMall_name());
-                            mall_shop_shopdescribe.setText(mall_list.get(0).getMall_describe());
-                            mall_shop_shopprice.setText(mall_list.get(0).getMall_price());
+                    if(getActivity()!=null){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mall_list=getMall("mall",json);
+                                if(mall_list.size()!=0){
+                                    Glide.with(getContext()).load(mall_list.get(0).getMall_img()).into(shop_head);
+                                    mall_shop_shopname.setText(mall_list.get(0).getMall_name());
+                                    mall_shop_shopdescribe.setText(mall_list.get(0).getMall_describe());
+                                    mall_shop_shopprice.setText(mall_list.get(0).getMall_price());
+                                }
 
-                        }
-                    });
+
+                            }
+                        });
+                    }
+
                 }
             }
         });

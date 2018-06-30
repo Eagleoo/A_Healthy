@@ -18,6 +18,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.steps_count.Activity.Frag_MainActivity;
+import com.example.administrator.steps_count.Main_Activity.Eat_Activity;
 import com.example.administrator.steps_count.R;
 import com.example.administrator.steps_count.fragment.MallFragment;
 
@@ -99,22 +101,29 @@ public class Mall_Detail_Activity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
             case R.id.mall_detail_makeorder:
+                if(Frag_MainActivity.user!=null){
                 Intent intent=new Intent(getApplicationContext(),Mall_Firmorder_Acitvity.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("0x3",mall_id);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivity(intent);}
+                else {
+                    Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.mall_detail_collect:
-                if (mall_detail_collect.isChecked())
-                {
-                    mall_detail_collect.setChecked(true);
-                    insert_mallcollect();
+                if(Frag_MainActivity.user!=null) {
+                    if (mall_detail_collect.isChecked()) {
+                        mall_detail_collect.setChecked(true);
+                        insert_mallcollect();
+                    } else {
+                        mall_detail_collect.setChecked(false);
+                        delete_mallcollect();
+                    }
                 }
-                else
-                {
+                else {
+                    Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_SHORT).show();
                     mall_detail_collect.setChecked(false);
-                    delete_mallcollect();
                 }
                 break;
 
@@ -140,7 +149,7 @@ public class Mall_Detail_Activity extends AppCompatActivity implements View.OnCl
     private void insert_mallcollect() {
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
-                .add("username","lzy")
+                .add("username",Frag_MainActivity.user.getUsername())
                 .add("mall_id",mall_id)
                 .build();
         final Request request = new Request.Builder()
@@ -169,7 +178,7 @@ public class Mall_Detail_Activity extends AppCompatActivity implements View.OnCl
     private void delete_mallcollect() {
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
-                .add("username","lzy")
+                .add("username",Frag_MainActivity.user.getUsername())
                 .add("mall_id",mall_id)
                 .build();
         final Request request = new Request.Builder()
@@ -196,38 +205,41 @@ public class Mall_Detail_Activity extends AppCompatActivity implements View.OnCl
         });
     }
     private void select_mallcollect_iscollect() {
-        OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder()
-                .add("username","lzy")
-                .add("mall_id",mall_id)
-                .build();
-        final Request request = new Request.Builder()
-                .url(MallFragment.user.getUrl()+"Select_mallcollect_iscollect_Servlet")
-                .post(requestBody)//传递请求体
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-                                            @Override
-                                            public void onFailure(Call call, IOException e) {
-                                                Log.i("failure", "onFailure: ");
-                                            }
-                                            @Override
-                                            public void onResponse(Call call, Response response) throws IOException {
-                                                if (response.isSuccessful()) {
-                                                    final String issuccess = response.body().string();
-                                                    runOnUiThread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            if (issuccess.equals("yes"))
-                                                            {
-                                                                mall_detail_collect.setChecked(true);
-                                                            }
-                                                        }
-                                                    });
+        if(Frag_MainActivity.user!=null){
+            OkHttpClient client = new OkHttpClient();
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("username",Frag_MainActivity.user.getUsername())
+                    .add("mall_id",mall_id)
+                    .build();
+            final Request request = new Request.Builder()
+                    .url(MallFragment.user.getUrl()+"Select_mallcollect_iscollect_Servlet")
+                    .post(requestBody)//传递请求体
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                                                @Override
+                                                public void onFailure(Call call, IOException e) {
+                                                    Log.i("failure", "onFailure: ");
                                                 }
-                                            }
+                                                @Override
+                                                public void onResponse(Call call, Response response) throws IOException {
+                                                    if (response.isSuccessful()) {
+                                                        final String issuccess = response.body().string();
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                if (issuccess.equals("yes"))
+                                                                {
+                                                                    mall_detail_collect.setChecked(true);
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
 
-                                        }
-        );
+                                            }
+            );
+        }
+
 
     }
 

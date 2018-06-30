@@ -237,7 +237,7 @@ public class Json_Tools {
         String string;
         JSONObject jsonObject;
         jsonObject=new JSONObject(data);
-        string= jsonObject.getString("result");
+        string= jsonObject.getString("portrait");
         return string;
 
     }

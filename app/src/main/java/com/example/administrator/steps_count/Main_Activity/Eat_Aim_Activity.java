@@ -39,15 +39,21 @@ public class Eat_Aim_Activity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         db=new User_DBOpenHelper(Eat_Aim_Activity.this);
-                        if(db.getAimKa()==null){
-                            db.addNewUserKa(eat_aim_ka.getText().toString());
+                        if (eat_aim_ka.getText().toString().equals("")){
+                            Toast.makeText(Eat_Aim_Activity.this, "内容不能为空！", Toast.LENGTH_SHORT).show();
                         }
-                       else {
-                            db.updateKa(eat_aim_ka.getText().toString());
+                        else {
+                            if(db.getAimKa()==null){
+                                db.addNewUserKa(eat_aim_ka.getText().toString());
+                            }
+                            else {
+                                db.updateKa(eat_aim_ka.getText().toString());
+                            }
+                            Toast.makeText(Eat_Aim_Activity.this, "设置成功！", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(Eat_Aim_Activity.this,Eat_Activity.class));
+                            finish();
                         }
-                        Toast.makeText(Eat_Aim_Activity.this, "设置成功！", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Eat_Aim_Activity.this,Eat_Activity.class));
-                        finish();
+
                     }
                 }
         );

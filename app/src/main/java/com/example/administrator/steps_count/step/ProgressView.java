@@ -54,6 +54,19 @@ public class ProgressView extends View {
         initPaint();
     }
 
+    public void setColor3(){
+        mTrackColor = Color.parseColor("#97CBFF");
+        mProgressColor = Color.parseColor("#0080FF");
+        mProgressTextColor=Color.parseColor("#000079");
+        initPaint();
+    }
+    public void setColor4(){
+        mTrackColor = Color.parseColor("#8E8E8E");
+        mProgressColor = Color.parseColor("#5B4B00");
+        mProgressTextColor=Color.parseColor("#844200");
+        initPaint();
+    }
+
     private void initPaint() {
 
         //轨道画笔

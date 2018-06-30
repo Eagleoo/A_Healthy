@@ -46,4 +46,6 @@ dependencies {
     implementation files('libs/AMap_Search_V6.1.0_20180330.jar')
     implementation files('libs/AMap_Location_V3.8.0_20180201.jar')
     compile 'com.github.superSp:RulerView:v1.2'
+    compile 'com.getbase:floatingactionbutton:1.9.0'
+    compile 'com.makeramen:roundedimageview:2.3.0'
 }

@@ -74,6 +74,7 @@ public class Frg_Food1 extends Fragment {
                         intent.putExtra("cur_ka",str1);
                         intent.setClass(getActivity(), Food_select_Activity.class);
                         startActivity(intent);
+                        getActivity().finish();
                     }
                 }
         );

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -58,6 +59,7 @@ public class Eat_Activity extends AppCompatActivity implements View.OnClickListe
     private ListView breakfast_list,lunch_list,dinner_list,add_list;
     private TextView breakfast_ka,lunch_ka,dinner_ka,add_ka,total_ka,use_ka,tv_aim_ka;
     private Eat_Adapter break_eat_adapter,lunch_eat_adapter,dinner_eat_adapter,add_eat_adapter;
+    private ImageView eat_back;
     private List<U_Food> UFoodList=new ArrayList<U_Food>();
     private  List<U_Food> list1,list2,list3,list4;
     private ScrollView sv;
@@ -87,6 +89,7 @@ public class Eat_Activity extends AppCompatActivity implements View.OnClickListe
         total_ka=(TextView)findViewById(R.id.total_ka);
         use_ka=(TextView)findViewById(R.id.use_ka);
         tv_aim_ka=(TextView)findViewById(R.id.tv_aim_ka);
+        eat_back=(ImageView)findViewById(R.id.eat_back);
         sv=(ScrollView)findViewById(R.id.sv);
         progressView=(ProgressView)findViewById(R.id.progressView);
         progressView.setColor1();
@@ -124,6 +127,7 @@ public class Eat_Activity extends AppCompatActivity implements View.OnClickListe
         rd_lunch.setOnClickListener(this);
         rd_dinner.setOnClickListener(this);
         rd_add.setOnClickListener(this);
+        eat_back.setOnClickListener(this);
 
         tv_aim_ka.setOnClickListener(
                 new View.OnClickListener() {
@@ -403,6 +407,7 @@ public class Eat_Activity extends AppCompatActivity implements View.OnClickListe
                 intent3.setClass(Eat_Activity.this,Eat_Add_Activity.class);
                 startActivity(intent3);
                 break;
+            case R.id.eat_back:finish();break;
         }
     }
 
@@ -534,9 +539,22 @@ public class Eat_Activity extends AppCompatActivity implements View.OnClickListe
     private void SavaData(){
 
         User_Data user_data=new User_Data();
-        user_data.setUser_ka(total_ka.getText().toString());
-        user_data.setUser_date(TimeUtil.getCurrentDate());
-        u_db.addNewUserData(user_data);
+        User_Data user_data1;
+        if(u_db.getCurUserDateByDate(TimeUtil.getCurrentDate())!=null){
+            user_data1=u_db.getCurUserDateByDate(TimeUtil.getCurrentDate());
+            user_data.setUser_ka(total_ka.getText().toString());
+            user_data.setUser_date(TimeUtil.getCurrentDate());
+            user_data.setUser_drink(user_data1.getUser_drink());
+            user_data.setUser_coffee(user_data1.getUser_coffee());
+            u_db.addNewUserData(user_data);
+        }
+      else{
+            user_data.setUser_ka("0.00");
+            user_data.setUser_drink("0");
+            user_data.setUser_coffee("0");
+            user_data.setUser_date(TimeUtil.getCurrentDate());
+            u_db.addNewUserData(user_data);
+        }
     }
 
 

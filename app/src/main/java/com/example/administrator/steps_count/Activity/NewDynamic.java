@@ -56,10 +56,10 @@ public class NewDynamic extends AppCompatActivity {
                     jsonObject = jsonArray.getJSONObject(i);
                     Dynamics dynamics=new Dynamics();
                     dynamics.setId(Integer.parseInt(jsonObject.get("id").toString()));
-                    dynamics.setTitle(jsonObject.get("title").toString());
+                    dynamics.setTime(jsonObject.get("title").toString());
                     dynamics.setContent(jsonObject.get("content").toString());
                     dynamics.setAuthor(jsonObject.get("author").toString());
-                    dynamics.setDescribe(jsonObject.getString("describe").toString());
+                    dynamics.setImg(jsonObject.getString("describe").toString());
                     dynamicsList.add(dynamics);
 
 
@@ -80,7 +80,7 @@ public class NewDynamic extends AppCompatActivity {
           @Override
           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
               Intent intent=new Intent(NewDynamic.this, ShowDynamic.class);
-              intent.putExtra("dyname",dynamicsList.get(i).getTitle());
+              intent.putExtra("dyname",dynamicsList.get(i).getAuthor());
               intent.putExtra("dycontent",dynamicsList.get(i).getContent());
               intent.putExtra("dyid",String.valueOf(dynamicsList.get(i).getId()));
 
@@ -114,14 +114,14 @@ public class NewDynamic extends AppCompatActivity {
                     view=LayoutInflater.from(context).inflate(R.layout.dynamic_layout,viewGroup,false);
                     viewHolder=new ViewHolder();
                     viewHolder.describle= (TextView) view.findViewById(R.id.describle);
-                    viewHolder.author= (TextView) view.findViewById(R.id.author);
+                    viewHolder.author= (TextView) view.findViewById(R.id.describe);
                     viewHolder.title= (TextView) view.findViewById(R.id.dynamicname);
                     view.setTag(viewHolder);
                 }else {
                     viewHolder= (ViewHolder) view.getTag();
                 }
-                viewHolder.title.setText(dynamicsList.get(i).getTitle());
-                viewHolder.describle.setText(dynamicsList.get(i).getDescribe());
+                viewHolder.title.setText(dynamicsList.get(i).getAuthor());
+                viewHolder.describle.setText(dynamicsList.get(i).getContent());
                 viewHolder.author.setText(dynamicsList.get(i).getAuthor());
                 return view;
             }

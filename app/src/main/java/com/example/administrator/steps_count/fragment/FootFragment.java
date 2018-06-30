@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.steps_count.Activity.Step_About_Activity;
+import com.example.administrator.steps_count.step.MobileInfoUtils;
 import com.example.administrator.steps_count.step.Step_Map;
 import com.example.administrator.steps_count.step.DBOpenHelper;
 import com.example.administrator.steps_count.step.Look_steps;
@@ -22,6 +23,7 @@ import com.example.administrator.steps_count.step.StepEntity;
 import com.example.administrator.steps_count.step.StepPlan;
 import com.example.administrator.steps_count.step.Step_MainActivity;
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.step.Step_Map_Activity;
 import com.example.administrator.steps_count.step.Step_Plan_Activity;
 import com.example.administrator.steps_count.step.TimeUtil;
 import com.github.mikephil.charting.charts.LineChart;
@@ -50,7 +52,7 @@ public class FootFragment extends Fragment {
     private DBOpenHelper db;
     private LinearLayout btn_step_run,btn_step;
     private ImageView setting1,record1;
-    private TextView totalStepsTv,totalStepsKm,totalStepsKa,aim,finish_steps;
+    private TextView totalStepsTv,totalStepsKm,totalStepsKa,aim,finish_steps,startup;
     private StepPlan stepPlan=new StepPlan();
     private ProgressView progressView;
     private ImageView left,right,step_about;
@@ -71,6 +73,7 @@ public class FootFragment extends Fragment {
         totalStepsKm=(TextView)view.findViewById(R.id.totalStepsKm);
         totalStepsKa=(TextView)view.findViewById(R.id.totalStepsKa);
         finish_steps=(TextView)view.findViewById(R.id.finish_steps);
+        startup=(TextView)view.findViewById(R.id.startup);
         aim=(TextView)view.findViewById(R.id.aim);
         left=(ImageView)view.findViewById(R.id.left);
         right=(ImageView)view.findViewById(R.id.right);
@@ -118,7 +121,7 @@ public class FootFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.setClass(getActivity(), Step_Map.class);
+                        intent.setClass(getActivity(), Step_Map_Activity.class);
                         startActivity(intent);
                     }
                 }
@@ -129,7 +132,7 @@ public class FootFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.setClass(getActivity(), Step_MainActivity.class);
+                        intent.setClass(getActivity(), Step_Map_Activity.class);
                         startActivity(intent);
                     }
                 }
@@ -175,6 +178,15 @@ public class FootFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(getActivity(), Step_About_Activity.class));
+                    }
+                }
+        );
+
+        startup.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MobileInfoUtils.jumpStartInterface(getActivity());
                     }
                 }
         );

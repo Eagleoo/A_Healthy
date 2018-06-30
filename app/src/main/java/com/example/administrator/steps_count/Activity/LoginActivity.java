@@ -1,12 +1,17 @@
 package com.example.administrator.steps_count.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +47,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LoginActivity";
@@ -51,9 +57,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private UserInfo mUserInfo;
     ;
     private Button btn_ok;
-    private Button btn_no;
+    private TextView btn_no,notice1;
     private TextView register;
-    private ImageView qqlogin, baidulogin;
+    private ImageView qqlogin, baidulogin,notice_img;
     private Gson gson;
     private EditText user_name;
     private EditText user_password;
@@ -63,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,18 +79,72 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         user_password = (EditText) findViewById(R.id.edt_password);
         btn_ok = (Button) findViewById(R.id.btn_ok);
         register = (TextView) findViewById(R.id.register);
-        btn_no = (Button) findViewById(R.id.btn_no);
+        btn_no = (TextView) findViewById(R.id.btn_no);
+        notice1= (TextView) findViewById(R.id.notice1);
         qqlogin = (ImageView) findViewById(R.id.qqlogin);
         baidulogin = (ImageView) findViewById(R.id.baidulogin);
+        notice_img= (ImageView) findViewById(R.id.notice_img);
         baidulogin.setOnClickListener(this);
         btn_ok.setOnClickListener(this);
         btn_no.setOnClickListener(this);
         register.setOnClickListener(this);
         qqlogin.setOnClickListener(this);
+
+        user_name.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                        Pattern china= Pattern.compile("[0-9]");
+                        StringBuffer stringBuffer=new StringBuffer();
+                        stringBuffer.append(s);
+                        for(int i=0;i<stringBuffer.length();i++){
+                            char answer = stringBuffer.charAt(i);
+                            if(!china.matcher(String.valueOf(answer)).matches()){
+                                notice1.setVisibility(View.VISIBLE);
+                                notice_img.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        if(stringBuffer.toString().equals("")){
+                            notice1.setVisibility(View.GONE);
+                            notice_img.setVisibility(View.GONE);
+                        }
+                    }
+                }
+        );
+
+        user_password.setOnTouchListener(
+                new View.OnTouchListener() {
+                    int touch_flag=0;
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+
+                        touch_flag++;
+                        if(touch_flag==2){
+                            if(!user_name.getText().toString().equals("")){
+                                btn_ok.setBackgroundResource(R.drawable.btn_text_result);
+                                btn_ok.setTextColor(Color.parseColor("#000000"));
+                            }
+
+                        }
+
+                        return false;
+                    }
+                }
+        );
+
         //传入参数APPID和全局Context上下文
         mTencent = Tencent.createInstance(APP_ID, LoginActivity.this.getApplicationContext());
-
-
     }
 
     @Override

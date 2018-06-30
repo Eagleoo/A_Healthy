@@ -1,22 +1,28 @@
 package com.example.administrator.steps_count.Activity;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.PersistableBundle;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -34,6 +40,7 @@ import com.example.administrator.steps_count.fragment.MallFragment;
 import com.example.administrator.steps_count.fragment.MeFragment;
 
 import com.example.administrator.steps_count.step.Constant;
+import com.example.administrator.steps_count.step.MobileInfoUtils;
 import com.example.administrator.steps_count.step.StepService;
 import com.example.administrator.steps_count.step.Step_MainActivity;
 
@@ -50,8 +57,11 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
     public static User user;
     private MyBroadcost myBroadcost;
 
+    public static String username="";
     private boolean isBind = false;
     private Messenger mGetReplyMessenger = new Messenger(new Handler());
+
+    private Button btn_startup;
 
     public static String localhost;
 
@@ -65,6 +75,49 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
 
         localhost="192.168.1.104";
 
+        SharedPreferences sp = getSharedPreferences("startup", MODE_PRIVATE);
+        int startup_index = sp.getInt("startup_index",0);
+
+        if(startup_index==0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(Frag_MainActivity.this);
+            View view = LayoutInflater.from(Frag_MainActivity.this).inflate(R.layout.startup_layout, null);
+            builder.setView(view);
+            final AlertDialog dialog = builder.show();
+            view.findViewById(R.id.btn_startup).setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            MobileInfoUtils.jumpStartInterface(Frag_MainActivity.this);
+                            //创建sharedPreference对象，info表示文件名，MODE_PRIVATE表示访问权限为私有的
+                            SharedPreferences sp = getSharedPreferences("startup", MODE_PRIVATE);
+
+                            //获得sp的编辑器
+                            SharedPreferences.Editor ed = sp.edit();
+
+                            //以键值对的显示将用户名和密码保存到sp中
+                            ed.putInt("startup_index", 1);
+
+                            //提交用户名和密码
+                            ed.commit();
+
+                            dialog.dismiss();
+                        }
+                    }
+            );
+
+            view.findViewById(R.id.no).setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    }
+            );
+        }
+
+
+
 
         myBroadcost=new MyBroadcost();
 
@@ -75,6 +128,12 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
         initView();
         Intent intent = getIntent();
         user= (User) intent.getSerializableExtra("user");
+        if(user!=null){
+            Log.e("ssss",user.getUser_id()+"" );
+        }
+
+
+
         tv_main.setChecked(true);
 
 
@@ -169,16 +228,35 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_main:
-                dynamicFragment(new MainFragment(),"mainFragment");break;
+                MainFragment mainFragment=new MainFragment();
+                if(!mainFragment.isAdded()){
+                    dynamicFragment(mainFragment,"mainFragment");break;
+                }
+
             case R.id.tv_mall:
-                dynamicFragment(new MallFragment(),"mallFragment");break;
+                MallFragment mallFragment=new MallFragment();
+                if(!mallFragment.isAdded()){
+                    dynamicFragment(new MallFragment(),"mallFragment");break;
+                }
+
             case R.id.tv_foot:
-                dynamicFragment(new FootFragment(),"footFragment");break;
+                FootFragment footFragment=new FootFragment();
+                if (!footFragment.isAdded()){
+                    dynamicFragment(new FootFragment(),"footFragment");break;
+                }
+
             case R.id.tv_circle:
-                dynamicFragment(new CircleFragment(),"circleFragment"); break;
+                CircleFragment circleFragment=new CircleFragment();
+                if (!circleFragment.isAdded()){
+                    dynamicFragment(new CircleFragment(),"circleFragment"); break;
+                }
 
             case R.id.tv_me:
-                dynamicFragment(new MeFragment(),"meFragment");break;
+                MeFragment meFragment=new MeFragment();
+                if(!meFragment.isAdded()){
+                    dynamicFragment(new MeFragment(),"meFragment");break;
+                }
+
             case R.id.add_plan:
                 startActivity(new Intent(this,Plan_Add_Activity.class));break;
             case R.id.fin_plan:
@@ -201,7 +279,7 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
         //3.添加碎片
         beginTransaction.replace(R.id.framelayout,fragment,tag);
         //4.提交事务
-        beginTransaction.commit();
+        beginTransaction.commitAllowingStateLoss();
     }
     class  MyBroadcost extends BroadcastReceiver {
 
@@ -209,5 +287,10 @@ public class Frag_MainActivity extends AppCompatActivity implements View.OnClick
         public void onReceive(Context context, Intent intent) {
             finish();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        //super.onSaveInstanceState(outState, outPersistentState);
     }
 }

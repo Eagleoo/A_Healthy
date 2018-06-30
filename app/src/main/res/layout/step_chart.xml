@@ -92,8 +92,19 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/today"
         android:layout_below="@+id/list1"
-        android:layout_alignParentRight="true"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/startup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list1"
+        android:layout_toRightOf="@+id/step_about"
+        android:text="去设置？"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#0080FF"/>
 
     <TextView
         android:id="@+id/finish_steps"

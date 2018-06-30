@@ -23,6 +23,12 @@
                 android:layout_height="wrap_content"
                 android:background="#00E3E3">
 
+                <ImageView
+                    android:id="@+id/eat_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/back"/>
+
                 <TextView
                     android:id="@+id/today"
                     android:layout_width="wrap_content"
@@ -62,7 +68,7 @@
                         android:id="@+id/total_ka"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1000"
+                        android:text="0.00"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="#003E3E"/>
@@ -95,7 +101,7 @@
                         android:id="@+id/use_ka"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1000"
+                        android:text="0.00"
                         android:layout_marginTop="5dp"
                         android:layout_marginLeft="10dp"
                         android:textColor="#003E3E"/>

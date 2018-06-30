@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<ListView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/dynamiclist"></ListView>
-</LinearLayout>
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/tools"
+    android:orientation="vertical">
+<com.example.administrator.steps_count.Main_Activity.ListViewForScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/dynamiclist"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:divider="#ffffff"
+    android:dividerHeight="10dp"
+    android:layout_marginTop="15dp">
+
+</com.example.administrator.steps_count.Main_Activity.ListViewForScrollView>
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/action_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_icon="@drawable/change"
+        skin:enable="true"
+        fab:fab_colorPressed="#FFF000"
+        android:layout_above="@+id/action_grid"
+        android:layout_alignParentRight="true"/>
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/action_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_icon="@drawable/fabu"
+        skin:enable="true"
+        fab:fab_colorPressed="#FFF000"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

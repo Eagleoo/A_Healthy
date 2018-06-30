@@ -1,34 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.administrator.steps_count.Activity.ShowDynamic">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/dytitle"/>
-    <TextView
+    android:layout_height="match_parent">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_below="@id/dytitle"
-        android:id="@+id/dycontent"/>
-    <Button
-        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:id="@+id/show_circle_img"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp" />
+                <TextView
+                    android:id="@+id/show_dynamicname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/show_circle_img"
+                    android:text="科比布莱恩特"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#2894FF"/>
+                <TextView
+                    android:id="@+id/show_curtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="6-20  02:10"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/show_describle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/circle_img"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="50dp"
+                android:text="今日完成目标5000步啦，速度围观！！"/>
+
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:id="@+id/show_img_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/like1"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/show_like_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/review"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="80dp"/>
+                <TextView
+                    android:id="@+id/show_review_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最新评论"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#BEBEBE"
+                android:layout_margin="10dp">
+
+            </LinearLayout>
+
+            <com.example.administrator.steps_count.Main_Activity.ListViewForScrollView
+                android:id="@+id/review_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.example.administrator.steps_count.Main_Activity.ListViewForScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dycontent"
-        android:id="@+id/dyreview"
-        android:layout_marginLeft="100dp"
-        android:textSize="20dp"
-        android:text="@string/review"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dycontent"
-        android:layout_toRightOf="@id/dyreview"
-        android:text="评论"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/reviewcontent"/>
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp">
+
+        <EditText
+            android:id="@+id/edt_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/edit_shap"
+            android:layout_marginRight="5dp"/>
+        <Button
+            android:id="@+id/review_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送"
+            android:background="@drawable/btn_text_result"/>
+    </LinearLayout>
+
+
+
+
 </RelativeLayout>

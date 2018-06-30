@@ -3,6 +3,8 @@ package com.example.administrator.steps_count.Main_Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +27,24 @@ public class Text_Result extends AppCompatActivity {
     private String answer_string,type_string;
     private List<TextResult> list=new ArrayList<>();
     private int a=0,b=0,c=0;
+    private ImageView result_back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.text_result);
         tv_result=(TextView)findViewById(R.id.tv_result);
+        result_back=(ImageView)findViewById(R.id.result_back);
         Intent intent = getIntent();
         answer_string=intent.getStringExtra("answer");
         type_string=intent.getStringExtra("type");
+        result_back.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
         LoadResult();
 
     }

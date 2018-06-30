@@ -26,7 +26,7 @@ public class Run_Timer extends AppCompatActivity {
 
     private void init(){
 
-        CountDownTimer timer = new CountDownTimer(3200,1000) {
+        CountDownTimer timer = new CountDownTimer(4000,1000) {
             int num = 3;
 
             @Override

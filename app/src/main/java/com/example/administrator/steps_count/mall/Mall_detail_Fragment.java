@@ -67,14 +67,17 @@ public class Mall_detail_Fragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     final String json = response.body().string();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            detailImgs_list=getMall("detail_img",json);
-                            adapter=new Detailimg_adapter(getContext(),detailImgs_list);
-                            mall_detail_list.setAdapter(adapter);
-                        }
-                    });
+                    if(getActivity()!=null){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                detailImgs_list=getMall("detail_img",json);
+                                adapter=new Detailimg_adapter(getContext(),detailImgs_list);
+                                mall_detail_list.setAdapter(adapter);
+                            }
+                        });
+                    }
+
                 }
             }
         });

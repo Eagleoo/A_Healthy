@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.steps_count.R;
+import com.example.administrator.steps_count.mall.Addaddress_Acitvity;
 import com.example.administrator.steps_count.model.Adress;
 import com.google.gson.Gson;
 
@@ -74,7 +75,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.address:
                 if(Frag_MainActivity.user!=null) {
-                    Intent intent=new Intent(SettingActivity.this,AddressActivity.class);
+                    Intent intent=new Intent(SettingActivity.this,Addaddress_Acitvity.class);
                     startActivity(intent);
                 }else
                 {
